@@ -1,0 +1,69 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
+
+use App;
+use DB;
+use App\Models\Slider\Slider;
+
+use App\Models\Product\Product;
+
+use App\Models\User;
+
+use App\Http\Requests;
+use App\Models\Locations\Cities;
+use Illuminate\Support\Facades\Hash;
+
+use Illuminate\Support\Facades\Session;
+
+use Illuminate\Support\Facades\Auth;
+
+class HomeController extends Controller
+
+{ 
+  public function mainslider()
+  {
+      $data['slider'] = Slider::get()->take(8);
+      $response = array('status'=>1,'slider'=>$data['slider']);
+      return json_encode($response);
+  }
+   public function topproducts()
+  {
+      $data['product'] = Product::select('products.id','price','fee','total_tickets','title','tickets_available','feature')
+     ->join('users', 'users.id', '=', 'products.business_id')
+      ->take(5)->get();
+      $response = array('status'=>1,'product'=>$data['product']);
+      return json_encode($response);
+  }
+
+   public function topcountries()
+  {
+       $countries= DB::table('users')->join('location_countries', 'users.country', '=', 'location_countries.id')
+       ->select('location_countries.location_country_name','location_countries.id as country_id')->groupBy('location_countries.id')->get();
+       foreach($countries as $key=>$value){
+        $value->cities=Cities::where('location_country_id',$value->country_id)->select('location_city_name','id')->get();
+       }
+      $response = array('status'=>1,'countries'=>$countries);
+      return json_encode($response);
+  }
+   public function topbusiness()
+  {
+      $data['business'] = User::where('role_id',3)->take(6)->get();
+      $response = array('status'=>1,'businesses'=>$data['business']);
+      return json_encode($response);
+  }
+
+  public function types()
+  {
+      $data['businesstypes'] = ['Bar & Stores','Restaurants','Vehicles-ATV-Bikes-Boats-JetSkis','Adult Entertainment','Medical Marijuana & CBD','Adventures','Afrobeats','Sky Diving','Movie Theaters & Hotels','Clubs'];
+      $response = array('status'=>1,'types'=>$data['businesstypes']);
+      return json_encode($response);
+  }
+
+}
+
+?>

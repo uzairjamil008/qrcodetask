@@ -1,0 +1,45 @@
+[20-Sep-2022 10:25:15 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ihpnrgeujyso/public_html/app/Http/Controllers/Api/LoginController.php on line 77
+[20-Sep-2022 10:25:56 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ihpnrgeujyso/public_html/app/Http/Controllers/Api/LoginController.php on line 78
+[20-Sep-2022 10:26:19 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ihpnrgeujyso/public_html/app/Http/Controllers/Api/LoginController.php on line 78
+[20-Sep-2022 10:26:21 UTC] PHP Fatal error:  Cannot use empty array elements in arrays in /home/ihpnrgeujyso/public_html/app/Http/Controllers/Api/LoginController.php on line 78
+[28-Sep-2022 10:35:04 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 10:54:31 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 10:54:31 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 10:54:32 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 10:54:32 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 10:54:35 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 10:55:07 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 10:56:26 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 10:59:51 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 11:20:16 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 11:52:19 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 11:53:11 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 11:53:34 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 11:54:56 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:00:32 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:00:39 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:00:43 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:00:46 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:00:48 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:00:50 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:00:53 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:00:55 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:00:58 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:01:13 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:01:17 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:01:18 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:01:24 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:01:27 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:01:28 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:01:29 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:01:35 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:02:36 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:03:57 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:04:20 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:04:29 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:09:57 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:12:29 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:19:45 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:22:46 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:26:26 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
+[28-Sep-2022 12:37:57 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/ihpnrgeujyso/public_html/app/Http/helper.php on line 1066
