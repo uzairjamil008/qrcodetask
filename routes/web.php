@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('frontend.layout.header');
-//});
 Auth::routes(['verify' => true]);
 
 Route::get('/admin/login', function () {
@@ -28,12 +25,12 @@ Route::post('/email/resend', [App\Http\Controllers\Auth\VerificationController::
 Route::get('/admin/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
 Route::post('/admin/adminlogin', [App\Http\Controllers\Frontend\LoginController::class, 'adminlogin']);
 Route::post('/userlogin', [App\Http\Controllers\Auth\LoginController::class, 'userlogin']);
-    Route::get('/adminhome', [App\Http\Controllers\HomeController::class, 'index'])->name('Dashboards');
+    // Route::get('/adminhome', [App\Http\Controllers\HomeController::class, 'index'])->name('Dashboards');
 
 Route::group(['middleware' =>['auth', 'admin','verified']], function()
 {
  Route::prefix('admin')->group(function (){
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('Dashboards');
+  //  Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('Dashboards');
     // Role
     Route::get('/deleterole/{id}',[App\Http\Controllers\User\UserController::class, 'deleterole']);
     Route::get('roles', [App\Http\Controllers\User\UserController::class, 'roles'])->name('roles');
@@ -154,6 +151,9 @@ Route::group(['middleware' =>['auth', 'admin','verified']], function()
 });
 
 });
+
+
+
 //Frontend
 //Frontend Login/RegisterController
   Route::get('/auth',[App\Http\Controllers\Frontend\LoginController::class,'userlogin']);
@@ -161,9 +161,11 @@ Route::group(['middleware' =>['auth', 'admin','verified']], function()
   Route::post('/userlog',[App\Http\Controllers\Frontend\LoginController::class,'userlog']);
   Route::get('/logout',[App\Http\Controllers\Frontend\LoginController::class,'logout']);
   Route::post('/businesregsave',[App\Http\Controllers\Auth\RegisterController::class, 'customerregister']);
+
 //Frontend HomeController
-  Route::get('/',[App\Http\Controllers\Frontend\HomeController::class,'home']);
   Route::get('/home',[App\Http\Controllers\Frontend\HomeController::class,'home']);
+
+  
   Route::get('/business_listing/{id}',[App\Http\Controllers\Frontend\HomeController::class,'business_listing']);
   Route::get('/business_city/{id}',[App\Http\Controllers\Frontend\HomeController::class,'business_city']);
   Route::get('/business_city_detail/{id}',[App\Http\Controllers\Frontend\HomeController::class,'business_city_detail']);
@@ -173,10 +175,12 @@ Route::group(['middleware' =>['auth', 'admin','verified']], function()
   Route::get('/testimonials',[App\Http\Controllers\Frontend\HomeController::class,'testimonials']);
   Route::get('/gethome',[App\Http\Controllers\Frontend\HomeController::class,'get_home_section']);
    Route::get('/getproduct',[App\Http\Controllers\Frontend\HomeController::class,'get_product']);
+
 //Frontend ContactController
   Route::get('/contacts',[App\Http\Controllers\Frontend\ContactController::class,'contacts']);
   Route::post('/savesubscriber',[App\Http\Controllers\Frontend\ContactController::class,'save_subscriber']);
   Route::post('/savecontact',[App\Http\Controllers\Frontend\ContactController::class,'savecontact']);
+  
 //Frontend Bookingontroller
   Route::get('/businesses/{type}',[App\Http\Controllers\Frontend\BookingsController::class,'businesses']);
   Route::get('/business_details/{id}',[App\Http\Controllers\Frontend\BookingsController::class,'business_details']);
@@ -220,6 +224,8 @@ Route::get('/products_details/{id}',[App\Http\Controllers\Frontend\BookingsContr
  Route::get('/dropzone',[App\Http\Controllers\Frontend\PagesController::class,'dropzone']);
  Route::post('/uploadfile',[App\Http\Controllers\Frontend\PagesController::class,'uploadfile']);
  Route::get('/getcities/{id}',[App\Http\Controllers\Frontend\PagesController::class,'getcities']);
+
+
 Route::group(['middleware' =>['auth','verified']], function()
 {
   Route::get('/dashboard/{id}/{type?}',[App\Http\Controllers\Frontend\PagesController::class,'dashboard']);

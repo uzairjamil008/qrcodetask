@@ -65,7 +65,7 @@ class BookingsController extends Controller
             $ccemail = [$business_email, "admin@themaxhype.com"];
         }
         $to_email = Auth::user()->email;
-        // sendEmail($to_email, $ccemail, 'Welcome to Maxhype', 'frontend.emails.mail', $data);
+        sendEmail($to_email, $ccemail, 'Welcome to Maxhype', 'frontend.emails.mail', $data);
         $response = array('response' => $affected_rows);
         return json_encode($response);
     }
