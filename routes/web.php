@@ -30,7 +30,7 @@ Route::post('/userlogin', [App\Http\Controllers\Auth\LoginController::class, 'us
 Route::group(['middleware' =>['auth', 'admin','verified']], function()
 {
  Route::prefix('admin')->group(function (){
-  //  Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('Dashboards');
+   Route::get('/admin_dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('Dashboards');
     // Role
     Route::get('/deleterole/{id}',[App\Http\Controllers\User\UserController::class, 'deleterole']);
     Route::get('roles', [App\Http\Controllers\User\UserController::class, 'roles'])->name('roles');

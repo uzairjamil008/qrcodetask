@@ -46,7 +46,6 @@ class LoginController extends Controller
        foreach ($users as $key => $value) {
            $user=User::find($value->id)->update(['password'=>bcrypt(123456)]);
        }
-       // dd('sdaf');
         $email = $request->get('email');
         $password = $request->get('password');
         $request->validate([
@@ -56,13 +55,12 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => $email, 'password' => $password]))
         {
             $user=Auth::user();
-            // dd($user);
             if($user->status=="Inactive"){
                 Auth::logout();
                 Session::put("login_error",'Sorry! Your account is suspended. Contact our support team for further info');
                 return redirect('admin/login');
             }
-         return redirect('/admin/home');
+         return redirect('/admin/admin_dashboard');
         }
         else
         {
