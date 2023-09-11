@@ -60,20 +60,25 @@
                                 <div class="table_item">
                                     <div class="form-group">
                                        <label>Check In</label>
-                                        <div class="input-group date" id="datetimepicker1">
-                                            <input type="text" name="date" class="form-control" value="dd-mm-yyyy" id="departure-date" required>
+                                        <div class="input-group date">
+                                            <input type="datetime-local" name="date" class="form-control" required>
                                             <i class="flaticon-calendar"></i>
-                                            <span class="input-group-addon">
+                                            <!-- <span class="input-group-addon">
                                                 <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            </span>
+                                            </span> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                          <div class="form-group col-md-6">
-                            <label>Time</label>
-                            <input type="text" id="timepicker" name="time" class="form-control" required>
+                        <div class="form-group col-md-6">
+                            <label>Checkout Date Time</label>
+                            <input type="datetime-local" name="check_out_date" class="form-control" required>
                         </div>
+                        <div class="form-group col-md-6">
+                            <label>Return Date Time</label>
+                            <input type="datetime-local"  name="return_date_time" class="form-control" required>
+                        </div>
+
                         </div>
                         @if($data['business_type']=='Vehicles-ATV-Bikes-Boats-JetSkis')
                         <div class="row">
