@@ -1,11 +1,11 @@
-@extends('frontend.layout.header') 
+@extends('frontend.layout.header')
 
 @section('css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
-<style>input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
+<style>input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
 input[type=number] {
@@ -137,7 +137,7 @@ input[type=number] {
 
                                <!--  <li><i class="flaticon-maps-and-flags" aria-hidden="true"></i> Location</li>
 
-                                <li><i class="flaticon-phone-call"></i> (012)-345-6789</li>                                        
+                                <li><i class="flaticon-phone-call"></i> (012)-345-6789</li>
 
                                 <li><i class="flaticon-mail"></i>info@themaxhype.com</li> -->
 
@@ -149,19 +149,19 @@ input[type=number] {
 
                             <ul>
 
-                                <li class="social-icon"><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                <li class="social-icon"><a href="https://www.facebook.com/maxhypechannel"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
 
-                                <li class="social-icon"><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                <li class="social-icon"><a href="https://www.instagram.com/themaxhyped/?igshid=NTc4MTIwNjQ2YQ%3D%3D"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
 
-                                <li class="social-icon"><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                <li class="social-icon"><a href="https://twitter.com/TheMaxHype1"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
 
-                                <li class="social-icon"><a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+                                <li class="social-icon"><a href="https://www.linkedin.com/in/themaxhype-maxhype-a05687199/"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
 
-                                <li class="social-icon"><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
+                                <li class="social-icon"><a href="https://themaxhyped.com/"><i class="fa fa-google" aria-hidden="true"></i></a></li>
 
                             </ul>
 
-                        </div>    
+                        </div>
 
                     </div>
 
@@ -195,11 +195,11 @@ $(document).on('keypress', '#user_name', function (event) {
     $('.contact-us').submit(function(e){
 
       e.preventDefault();
-           
+
         var token = $('input[name=_token]').val();
 
         $(".dssdsdfs").attr("disabled", true).html('Processing...');
-        
+
         var formdata=$('.contact-us').serialize();
 
        $.ajax(
@@ -221,9 +221,9 @@ $(document).on('keypress', '#user_name', function (event) {
                     {
 
                     Swal.fire('Your Contact Info has been Successufully Submited !')
-                    $('.contact-us')[0].reset();  
+                    $('.contact-us')[0].reset();
                     $(".dssdsdfs").attr("disabled", false).html('Submit');
-                    
+
 
                     }
 
@@ -233,7 +233,7 @@ $(document).on('keypress', '#user_name', function (event) {
 
            });
 
-    
+
 
     });
 
@@ -242,4 +242,3 @@ $(document).on('keypress', '#user_name', function (event) {
 </script>
 
 @endsection
-

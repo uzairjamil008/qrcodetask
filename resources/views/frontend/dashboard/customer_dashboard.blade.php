@@ -304,6 +304,7 @@ $(document).ready(function() {
             data: data,
             success: function(response) {
                 Swal.fire(response.message);
+                $('#changeCutomerPassword')[0].reset();
 
             },
             error: function(response) {

@@ -17,7 +17,6 @@ if (!function_exists('sendEmail')) {
 if (!function_exists('send_email')) {
     function send_email($to_email, $subject, $template, $data)
     {
-//        dd($subject);
         Mail::send($template, ['emailinfo' => $data], function ($message) use ($subject, $to_email) {
             $message->to($to_email, $subject)->subject($subject);
             $message->from(env('MAIL_FROM_ADDRESS'), $subject);
@@ -27,7 +26,6 @@ if (!function_exists('send_email')) {
 if (!function_exists('send_email_test')) {
     function send_email_test($to_email, $subject, $template, $data)
     {
-//        dd($subject);
         Mail::send($template, ['emailinfo' => $data], function ($message) use ($subject, $to_email) {
             $message->to($to_email, $subject)->subject($subject);
             $message->from(env('MAIL_FROM_ADDRESS'), $subject);

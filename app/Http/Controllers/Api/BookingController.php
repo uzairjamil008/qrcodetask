@@ -92,7 +92,7 @@ class BookingController extends Controller
             ]);
             return array('success' => true, 'message' => 'Payment done');
 
-        } catch (\Stripe\Exception\CardException$e) {
+        } catch (\Stripe\Exception\CardException $e) {
             return array('success' => false, 'message' => $e->getError()->message);
         } catch (Exception $e) {
             return array('success' => false, 'message' => 'Error from stripe');
@@ -173,5 +173,47 @@ class BookingController extends Controller
 
         });
 
+    }
+
+    public function discount(Request $request)
+    {
+        $amount = $request->input('amount');
+        $discountExist = User::where('id', $request->business_id)->where('discount_code', $request->discount_code)->first();
+        $valid = false;
+        $response = [
+            'valid' => $valid,
+        ];
+        if ($discountExist) {
+            $valid = true;
+            $discount = $discountExist->discount;
+            if (strpos($discount, '%') !== false) {
+                $discount = str_replace('%', '', $discount);
+            }
+
+            $discount = floatval($discount);
+
+            $discount_amount = ($amount * $discount) / 100;
+            $net_amount = $amount - $discount_amount;
+
+            $response = [
+                'valid' => $valid,
+                'discount_code' => $request->discount_code,
+                'discount_amount' => $discount_amount,
+                'discount_percentage' => $discount,
+                'amount' => $amount,
+                'net_amount' => $net_amount,
+            ];
+        }
+
+        return $response;
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $data['business'] = User::where('role_id', 3)->where('first_name', 'LIKE', '%' . $search . '%')->get();
+        $data['location'] = Countries::where('location_country_name', 'LIKE', '%' . $search . '%')->get();
+        $data['tickets'] = Reservation::where('reservation_number', 'LIKE', '%' . $search . '%')->get();
+        return response()->json($data);
     }
 }

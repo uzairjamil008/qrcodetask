@@ -50,22 +50,36 @@
     </div>
 </div>
 <!-- Forgot Password Ends -->
-
 @endsection
 @section('js')
 <script>
 $(document).on("submit", "#forgotCutomerPassword", function(e) {
     e.preventDefault();
     var data = $(this).serialize();
+
+    // Check email existence
     $.ajax({
         method: 'POST',
-        url: "{{route('password.email')}}",
+        url: "check_email_exists", // Change the URL to the route you defined
         data: data,
         success: function(response) {
-            Swal.fire("kindly check your email for reset password");
-
+            if (response.exists) {
+                // Email exists, send the reset password email
+                $.ajax({
+                    method: 'POST',
+                    url: "{{ route('password.email') }}",
+                    data: data,
+                    success: function(response) {
+                        Swal.fire("Kindly check your email for reset password");
+                    }
+                });
+            } else {
+                // Email does not exist, show an error message
+                Swal.fire("Email does not exist");
+            }
         }
     });
 });
+
 </script>
 @endsection

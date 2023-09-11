@@ -1,33 +1,22 @@
 <?php
 
-
-
 namespace App\Models;
 
-
-
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-
-// use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
 use Illuminate\Notifications\Notifiable;
 
-
-
 class User extends Authenticatable implements MustVerifyEmail
-
 {
 
-   use Notifiable;
+    use Notifiable, HasFactory;
 
-   protected $guarded = array();
+    protected $guarded = array();
 
     protected $with = ['role'];
 
     public function role()
-
     {
 
         return $this->belongsTo('App\Models\Role\Role', 'role_id', 'id');
@@ -35,7 +24,6 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function countries()
-
     {
 
         return $this->belongsTo('App\Models\Locations\Countries', 'country', 'id');
@@ -43,16 +31,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function cities()
-
     {
 
         return $this->belongsTo('App\Models\Locations\Cities', 'city', 'id');
 
     }
-
-
-
-
 
     /**
 
@@ -66,15 +49,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /*protected $fillable = [
 
-        'name',
+    'name',
 
-        'email',
+    'email',
 
-        'password',
+    'password',
 
     ];*/
-
-
 
     /**
 
@@ -94,8 +75,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     ];
 
-
-
     /**
 
      * The attributes that should be cast to native types.
@@ -113,4 +92,3 @@ class User extends Authenticatable implements MustVerifyEmail
     ];
 
 }
-
