@@ -8,7 +8,6 @@ use App\Models\Product\Product;
 use App\Models\Reservations\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use QrCode;
 
@@ -39,7 +38,10 @@ class BookingsController extends Controller
         $data['fee'] = $data['details']['fee'];
         $data['fee'] = str_replace("$", "", $data['fee']);
         $data['total_tickets'] = $data['details']->total_tickets;
-        // dd(env('STRIPE_SECRET'));
+        // Fetch the is_return value from the product
+        $is_return = $data['details']->is_return;
+        // Add the is_return value to the $data array
+        $data['is_return'] = $is_return;
         return view('frontend.businesses.reservation', compact('data'));
     }
     public function save_reservation(Request $request)
@@ -47,7 +49,10 @@ class BookingsController extends Controller
         $data = $request->all();
         $random = hexdec(uniqid());
         $data['order_number'] = substr($random, 0, 8);
-        $data['date'] = db_format_date_slash($request->date);
+        // $data['date'] = db_format_date_slash($request->date);
+        $data['date'] = date('Y-m-d H:i:s', strtotime($request->date));
+        $data['check_out_date'] = date('Y-m-d H:i:s', strtotime($request->check_out_date));
+        $data['return_date_time'] = date('Y-m-d H:i:s', strtotime($request->return_date_time));
         $data['qr_code'] = QrCode::size(100)->generate(json_encode($data));
         $affected_rows = Reservation::create($data);
         $data['business'] = User::where('id', $request->business_id)->first();
@@ -103,5 +108,22 @@ class BookingsController extends Controller
         $details = $data['products']['description'];
         $response = array('response' => $details);
         return json_encode($response);
+    }
+
+    public function checkDiscount(Request $request)
+    {
+        $discountExist = User::where('discount_code', $request->discount_code)->first();
+        if ($discountExist) {
+            // Discount code is valid
+            return response()->json([
+                'valid' => true,
+                'message' => 'Discount code is valid.',
+            ]);
+        }
+
+        return response()->json([
+            'valid' => false,
+            'message' => 'Invalid discount code. Please try again.',
+        ]);
     }
 }

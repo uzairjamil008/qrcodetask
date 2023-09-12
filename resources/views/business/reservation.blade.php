@@ -19,8 +19,9 @@
                      <tr role="row">
                         <th>Sr No</th>
                         <th>Business Name</th>
-                        <th>Date</th>
-                        <th>Time</th>
+                        <th>Check in Date Time</th>
+                        <th>Checkout Date Time</th>
+                        <th>Return Date Time</th>
                         <th>Remarks</th>
                         <th>Number Of People</th>
                      </tr>
@@ -30,8 +31,9 @@
                      <tr>
                         <td>{{$key+1}}</td>
                         <td>{{isset($value->business_name->name) ? $value->business_name->name : ''}}</td>
-                        <td>{{ date('d-m-Y', strtotime($value->date));}}</td>
-                        <td>{{$value->time}}</span></td>
+                        <td>{{$value->date}}</td>
+                        <td>{{$value->check_out_date}}</td>
+                        <td>{{$value->return_date_time}}</td>
                         <td>{{Str::words(strip_tags($value->remarks), 20)}}</td>
                         <td>{{$value->people}}</td>
                      </tr>

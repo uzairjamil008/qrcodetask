@@ -28,6 +28,7 @@ Route::get('/admin/login', [App\Http\Controllers\Auth\LoginController::class, 'l
 Route::post('/admin/adminlogin', [App\Http\Controllers\Frontend\LoginController::class, 'adminlogin']);
 Route::post('/userlogin', [App\Http\Controllers\Auth\LoginController::class, 'userlogin']);
 Route::post('check_email_exists', [App\Http\Controllers\Auth\LoginController::class, 'checkEmailExists']);
+Route::post('/check-discount', [App\Http\Controllers\Frontend\BookingsController::class, 'checkDiscount'])->name('check.discount');
 // Route::get('/adminhome', [App\Http\Controllers\HomeController::class, 'index'])->name('Dashboards');
 
 Route::group(['middleware' => ['auth', 'admin', 'verified']], function () {

@@ -174,8 +174,9 @@
                                                     <tr role="row">
                                                         <th>Sr No</th>
                                                         <th>Business Name</th>
-                                                        <th>Date</th>
-                                                        <th>Time</th>
+                                                        <th>Check in Date Time</th>
+                                                        <th>Checkout Date Time</th>
+                                                        <th>Return Date Time</th>
                                                         <th>Remarks</th>
                                                         <th>Number Of People</th>
                                                     </tr>
@@ -187,7 +188,8 @@
                                                         <td>{{isset($value->business_name->name) ? $value->business_name->name : ''}}
                                                         </td>
                                                         <td>{{$value->date}}</td>
-                                                        <td>{{$value->time}}</span></td>
+                                                        <td>{{$value->check_out_date}}</td>
+                                                        <td>{{$value->return_date_time}}</td>
                                                         <td>{{$value->remarks}}</td>
                                                         <td>{{$value->people}}</td>
                                                     </tr>
@@ -252,7 +254,7 @@
 $(document).ready(function() {
     $(".tab").click(function() {
         $(".tab").removeClass("active");
-        // $(".tab").addClass("active"); // instead of this do the below 
+        // $(".tab").addClass("active"); // instead of this do the below
         $(this).addClass("active");
     });
     //to triger the dropdown selected option

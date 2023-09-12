@@ -1,4 +1,4 @@
-@extends('frontend.layout.header') 
+@extends('frontend.layout.header')
 @section('css')
  <link href="{{asset('/frontend/css/dashboard.css')}}" rel="stylesheet" type="text/css">
  <link href="{{asset('/frontend/css/dropzone.css')}}" rel="stylesheet" type="text/css">
@@ -34,17 +34,17 @@
   <div class="row mb-3 mr-5 ml-5">
     <div class="col-md-3">
         <div class="card count-card">
-          <h4 class="mt-2 ml-2 count-item">Total Images</h4> 
+          <h4 class="mt-2 ml-2 count-item">Total Images</h4>
           <i class="far fa-images images-icon"></i>
-          @if(!empty($data['results']->images)) 
+          @if(!empty($data['results']->images))
           <h2 class="ml-3 count-num">{{count(json_decode($data['results']->images))}}</h2>
           @endif
         </div>
     </div>
     <div class="col-md-3">
         <div class="card count-card">
-          <h4 class="mt-2 ml-2 count-item">Total Videos</h4> 
-          <i class="fas fa-video videos-icon"></i> 
+          <h4 class="mt-2 ml-2 count-item">Total Videos</h4>
+          <i class="fas fa-video videos-icon"></i>
           <h2 class="ml-3 count-num">{{count($data['videos'])}}</h2>
 
         </div>
@@ -52,7 +52,7 @@
    @if($data['results']->feature=='Reservation')
     <div class="col-md-3">
         <div class="card count-card">
-          <h4 class="mt-2 ml-2 count-item">Total Reservations</h4>  
+          <h4 class="mt-2 ml-2 count-item">Total Reservations</h4>
           <i class="far fa-list-alt reserve-icon"></i>
           <h2 class="ml-3 count-num">{{count($data['reservation'])}}</h2>
         </div>
@@ -60,7 +60,7 @@
     @else
      <div class="col-md-3">
         <div class="card count-card">
-          <h4 class="mt-2 ml-2 count-item">Total Purchase</h4>  
+          <h4 class="mt-2 ml-2 count-item">Total Purchase</h4>
           <i class="far fa-list-alt reserve-icon"></i>
           <h2 class="ml-3 count-num">{{count($data['purchase'])}}</h2>
         </div>
@@ -68,7 +68,7 @@
     @endif
     <div class="col-md-3">
         <div class="card count-card">
-         <h4 class="mt-2 ml-2 count-item">Total Products</h4>  
+         <h4 class="mt-2 ml-2 count-item">Total Products</h4>
           <i class="fas fa-list product-icons"></i>
           <h2 class="ml-3 count-num">{{count($data['products'])}}</h2>
         </div>
@@ -89,7 +89,7 @@
 
       </ul>
      <div class="tab-content">
-    
+
     @include('frontend.dashboard.partial.basic_info')
 
     @include('frontend.dashboard.partial.images')
@@ -100,7 +100,7 @@
 
     <div id="producttab" class="tab-pane fade">
       @if(Auth::user()->id==$data['results']->id)
-        @if($data['type'] =='business')    
+        @if($data['type'] =='business')
         <button data-id="-1" data-user="{{$data['results']->id}}" class="btn-blue btn-red reserve text-white add-product">Add Products</button><br><br>
         @endif
         @endif
@@ -126,7 +126,7 @@
   <div class="modal fade" id="myModal">
     <div class="modal-dialog">
       <div class="modal-content">
-      
+
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Save Video</h4>
@@ -144,7 +144,7 @@
 </div>
 <!-- Modal -->
 <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title" id="exampleModalLabel">Save Product</h3>
@@ -154,7 +154,7 @@
       </div>
       <div class="modal-body">
        <div class="product-div">
-           
+
        </div>
       </div>
     </div>
@@ -169,8 +169,8 @@
  $(document).ready(function(){
 $(".tab").click(function () {
     $(".tab").removeClass("active");
-    // $(".tab").addClass("active"); // instead of this do the below 
-    $(this).addClass("active");   
+    // $(".tab").addClass("active"); // instead of this do the below
+    $(this).addClass("active");
 });
     $("#close-modal").click(function(){
        $('#productModal').modal('hide');
@@ -314,9 +314,9 @@ $(".tab").click(function () {
                     url: "{{url('/deletevideo') }}/"+id,
                     dataType: "json",
                     success:function(data)
-                    {   
+                    {
                     current.parent('.col-md-3').remove();
-                    Swal.fire('Your Business Video has been Successufully Deleted !') 
+                    Swal.fire('Your Business Video has been Successufully Deleted !')
                     // setTimeout(function () {
                     //    location.reload(true);
                     //  }, 1000);
@@ -338,7 +338,7 @@ $(".tab").click(function () {
 
        }
 
-      });   
+      });
        $(document).on('click','.add-product',function(){
         var token = $('input[name=_token]').val();
         var users_id = $(this).attr('data-user');
@@ -415,10 +415,10 @@ $(".tab").click(function () {
                     url: "{{url('/deleteproduct') }}/"+id,
                     dataType: "json",
                     success:function(data)
-                    {   
+                    {
                     $('.allproducts').html(data.response);
                      Swal.fire('Product has been Successufully Deleted !')
-                  
+
                     }
 
              });
@@ -433,12 +433,12 @@ $(".tab").click(function () {
               url: "{{url('/getcities')}}/"+id,
               dataType: "json",
               success:function(data)
-              { 
-                 $('.city').html(data.response); //to write the respone in the city drop 
-                  @if(isset($data['results']->id));  //to write the selected city name 
+              {
+                 $('.city').html(data.response); //to write the respone in the city drop
+                  @if(isset($data['results']->id));  //to write the selected city name
                   var city='{{$data['results']->city}}';//for the edit purpose
                   $('.city').val(city);
-                  @endif 
+                  @endif
               }
           });
     });
@@ -446,12 +446,12 @@ $(".tab").click(function () {
    $(".city").change(function(){
       var zip = $(this).find('option:selected').attr('data-zipcode');
       $('.zipcode').val(zip);
-      
+
       });
- //to triggerd the selected country id  
+ //to triggerd the selected country id
 @if(isset($data['results']->id))
-   setTimeout(function(){ 
-      $('.country').trigger('change'); 
+   setTimeout(function(){
+      $('.country').trigger('change');
      }, 2000);
    @endif
  });
@@ -463,7 +463,7 @@ $(".tab").click(function () {
       }else{
         $('.otherinput').addClass('d-none');
        }
-     });  
+     });
 
 
 </script>

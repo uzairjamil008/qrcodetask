@@ -57,10 +57,10 @@
        <input name="product_dp" type="file" class="form-control m-input m-input--square">
      </div>
  </div>
- <div class="col-md-4">
+ <div class="col-md-6">
       <div class="form-group m-form__group ml-2"><br><br>
-          <input {{(isset($data['results']->id) ? $data['results']->is_return==1 ? 'checked' : '' : '')}} type="checkbox" name="is_return" value="1">
-          <label for="vehicle1"><b>Is Return</b></label><br>
+          <input style="width: 20%;" {{(isset($data['results']->id) ? $data['results']->is_return==1 ? 'checked' : '' : '')}} type="checkbox" name="is_return" value="1">
+          <label style="display: inline;" for="vehicle1"><b>Is Return</b></label><br>
       </div>
    </div>
  <img src="{{isset($data['results']->product_dp) ?url('/').'/'. $data['results']->product_dp:''}}" style="width:90px !important;height:80px !important" class="mt-2 mb-3">

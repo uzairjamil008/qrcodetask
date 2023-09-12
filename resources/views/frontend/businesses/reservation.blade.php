@@ -59,7 +59,7 @@
                                <div class="col-md-6">
                                 <div class="table_item">
                                     <div class="form-group">
-                                       <label>Check In</label>
+                                       <label>Check In Date Time</label>
                                         <div class="input-group date">
                                             <input type="datetime-local" name="date" class="form-control" required>
                                             <i class="flaticon-calendar"></i>
@@ -70,15 +70,17 @@
                                     </div>
                                 </div>
                             </div>
+                        @if ($data['is_return'] == 0)
                         <div class="form-group col-md-6">
                             <label>Checkout Date Time</label>
                             <input type="datetime-local" name="check_out_date" class="form-control" required>
                         </div>
+                        @else
                         <div class="form-group col-md-6">
                             <label>Return Date Time</label>
                             <input type="datetime-local"  name="return_date_time" class="form-control" required>
                         </div>
-
+                        @endif
                         </div>
                         @if($data['business_type']=='Vehicles-ATV-Bikes-Boats-JetSkis')
                         <div class="row">
@@ -161,6 +163,11 @@
                                 <label>Total Price</label>
                                 <input type="text" placeholder="Total Price" class="form-control" name="total_price" id="total_price" required readonly>
                             </div>
+                            <div class="form-group col-md-4">
+                                <label>Discount Code</label>
+                                <input type="text" id="discount-code" name="discount_code" placeholder="Enter Discount Code">
+                                <button type="button" id="check-discount" class="btn btn-success btn-sm" style="margin-top: 10px;">Check Discount</button>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -198,6 +205,28 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="{{asset('/frontend/js/bootstrap-timepicker.js')}}"></script>
 <script type="text/javascript">
+    $(document).ready(function () {
+        $('#check-discount').click(function () {
+            var discountCode = $('#discount-code').val();
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('check.discount') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    discount_code: discountCode
+                },
+                success: function (response) {
+                    if (response.valid) {
+                        alert("Discount Code is Valid");
+                        $('#discount-code').prop('disabled', true);
+                        $('#check-discount').prop('disabled', true);
+                    } else {
+                        alert("Discount Code is not Valid");
+                    }
+                }
+            });
+        });
+    });
 $(document).ready(function() {
     var stripe = Stripe('{{env("STRIPE_KEY")}}');
     var elements = stripe.elements();
