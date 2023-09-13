@@ -85,7 +85,7 @@ class BookingController extends Controller
             ]);
 
             $stripe->charges->create([
-                'amount' => $request->total_price * 100,
+                'amount' => $request->net_amount * 100,
                 'currency' => 'usd',
                 'source' => $token_obj->id,
                 'description' => $request->title . ' Purchase',
@@ -102,8 +102,8 @@ class BookingController extends Controller
 
     public function save_reservation(Request $request)
     {
-        $date = '';
-        $time = '';
+        $date = date('Y-m-d h:i');
+        $time = date('h:i');
         if ($request->type == 'Purchase') {
             $response = $this->make_payment($request);
             if (!$response['success']) {
@@ -111,12 +111,11 @@ class BookingController extends Controller
             }
         } else {
             if ($request->date) {
-                $date = date("Y-m-d", strtotime($request->date));
+                $date = date("Y-m-d h:i", strtotime($request->date));
                 $time = date("h:i", strtotime($request->date));
             }
         }
 
-        // return $response;
         $random = hexdec(uniqid());
         $data['order_number'] = substr($random, 0, 8);
         $data = array(
@@ -132,11 +131,22 @@ class BookingController extends Controller
             'business_id' => $request->business_id,
             'type' => $request->type,
             'price' => $request->type == 'Purchase' ? $request->price : '',
-            'total_price' => $request->type == 'Purchase' ? $request->total_price : '',
             'fee' => $request->type == 'Purchase' ? $request->fee : '',
+            'discount_code' => $request->type == 'Purchase' ? $request->discount_code : '',
+            'discount_amount' => $request->type == 'Purchase' ? $request->discount_amount : '',
+            'discount_percentage' => $request->type == 'Purchase' ? $request->discount_percentage : '',
+            'net_amount' => $request->type == 'Purchase' ? $request->net_amount : '',
             'total_tickets' => $request->type == 'Purchase' ? $request->people : '',
         );
-        // dd($data);
+
+        if (!empty($request->check_out_date)) {
+            $check_out_date = date("Y-m-d h:i", strtotime($request->check_out_date));
+            $data['check_out_date'] = $check_out_date;
+        }
+        if (!empty($request->return_date_time)) {
+            $return_date_time = date("Y-m-d h:i", strtotime($request->return_date_time));
+            $data['return_date_time'] = $return_date_time;
+        }
         $data['qr_code'] = QrCode::size(100)->generate(json_encode($data));
         $affected_rows = Reservation::create($data);
 

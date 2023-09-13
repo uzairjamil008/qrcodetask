@@ -168,6 +168,15 @@
                                 <input type="text" id="discount-code" name="discount_code" placeholder="Enter Discount Code">
                                 <button type="button" id="check-discount" class="btn btn-success btn-sm" style="margin-top: 10px;">Check Discount</button>
                             </div>
+                            <div class="form-group col-md-4">
+                                <label>Discount Amount</label>
+                                <input type="text" id="discount_amount" name="discount_amount" class="form-control" readonly>
+                            </div>
+                            <input type="hidden" name="discount_percentage" id="discount_percentage">
+                            <div class="form-group col-md-4">
+                                <label>Net Amount</label>
+                                <input type="text" id="net_amount" name="net_amount" class="form-control" readonly>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -205,29 +214,55 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="{{asset('/frontend/js/bootstrap-timepicker.js')}}"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#check-discount').click(function () {
-            var discountCode = $('#discount-code').val();
+
+
+
+    function applyDiscount(totelamount){
+        var discountCode = $('#discount-code').val();
+
+        if(discountCode==''){return false;}
+
             $.ajax({
                 type: 'POST',
-                url: "{{ route('check.discount') }}",
+                url: "{{url('check_discount')}}",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    discount_code: discountCode
+                    discount_code: discountCode,
+                    amount : totelamount
                 },
                 success: function (response) {
+                    console.log(response);
                     if (response.valid) {
-                        alert("Discount Code is Valid");
-                        $('#discount-code').prop('disabled', true);
+                        $('#discount-code').addClass('readonly', true);
                         $('#check-discount').prop('disabled', true);
+                        $('#discount_amount').val(response.discount_amount);
+                        $('#net_amount').val(response.net_amount);
+                        $('#discount_percentage').val(response.discount_percentage);
                     } else {
                         alert("Discount Code is not Valid");
                     }
                 }
             });
-        });
-    });
+    }
 $(document).ready(function() {
+
+    $('#check-discount').click(function () {
+        var discountCode = $('#discount-code').val();
+       if(discountCode==''){
+        alert('Enter something in discount code');
+        return false;
+       }
+       let tickets= $('select[name=total_tickets]').val();
+       if(tickets==''){
+        alert('Select tickets first before applying discount');
+        return false;
+       }
+
+
+            var totelamount = $('#total_price').val();
+            applyDiscount(totelamount);
+    });
+
     var stripe = Stripe('{{env("STRIPE_KEY")}}');
     var elements = stripe.elements();
     var style = {
@@ -407,7 +442,10 @@ $(document).on('change','select[name=total_tickets]',function(){
   var fee =$('#fee').val();
   var total_price=(total_tickets * unit_price ) + (+fee);
   $("input[name=total_price]").val(total_price);
+  $('#net_amount').val(total_price);
   var available_tickets = parseFloat($('input[name=availeble_tickets]').val());
+
+  applyDiscount(total_price);
   if(total_tickets > available_tickets){
     $("#select-tickets")[0].selectedIndex = 0;
     alert('Availeble tickets is less than the selected total tickets, Please ! select a valid number of total tickets');

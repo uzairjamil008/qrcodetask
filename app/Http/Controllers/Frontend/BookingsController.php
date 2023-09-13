@@ -51,8 +51,12 @@ class BookingsController extends Controller
         $data['order_number'] = substr($random, 0, 8);
         // $data['date'] = db_format_date_slash($request->date);
         $data['date'] = date('Y-m-d H:i:s', strtotime($request->date));
-        $data['check_out_date'] = date('Y-m-d H:i:s', strtotime($request->check_out_date));
-        $data['return_date_time'] = date('Y-m-d H:i:s', strtotime($request->return_date_time));
+        if (!empty($request->check_out_date)) {
+            $data['check_out_date'] = date('Y-m-d H:i:s', strtotime($request->check_out_date));
+        }
+        if (!empty($request->return_date_time)) {
+            $data['return_date_time'] = date('Y-m-d H:i:s', strtotime($request->return_date_time));
+        }
         $data['qr_code'] = QrCode::size(100)->generate(json_encode($data));
         $affected_rows = Reservation::create($data);
         $data['business'] = User::where('id', $request->business_id)->first();
@@ -78,7 +82,7 @@ class BookingsController extends Controller
     {
         $business = User::where('id', $request->business_id)->first();
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
-        $amount = $request->total_price;
+        $amount = $request->net_amount;
         $intent = $stripe->paymentIntents->create([
             "amount" => $amount * 100,
             "currency" => "USD",
@@ -89,6 +93,14 @@ class BookingsController extends Controller
                 'business email' => $business->email,
             ],
         ]);
+        $data = array(
+            'discount_code' => $request->discount_code,
+            'discount_amount' => $request->discount_amount,
+            'discount_percentage' => $request->discount_percentage,
+            'net_amount' => $request->net_amount,
+        );
+        Reservation::create($data);
+
         // Session::flash('success', 'Payment successful!');
         return $intent->client_secret;
     }
@@ -112,18 +124,34 @@ class BookingsController extends Controller
 
     public function checkDiscount(Request $request)
     {
+        $amount = $request->input('amount');
         $discountExist = User::where('discount_code', $request->discount_code)->first();
+        $valid = false;
+        $response = [
+            'valid' => $valid,
+        ];
         if ($discountExist) {
-            // Discount code is valid
-            return response()->json([
-                'valid' => true,
-                'message' => 'Discount code is valid.',
-            ]);
+            $valid = true;
+            $discount = $discountExist->discount;
+            if (strpos($discount, '%') !== false) {
+                $discount = str_replace('%', '', $discount);
+            }
+
+            $discount = floatval($discount);
+
+            $discount_amount = ($amount * $discount) / 100;
+            $net_amount = $amount - $discount_amount;
+
+            $response = [
+                'valid' => $valid,
+                'discount_code' => $request->discount_code,
+                'discount_amount' => $discount_amount,
+                'discount_percentage' => $discount,
+                'amount' => $amount,
+                'net_amount' => $net_amount,
+            ];
         }
 
-        return response()->json([
-            'valid' => false,
-            'message' => 'Invalid discount code. Please try again.',
-        ]);
+        return $response;
     }
 }
