@@ -177,7 +177,7 @@ Route::get('/getproduct', [App\Http\Controllers\Frontend\HomeController::class, 
 Route::get('/contacts', [App\Http\Controllers\Frontend\ContactController::class, 'contacts']);
 Route::post('/savesubscriber', [App\Http\Controllers\Frontend\ContactController::class, 'save_subscriber']);
 Route::post('/savecontact', [App\Http\Controllers\Frontend\ContactController::class, 'savecontact']);
-
+Route::post('/save_data', [App\Http\Controllers\Frontend\BookingsController::class, 'saveData']);
 //Frontend Bookingontroller
 Route::get('/businesses/{type}', [App\Http\Controllers\Frontend\BookingsController::class, 'businesses']);
 Route::get('/business_details/{id}', [App\Http\Controllers\Frontend\BookingsController::class, 'business_details']);

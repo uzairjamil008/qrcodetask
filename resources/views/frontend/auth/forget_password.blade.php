@@ -60,7 +60,7 @@ $(document).on("submit", "#forgotCutomerPassword", function(e) {
     // Check email existence
     $.ajax({
         method: 'POST',
-        url: "check_email_exists", // Change the URL to the route you defined
+        url: "check_email_exists",
         data: data,
         success: function(response) {
             if (response.exists) {

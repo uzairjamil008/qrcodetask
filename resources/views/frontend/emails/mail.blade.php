@@ -26,7 +26,7 @@ For more details please contact to {{$data['business']['email']}}.
 <strong>Last Name</strong> : {{$data['last_name']}}<br>
 <strong>Special Notes</strong> : {{$data['remarks']}}<br>
 <strong>Total Tickets</strong>: {{$data['total_tickets']}}<br>
-<strong>Total Price</strong>: {{$data['price']}}<br>
+<strong>Total Price</strong>: {{$data['total_price']}}<br>
 <h5>You made Purchase from {{$data['business']['name']}},<br>
 Located at {{$data['cities']['location_city_name']}} {{$data['country']['location_country_name']}}, <br>
 Address : {{$data['business_address']}}.<br>

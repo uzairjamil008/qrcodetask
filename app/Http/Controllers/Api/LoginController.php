@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
@@ -133,27 +132,12 @@ class LoginController extends Controller
 
     public function reset(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //     'token' => 'required',
-        //     'email' => 'required|email',
-        //     'password' => ['required', 'confirmed'],
-        // ]);
-
-        // if ($validator->fails()) {
-        //     return response([
-        //         'message' => 'Validation error',
-        //         'errors' => $validator->errors(),
-        //     ], 400);
-        // }
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
                 $user->forceFill([
                     'password' => Hash::make($request->password),
-                    'remember_token' => Str::random(60),
                 ])->save();
-
-                $user->tokens()->delete();
 
                 event(new PasswordReset($user));
             }
@@ -168,7 +152,6 @@ class LoginController extends Controller
         return response([
             'message' => __($status),
         ], 500);
-
     }
 
 }

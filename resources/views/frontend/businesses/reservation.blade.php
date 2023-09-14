@@ -231,7 +231,6 @@
                     amount : totelamount
                 },
                 success: function (response) {
-                    console.log(response);
                     if (response.valid) {
                         $('#discount-code').addClass('readonly', true);
                         $('#check-discount').prop('disabled', true);

@@ -93,13 +93,6 @@ class BookingsController extends Controller
                 'business email' => $business->email,
             ],
         ]);
-        $data = array(
-            'discount_code' => $request->discount_code,
-            'discount_amount' => $request->discount_amount,
-            'discount_percentage' => $request->discount_percentage,
-            'net_amount' => $request->net_amount,
-        );
-        Reservation::create($data);
 
         // Session::flash('success', 'Payment successful!');
         return $intent->client_secret;
@@ -153,5 +146,17 @@ class BookingsController extends Controller
         }
 
         return $response;
+    }
+
+    public function saveData(Request $request)
+    {
+        $data = [
+            'status' => $request->status,
+            'business_remarks' => $request->business_remarks,
+            'customer_spent' => $request->customer_spent,
+        ];
+        Reservation::where('id', $request->business_reservation_id)->update($data);
+        return redirect()->back();
+
     }
 }

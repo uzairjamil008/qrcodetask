@@ -86,6 +86,10 @@
          <li class="tab"><a data-toggle="tab" href="#featuretab">{{$data['results']->feature}}</a></li>
          &nbsp&nbsp&nbsp&nbsp
          <li class="tab"><a data-toggle="tab" href="#producttab">Products</a></li>
+         &nbsp&nbsp&nbsp&nbsp
+         <li class="tab"><a data-toggle="tab" href="#reservationtab">Reservation</a></li>
+         &nbsp&nbsp&nbsp&nbsp
+         <li class="tab"><a data-toggle="tab" href="#purchasetab">Purchase</a></li>
 
       </ul>
      <div class="tab-content">
@@ -114,6 +118,12 @@
            </div>
          </div>
         </div>
+        </div>
+        <div id="reservationtab" class="tab-pane fade">
+        @include('frontend.dashboard.partial.reservation')
+        </div>
+        <div id="purchasetab" class="tab-pane fade">
+        @include('frontend.dashboard.partial.purchase')
         </div>
     </div>
    </div>
@@ -160,6 +170,48 @@
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Save</h3>
+        <button type="button" class="close" id="close-modal" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{url('save_data')}}" method="post">
+          @csrf
+          <div class="form-group">
+            <label for="statusDropdown">Status:</label>
+            <select class="form-control" id="statusDropdown" name="status">
+              <option value="Pending">Pending</option>
+              <option value="Paid">Paid</option>
+              <option value="Arrived">Arrived</option>
+            </select>
+          </div>
+
+          <input name="business_reservation_id" type='hidden'>
+          <div class="form-group">
+            <label for="remarks">Explain why customer did not stay or left without purchasing:</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" name="business_remarks" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="remarks">How much customer spent:</label>
+            <input class="form-control"  name="customer_spent" type="number" >
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 @section('js')
 <script src="{{asset('/frontend/js/dashboard-custom.js')}}"></script>
@@ -364,6 +416,12 @@ $(".tab").click(function () {
                  }
 
              });
+           });
+           $(document).on('click','.add-reservation',function(){
+           var users_id = $(this).attr('data-user');
+           var id = $(this).attr('data-id');
+           $('input[name=business_reservation_id]').val(id);
+           $('#reservationModal').modal('show');
            });
         $(document).on('submit','#form_product',function(e){
         e.preventDefault();
