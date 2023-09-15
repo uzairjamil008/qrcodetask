@@ -19,8 +19,8 @@ class CreateProductsTable extends Migration
             $table->string('title')->nullable();
             $table->string('description')->nullable();
             $table->string('product_dp')->nullable();
-            $table->string('price')->nullable();
-            $table->string('fee')->nullable();
+            $table->decimal('price')->nullable();
+            $table->decimal('fee')->nullable();
             $table->string('total_tickets')->nullable();
             $table->string('ticket_available')->nullable();
             $table->boolean('is_return')->nullable();

@@ -18,7 +18,7 @@ class CreateCareersTable extends Migration
             $table->string('title')->nullable();
             $table->foreignId('career_position_id')->references('id')->on('career_positions')->constrained()->onDelete('cascade');
             $table->string('apply_last_date')->nullable();
-            $table->string('salary')->nullable();
+            $table->decimal('salary')->nullable();
             $table->string('country')->nullable();
             $table->string('city')->nullable();
             $table->string('education')->nullable();
