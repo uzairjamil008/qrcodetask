@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Reservations\Reservation;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -26,9 +27,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data['users'] =User::get();
-     
-
-        return view('dashboard.index',compact('data'));
+        $data['users'] = User::get();
+        $data['reservation'] = Reservation::where('type', 'Reservation')->get();
+        $data['purchase'] = Reservation::where('type', 'Purchase')->get();
+        $data['business'] = User::where('role_id', 3)->get();
+        $data['affiliate'] = User::where('role_id', 4)->get();
+        return view('dashboard.index', compact('data'));
     }
 }

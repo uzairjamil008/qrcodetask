@@ -20,6 +20,8 @@ $(window).on('load', function () {
 
   var $orderChart = document.querySelector('#order-chart');
   var $orderChart1 = document.querySelector('#order-chart1');
+  var $orderChart2 = document.querySelector('#order-chart2');
+
 
   var $avgSessionsChart = document.querySelector('#avg-sessions-chart');
   var $supportTrackerChart = document.querySelector('#support-trackers-chart');
@@ -36,6 +38,8 @@ $(window).on('load', function () {
 
   var orderChart;
   var orderChart1;
+  var orderChart2;
+
 
   var avgSessionsChart;
   var supportTrackerChart;
@@ -308,6 +312,8 @@ $(window).on('load', function () {
   };
   orderChart1 = new ApexCharts($orderChart1, orderChartOptions);
   orderChart1.render();
+  orderChart2 = new ApexCharts($orderChart2, orderChartOptions);
+  orderChart2.render();
 
   // Average Session Chart
   // ----------------------------------

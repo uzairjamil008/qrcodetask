@@ -50,7 +50,9 @@ class BookingsController extends Controller
         $random = hexdec(uniqid());
         $data['order_number'] = substr($random, 0, 8);
         // $data['date'] = db_format_date_slash($request->date);
-        $data['date'] = date('Y-m-d H:i:s', strtotime($request->date));
+        if (!empty($request->date)) {
+            $data['date'] = date('Y-m-d H:i:s', strtotime($request->date));
+        }
         if (!empty($request->check_out_date)) {
             $data['check_out_date'] = date('Y-m-d H:i:s', strtotime($request->check_out_date));
         }

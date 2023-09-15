@@ -162,6 +162,7 @@ Route::post('/businesregsave', [App\Http\Controllers\Auth\RegisterController::cl
 
 //Frontend HomeController
 Route::get('/', [App\Http\Controllers\Frontend\HomeController::class, 'home']);
+Route::get('/home', [App\Http\Controllers\Frontend\HomeController::class, 'home']);
 
 Route::get('/business_listing/{id}', [App\Http\Controllers\Frontend\HomeController::class, 'business_listing']);
 Route::get('/business_city/{id}', [App\Http\Controllers\Frontend\HomeController::class, 'business_city']);
