@@ -1,9 +1,9 @@
-@extends('frontend.layout.header') 
+@extends('frontend.layout.header')
 @section('css')
 <link href="{{asset('/frontend/css/stripe.css')}}" rel="stylesheet" type="text/css">
-<style>input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
+<style>input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 input[type=number] {
   -moz-appearance: textfield;
@@ -108,7 +108,7 @@ input[type=number] {
                               <option>Clubs</option>
                            </select>
                            <span class="errortype text-danger d-none"></span>
-                           </div>                    
+                           </div>
                           </div>
                             <div class="row">
                             <div class="form-group col-md-6">
@@ -153,12 +153,12 @@ input[type=number] {
                                 <label>Business Phone</label>
                                 <input type="number" value="{{(isset(Auth::user()->phone) ? Auth::user()->phone : '')}}" class="form-control" name="business[phone]">
                                 <span class="errorphone text-danger d-none"></span>
-                            </div> 
+                            </div>
                               <div class="form-group col-md-4">
                                 <label>Business Email</label>
                                 <input type="email" name="business[email]" class="form-control" placeholder="abc@xyz.com" value="{{(isset(Auth::user()->email) ? Auth::user()->email : '')}}">
                                 <span class="erroremail text-danger d-none"></span>
-                            </div>                   
+                            </div>
                           </div>
                            <div class="row">
                             <div class="form-group col-md-12">
@@ -183,7 +183,7 @@ input[type=number] {
                         <div class="row">
                            <div class="form-group col-md-6">
                            <label>Personal Email Address</label>
-                                <input type="email" value="{{(isset(Auth::user()->personal_email) ? Auth::user()->personal_email : '')}}" name="business[personal_email]" class="form-control" placeholder="abc@xyz.com"> 
+                                <input type="email" value="{{(isset(Auth::user()->personal_email) ? Auth::user()->personal_email : '')}}" name="business[personal_email]" class="form-control" placeholder="abc@xyz.com">
                                 <span class="errorpersonal text-danger d-none"></span>
                           </div>
                            <div class="form-group col-md-6">
@@ -194,7 +194,7 @@ input[type=number] {
                          <div class="row">
                            <div class="form-group col-md-6">
                            <label>City (Where You Are Living)?</label>
-                                <input type="name" value="{{(isset(Auth::user()->living_city) ? Auth::user()->living_city : '')}}" name="business[living_city]" class="form-control"> 
+                                <input type="name" value="{{(isset(Auth::user()->living_city) ? Auth::user()->living_city : '')}}" name="business[living_city]" class="form-control">
                           </div>
                            <div class="form-group col-md-6">
                               <label>How long your business has been in existence?</label>
@@ -204,7 +204,7 @@ input[type=number] {
                           <div class="row">
                            <div class="form-group col-md-4">
                            <label>Cell Phone Number?</label>
-                        <input type="number" value="{{(isset(Auth::user()->cell_phone) ? Auth::user()->cell_phone : '')}}" name="business[cell_phone]" class="form-control"> 
+                        <input type="number" value="{{(isset(Auth::user()->cell_phone) ? Auth::user()->cell_phone : '')}}" name="business[cell_phone]" class="form-control">
                           </div>
                            <div class="form-group col-md-4">
                               <label>Home Phone?</label>
@@ -212,7 +212,7 @@ input[type=number] {
                            </div>
                            <div class="form-group col-md-4">
                            <label>Office Number</label>
-                                <input type="number" value="{{(isset(Auth::user()->office_number) ? Auth::user()->office_number : '')}}"  name="business[office_number]" class="form-control"> 
+                                <input type="number" value="{{(isset(Auth::user()->office_number) ? Auth::user()->office_number : '')}}"  name="business[office_number]" class="form-control">
                           </div>
                          </div>
                          <div class="row">
@@ -238,6 +238,23 @@ input[type=number] {
                         @endif
                          </div>
                         @if((isset(Auth::user()->role_id) ? Auth::user()->role_id : '')==3)
+                            <div class="row">
+                            <div class="col-xs-12">
+                                <div class="checkbox-outer">
+                                   I agree to the<a href="#">&nbspterms and conditions.</a>
+                                  <!--  <input type="checkbox" tabindex="3" /> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="comment-btn">
+                                    <button type="submit" class="btn-blue btn-red btn-booking">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        @if((isset(Auth::user()->role_id) ? Auth::user()->role_id : '')==4)
                             <div class="row">
                             <div class="col-xs-12">
                                 <div class="checkbox-outer">
@@ -281,7 +298,7 @@ input[type=number] {
                             <h3>Related Businesses</h3>
                         </div>
                         <div class="sidebar-content sidebar-slider">
-                        @foreach($data['businesses'] as $value) 
+                        @foreach($data['businesses'] as $value)
                             <div class="sidebar-package">
                                 <div class="sidebar-package-image">
                                     <img src="{{url(isset($value->dp) ? $value->dp:'')}}" alt="Image" width="432" height="224">
@@ -363,7 +380,7 @@ $(document).ready(function(){
 @endif
 
  $(document).on('click','.btn-booking',function(e){
-      e.preventDefault();  
+      e.preventDefault();
       var businessname=$('input[name="business[name]"]').val();
       var businesstype=$('select[name="business[type]"]').val();
       var businesscountry=$('select[name="business[country]"]').val();
@@ -505,7 +522,7 @@ function savebookings(){
                 success:function(data)
                 {
                 Swal.fire('Your Booking Info has been Successufully Submited !')
-                // $('.booking-form')[0].reset();  
+                // $('.booking-form')[0].reset();
               $(".btn-booking").attr("disabled", false).html('Book Now');
                 $('.booking-form').trigger("reset");
               }
@@ -520,8 +537,8 @@ $(document).ready(function() {
               url: "{{url('/getcity')}}/"+id,
               dataType: "json",
               success:function(data)
-              { 
-                $('.city').html(data.response); //to write the respone in the city drop  
+              {
+                $('.city').html(data.response); //to write the respone in the city drop
               }
           });
     });
@@ -541,7 +558,7 @@ $(document).ready(function() {
       }else{
         $('.otherinput').addClass('d-none');
        }
-     });   
+     });
 });
 </script>
 @endsection

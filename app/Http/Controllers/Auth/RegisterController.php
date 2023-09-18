@@ -1,100 +1,41 @@
 <?php
 
-
-
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
-
 use App\Http\Controllers\Controller;
-
-use App\Providers\RouteServiceProvider;
-
 use App\Models\User;
-
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
-use App\Http\Requests;
-
-use Illuminate\Auth\Events\Registered;
-
-use Illuminate\Support\Facades\Mail;
-
-use App\Mail\TestMail;
-
-use Illuminate\Support\Facades\Auth;
-
-use Illuminate\Support\Facades\Password;
-
-use Illuminate\Support\Facades\Session;
-
-
-
-
-
 class RegisterController extends Controller
-
-
-
 {
-
-
 
     /*
 
-
-
     |--------------------------------------------------------------------------
-
-
 
     | Register Controller
 
-
-
     |--------------------------------------------------------------------------
 
-
-
     |
-
-
 
     | This controller handles the registration of new users as well as their
 
-
-
     | validation and creation. By default this controller uses a trait to
-
-
 
     | provide this functionality without requiring any additional code.
 
-
-
     |
 
-
-
-    */
-
-
-
-
-
-
+     */
 
     use RegistersUsers;
-
-
-
-
-
-
 
     /**
 
@@ -114,15 +55,7 @@ class RegisterController extends Controller
 
      */
 
-
-
     protected $redirectTo = RouteServiceProvider::HOME;
-
-
-
-
-
-
 
     /**
 
@@ -142,27 +75,12 @@ class RegisterController extends Controller
 
      */
 
-
-
     public function __construct()
-
-
-
     {
-
-
 
         $this->middleware('guest');
 
-
-
     }
-
-
-
-
-
-
 
     /**
 
@@ -186,43 +104,20 @@ class RegisterController extends Controller
 
      */
 
-
-
     protected function validator(array $data)
-
-
-
     {
-
-
 
         return Validator::make($data, [
 
-
-
             'name' => ['required', 'string', 'max:255'],
-
-
 
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
 
-
-
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-
-
 
         ]);
 
-
-
     }
-
-
-
-
-
-
 
     /**
 
@@ -246,257 +141,138 @@ class RegisterController extends Controller
 
      */
 
-
-
     protected function create(array $data)
-
-
-
     {
-
-
 
         return User::create([
 
-
-
             'name' => $data['name'],
-
-
 
             'email' => $data['email'],
 
-
-
             'password' => Hash::make($data['password']),
-
-
 
         ]);
 
-
-
     }
 
-
-
-
-
-
-
-    public function register_user(Request $request){
-
-
-
-            $id=$request->id;
-
-
-
-            $data=$request->all();
-
-
-
-            // dd($request);
-
-
-
-            $data['password']=Hash::make($data['password']);
-
-
-
-            if($id){
-
-
-
-            $affected_rows = User::find($id)->update($data);
-
-
-
-            }else{
-
-
-
-            $affected_rows = User::create($data);
-
-
-
-            }
-
-
-
-            $response=array('response'=>$data,'status'=>1);
-
-
-
-            return json_encode($response);
-
-
-
-
-
-
-
-    }
-
-
-
-    public function customerregister(Request $request){
-
+    public function register_user(Request $request)
+    {
 
         $id = $request->id;
 
-
-
         $data = $request->all();
 
+        // dd($request);
 
-        $email_exist=User::where('email',$request->email)->first();
+        $data['password'] = Hash::make($data['password']);
 
+        if ($id) {
 
+            $affected_rows = User::find($id)->update($data);
 
-        if(!empty($email_exist)){
-
-
-
-        $response = array('response' => 0);
-
-
-
-        return json_encode($response);
-
-
-
-        }
-
-        else{
-
-         if($request->role_id==4){
-            $data['referral_code'] = uniqid();  
-              
-            $this->send_email($request->email,'Welcome to Maxhype','emails.register_mail',$data);        
-
-         }elseif($request->role_id==3){
-
-         $code_exist=User::where('referral_code',$request->referral_code)->first();
-
-         if(!empty($code_exist)){
-
-            $data['affiliate_id']=$code_exist->id;
-
-            unset($data['referral_code']);
-
-         }
-
-         else{
-
-          $response = array('response' => 2);
-
-          return json_encode($response);
-
-         }
-
-       }
-
-        $action = "Added";
-
-
-
-        if(!empty($data['password'])){
-
-
-
-            $data['password'] = Hash::make($data['password']);
-
-
-
-        }else{
-
-
-
-            unset($data['password']);
-
-
-
-        }
-
-
-
-        if ($id){
-
-
-
-            $action = "Updated";
-
-
-
-            $modal = User::find($id);
-
-
-
-            $affected_rows = $modal->update($data);
-
-
-
-        }else {
-
-
+        } else {
 
             $affected_rows = User::create($data);
 
-             event(new Registered($affected_rows));
-
-
-
         }
 
-         
-
-       
-
-
-        $response = array('response' => 1);
-
-
+        $response = array('response' => $data, 'status' => 1);
 
         return json_encode($response);
 
-
-
     }
 
-
-
- }
-
-  function send_email($email,$subject,$template,$data)
-
-
-
+    public function customerregister(Request $request)
     {
 
+        $id = $request->id;
 
+        $data = $request->all();
 
-        Mail::send($template, ['data'=>$data], function($message) use ($subject, $email) {
+        $email_exist = User::where('email', $request->email)->first();
 
+        if (!empty($email_exist)) {
 
+            $response = array('response' => 0);
 
-                $message->to($email,$subject)->subject($subject);
+            return json_encode($response);
 
+        } else {
+            if ($request->role_id == 4) {
+                $data['referral_code'] = uniqid();
 
+                $this->send_email($request->email, 'Welcome to Maxhype', 'emails.register_mail', $data);
 
-                $message->from(env('MAIL_FROM_ADDRESS'),$subject);
+            } elseif ($request->role_id == 3) {
 
+                $code_exist = User::where('referral_code', $request->referral_code)->first();
 
+                if (!empty($code_exist)) {
 
-           });
+                    $data['affiliate_id'] = $code_exist->id;
 
+                    unset($data['referral_code']);
 
+                    $this->send_email($request->email, 'Welcome to Maxhype', 'emails.register_mail', $data);
+
+                } else {
+
+                    $response = array('response' => 2);
+
+                    return json_encode($response);
+
+                }
+
+            }
+
+            $action = "Added";
+
+            if (!empty($data['password'])) {
+
+                $data['password'] = Hash::make($data['password']);
+
+            } else {
+
+                unset($data['password']);
+
+            }
+
+            if ($id) {
+
+                $action = "Updated";
+
+                $modal = User::find($id);
+
+                $affected_rows = $modal->update($data);
+
+            } else {
+
+                $affected_rows = User::create($data);
+
+                event(new Registered($affected_rows));
+
+            }
+
+            $response = array('response' => 1);
+
+            return json_encode($response);
+
+        }
 
     }
 
+    public function send_email($email, $subject, $template, $data)
+    {
 
+        Mail::send($template, ['data' => $data], function ($message) use ($subject, $email) {
+
+            $message->to($email, $subject)->subject($subject);
+
+            $message->from(env('MAIL_FROM_ADDRESS'), $subject);
+
+        });
+
+    }
 
 }
-
-
-

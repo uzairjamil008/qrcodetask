@@ -2,36 +2,21 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
-
 use App;
-
-use App\Models\Role\Role;
-
+use App\Http\Controllers\Controller;
 use App\Models\Contacts\Contact;
-
+use App\Models\Role\Role;
 use App\Models\User;
-
 use App\Models\Video;
-
-use App\Http\Requests;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
 use Illuminate\Support\Facades\Session;
 
-use Illuminate\Support\Facades\Auth;
-
 class UserController extends Controller
-
 {
 
-
-
-    public  function role($id = -1)
-
+    public function role($id = -1)
     {
 
         $data['page_title'] = "Add Role";
@@ -48,7 +33,8 @@ class UserController extends Controller
 
     }
 
-    public function userstatus(Request $request){
+    public function userstatus(Request $request)
+    {
 
         $id = $request->id;
 
@@ -56,22 +42,20 @@ class UserController extends Controller
 
         $affected_rows = User::find($id)->update($data);
 
-        $response=array('status'=>1,'msg'=>'Data Updated');
+        $response = array('status' => 1, 'msg' => 'Data Updated');
 
-        $response=json_encode($response);
+        $response = json_encode($response);
 
         return $response;
 
     }
 
     public function saverole(Request $request)
-
     {
 
         $id = $request->id;
-        
-        $data = $request->all();
 
+        $data = $request->all();
 
         $action = "Added";
 
@@ -85,11 +69,11 @@ class UserController extends Controller
 
         } else {
 
-            $affected_rows =  Role::create($data);
+            $affected_rows = Role::create($data);
 
         }
 
-        $message=   set_message($affected_rows,'Role',$action);
+        $message = set_message($affected_rows, 'Role', $action);
 
         Session::put('message', $message);
 
@@ -97,25 +81,23 @@ class UserController extends Controller
 
     }
 
-    public  function roles()
-
+    public function roles()
     {
 
         $data['page_title'] = "Roles";
 
-        $data['results'] =  Role::get();
+        $data['results'] = Role::get();
 
         return view('roles.index', compact('data'));
 
     }
 
     public function deleterole($id)
-
     {
 
         $affected_rows = Role::find($id)->delete();
 
-        $message=   set_message($affected_rows,'Role','Deleted');
+        $message = set_message($affected_rows, 'Role', 'Deleted');
 
         Session::put('message', $message);
 
@@ -123,27 +105,24 @@ class UserController extends Controller
 
     }
 
-    public  function users()
-
+    public function users()
     {
 
         $data['page_title'] = "Users";
 
-        $data['results'] =  User::get();
+        $data['results'] = User::get();
 
         return view('users.index', compact('data'));
 
     }
 
-    public  function user($id = -1)
-
+    public function user($id = -1)
     {
 
         $data['page_title'] = "Add User";
 
         $data['roles'] = Role::get();
-        $data['affiliate'] = User::where('role_id',4)->get();
-        
+        $data['affiliate'] = User::where('role_id', 4)->get();
 
         if ($id != -1) {
 
@@ -158,28 +137,23 @@ class UserController extends Controller
     }
 
     public function saveuser(Request $request)
-
     {
 
         $id = $request->id;
- 
         $data = $request->all();
-        if($request->role_id==4){
-            $data['referral_code'] = uniqid();            
-         }
-         //dd($data);
+        if ($request->role_id == 4) {
+            $data['referral_code'] = $request->referral_code;
+        }
 
         unset($data['cpassword']);
 
-
-
         $action = "Added";
 
-        if(!empty($data['password'])){
+        if (!empty($data['password'])) {
 
             $data['password'] = Hash::make($data['password']);
 
-        }else{
+        } else {
 
             unset($data['password']);
 
@@ -193,11 +167,11 @@ class UserController extends Controller
 
         } else {
 
-            $affected_rows =  User::create($data);
+            $affected_rows = User::create($data);
 
         }
 
-        $message=   set_message($affected_rows,'User',$action);
+        $message = set_message($affected_rows, 'User', $action);
 
         Session::put('message', $message);
 
@@ -205,15 +179,12 @@ class UserController extends Controller
 
     }
 
-
-
     public function deleteuser($id)
-
     {
 
         $affected_rows = User::find($id)->delete();
 
-        $message = set_message($affected_rows,'User','Deleted');
+        $message = set_message($affected_rows, 'User', 'Deleted');
 
         Session::put('message', $message);
 
@@ -224,7 +195,6 @@ class UserController extends Controller
     // User Messages
 
     public function usermessages()
-
     {
 
         $data['page_title'] = "User Queries";
@@ -235,49 +205,47 @@ class UserController extends Controller
 
     }
 
-    public function messagemodal($id){
+    public function messagemodal($id)
+    {
 
-        $modal = view('messages.details',compact('data'))->render();
+        $modal = view('messages.details', compact('data'))->render();
 
-        $response=array('response'=>$modal);
+        $response = array('response' => $modal);
 
-        return json_encode($response);   
+        return json_encode($response);
 
     }
 
-    public function adminlogout(Request $request){
+    public function adminlogout(Request $request)
+    {
 
-        $user=Auth::user();
+        $user = Auth::user();
 
         Auth::logout();
 
         Session::flush();
 
-        return redirect('admin/login');  
+        return redirect('admin/login');
 
     }
 
-    public  function video()
-
+    public function video()
     {
 
         $data['page_title'] = "Videos";
 
-        $data['results'] =  Video::get();
+        $data['results'] = Video::get();
 
         return view('videos.index', compact('data'));
 
     }
 
-    public  function videos($id = -1)
-
+    public function videos($id = -1)
     {
 
         $data['page_title'] = "Add Videos URL";
 
-        $data['business'] = User::where('role_id',3)->get();
-
-
+        $data['business'] = User::where('role_id', 3)->get();
 
         if ($id != -1) {
 
@@ -292,7 +260,6 @@ class UserController extends Controller
     }
 
     public function savevideo(Request $request)
-
     {
 
         $id = $request->id;
@@ -311,11 +278,11 @@ class UserController extends Controller
 
         } else {
 
-            $affected_rows =  Video::create($data);
+            $affected_rows = Video::create($data);
 
         }
 
-        $message = set_message($affected_rows,'Video URL',$action);
+        $message = set_message($affected_rows, 'Video URL', $action);
 
         Session::put('message', $message);
 
@@ -324,12 +291,11 @@ class UserController extends Controller
     }
 
     public function deletevideo($id)
-
     {
 
         $affected_rows = Video::find($id)->delete();
 
-        $message = set_message($affected_rows,'Video URL','Deleted');
+        $message = set_message($affected_rows, 'Video URL', 'Deleted');
 
         Session::put('message', $message);
 
@@ -338,8 +304,3 @@ class UserController extends Controller
     }
 
 }
-
-
-
-?>
-

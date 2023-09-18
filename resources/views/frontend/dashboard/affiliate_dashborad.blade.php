@@ -1,4 +1,4 @@
-@extends('frontend.layout.header') 
+@extends('frontend.layout.header')
 @section('css')
 <link href="{{asset('/frontend/css/dashboard.css')}}" rel="stylesheet" type="text/css">
 <link href="{{asset('/frontend/css/dropzone.css')}}" rel="stylesheet" type="text/css">
@@ -37,13 +37,13 @@
          <p class="business-email">{{$data['results']->email}}</p>
     </div>
     @if($data['type']=='Affiliates')
-     <div class="ml-2 mt-3">    
+     <div class="ml-2 mt-3">
       <button class="btn-blue btn-red text-white mr-5 update-profile same-class save-dp d-none">Click To Update</button>
       <a class="btn btn-secondary text-white back-rev same-class d-none">Back</a>
     </div>
        <form  id="form_submit2" class="ml-2 mr-2 mt-2 same-class d-none" enctype="multipart/form-data">
          <input class="form-control" name="id" type="hidden" value="{{$data['results']->id}}">
-         <div action="<?=url('/').'/uploadfile?url=-public-uploads-affiliate'?>" class="dropzone" id="imagesupload2">
+         <div action="<?=url('/') . '/uploadfile?url=-public-uploads-affiliate'?>" class="dropzone" id="imagesupload2">
             <div class="fallback">
             </div>
          </div>
@@ -57,6 +57,10 @@
          <li class="tab active"><a data-toggle="tab" href="#home">Basic Info</a></li>
          &nbsp&nbsp&nbsp&nbsp
          <li class="tab"><a data-toggle="tab" href="#menu2">Businesses</a></li>
+         &nbsp&nbsp&nbsp&nbsp
+         <li class="tab"><a data-toggle="tab" href="#menu3">Reservations</a></li>
+         &nbsp&nbsp&nbsp&nbsp
+         <li class="tab"><a data-toggle="tab" href="#menu4">Purchases</a></li>
       </ul>
      <div class="tab-content">
          <div id="home" class="tab-pane active">
@@ -75,7 +79,7 @@
                           <input class="form-control" name="status" type="hidden" value="Pending">
                           <input class="form-control" name="id" type="hidden" value="{{(isset($data['results']->id) ? $data['results']->id : '')}}">
                          <input class="form-control" name="role_id" type="hidden" value="4">
-                         <div class="mb-3">    
+                         <div class="mb-3">
                             <button type="submit" class="btn-blue btn-red mb-1 mb-sm-0 mr-0 mr-sm-1 update-info">Save Changes</button>
                             <a class="btn btn-secondary text-white back-rev">Back</a>
                          </div>
@@ -119,7 +123,7 @@
                      <h4 class="gray">{{$data['results']->first_name}} Information</h4>
                      <div class="table-box affilate-info">
                 @include('frontend.dashboard.affiliate-info')
-                       
+
                         </div>
                      </div>
                   </div>
@@ -134,7 +138,7 @@
          <input class="form-control" name="id" type="hidden">
          <input class="form-control" name="role_id" type="hidden" value="3">
          <input class="form-control" name="affiliate_id" type="hidden" value="{{$data['results']->id}}">
-         <div class="mb-3">    
+         <div class="mb-3">
           <button type="submit" class="btn-blue btn-red mb-1 mb-sm-0 mr-0 mr-sm-1 business-added">Save Changes</button>
           <a class="btn btn-secondary text-white btn-for-back" style="padding:0.78rem 0.75rem !important ;">Back</a>
          </div>
@@ -254,7 +258,7 @@
                      <div class="col-md-4">
                         <div class="form-group m-form__group">
                            <label>Discount Code</label>
-                           <input type="text" name="discount_code" class="form-control m-input m-input--square">                          
+                           <input type="text" name="discount_code" class="form-control m-input m-input--square">
                         </div>
                      </div>
                       <div class="col-md-4">
@@ -349,6 +353,88 @@
                </div>
             </div>
          </div>
+         <div id="menu3" class="tab-pane fade">
+         <div class="row business-table">
+               <div class="col-lg-12 col-md-12 col-xs-12 traffic">
+                  <div class="dashboard-list-box">
+                     <div class="table-box">
+                        <table class="basic-table table-hover table-responsive">
+                           <thead>
+                              <tr role="row">
+                                 <th>ID</th>
+                                 <th>First Name</th>
+                                 <th>Last Name</th>
+                                 <th>Checkin Date Time</th>
+                                 <th>Checkout Date Time</th>
+                                 <th>Special Notes</th>
+                                 <th>Number Of People</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              @foreach($data['reservation'] as $key=>$value)
+                              <tr>
+                                 <td>{{$value->id}}</td>
+                                 <td>{{$value->first_name}}</td>
+                                 <td>{{$value->last_name}}</td>
+                                 <td>{{$value->date}}</td>
+                                 <td>{{$value->check_out_date}}</span></td>
+                                 <td>{{$value->remarks}}</td>
+                                 <td>{{$value->people}}</td>
+                              </tr>
+                              @endforeach
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div id="menu4" class="tab-pane fade">
+         <div class="row business-table">
+               <div class="col-lg-12 col-md-12 col-xs-12 traffic">
+                  <div class="dashboard-list-box">
+                     <div class="table-box">
+                        <table class="basic-table table-hover table-responsive">
+                           <thead>
+                              <tr role="row">
+                                 <th>Sr No</th>
+                                 <th>First Name</th>
+                                 <th>Last Name</th>
+                                 <th>Special Notes</th>
+                                 <th>Total Tickets</th>
+                                 <th>Price</th>
+                                 <th>Fee</th>
+                                 <th>Total Price</th>
+                                 <th>Discount Code</th>
+                                 <th>Discount Amount</th>
+                                 <th>Discount Percentage</th>
+                                 <th>Net Amount</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                           @foreach($data['purchase'] as $key=>$value)
+                              <tr>
+                              <td>{{$key+1}}</td>
+                              <td>{{$value->first_name}}</td>
+                              <td>{{$value->last_name}}</td>
+                              <td>{{$value->remarks}}</td>
+                              <td>{{$value->total_tickets}}</td>
+                              <td>{{$value->price}}</td>
+                              <td>{{$value->fee}}</td>
+                              <td>{{$value->total_price}}</td>
+                              <td>{{$value->discount_code}}</td>
+                              <td>{{$value->discount_amount}}</td>
+                              <td>{{$value->discount_percentage}}</td>
+                              <td>{{$value->net_amount}}</td>
+                              </tr>
+                              @endforeach
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
          </div>
       </div>
    </div>
@@ -359,12 +445,12 @@
   <div class="modal fade" id="myModal">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-      
+
         <!-- Modal Header -->
         <!-- <div class="modal-header">
           <h4 class="modal-title"></h4>
         </div> -->
-        
+
         <!-- Modal body -->
         <div class="modal-body">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -373,16 +459,16 @@
 
          </div>
         </div>
-        
+
         <!-- Modal footer -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
-        
+
       </div>
     </div>
   </div>
-  
+
 </div>
 
 @endsection
@@ -396,8 +482,8 @@
   //to add and remove d-none class
   $(".tab").click(function () {
     $(".tab").removeClass("active");
-    // $(".tab").addClass("active"); // instead of this do the below 
-    $(this).addClass("active");   
+    // $(".tab").addClass("active"); // instead of this do the below
+    $(this).addClass("active");
 });
     $(".pencell-icon").click(function(){
          $('.same-class').removeClass("d-none");
@@ -433,7 +519,7 @@
                  success:function(data)
                  {
                  Swal.fire('Business has been Successufully Added !')
-                 $('#add_new_business')[0].reset();   
+                 $('#add_new_business')[0].reset();
                   }
 
                 });
@@ -464,14 +550,14 @@
               url: "{{url('/reservationmodal')}}/"+id+'/'+type,
               dataType: "json",
               success:function(data)
-              { 
+              {
                $('.modal-div').html(data.response);
                // $("#myModal .close").click();
 
                // // $('.btnmodal').click()
                // $('#info').modal('show');
              }
-          }); 
+          });
      });
   //Ajax Call for Edit the Affiliate info
    $(document).on('click','.update-info',function(e){
@@ -493,7 +579,7 @@
 
                 });
            });
-    
+
  //to triger the dropdown selected option
     $('select[data-option-id]').each(function (){
         $(this).val($(this).data('option-id'));
@@ -521,12 +607,12 @@
               url: "{{url('/getcities')}}/"+id,
               dataType: "json",
               success:function(data)
-              { 
-                 $('.city').html(data.response); //to write the respone in the city drop 
-                  @if(isset($data['results']->id));  //to write the selected city name 
+              {
+                 $('.city').html(data.response); //to write the respone in the city drop
+                  @if(isset($data['results']->id));  //to write the selected city name
                   var city='{{$data['results']->city}}';//for the edit purpose
                   $('.city').val(city);
-                  @endif 
+                  @endif
               }
           });
     });
@@ -534,12 +620,12 @@
    $(".city").change(function(){
       var zip = $(this).find('option:selected').attr('data-zipcode');
       $('.zipcode').val(zip);
-      
+
       });
- //to triggerd the selected country id  
+ //to triggerd the selected country id
 @if(isset($data['results']->id))
-   setTimeout(function(){ 
-      $('.country').trigger('change'); 
+   setTimeout(function(){
+      $('.country').trigger('change');
      }, 2000);
    @endif
  });

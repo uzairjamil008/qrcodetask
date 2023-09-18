@@ -50,7 +50,9 @@ class BookingController extends Controller
         $product = Product::with('businesses')->where('id', $id)->first();
         if ($product) {
             $product->feature = isset($product->businesses->feature) ? $product->businesses->feature : '';
-            unset($product->businesses);
+            // unset($product->businesses);
+            unset($product->businesses->map);
+
             unset($product->description);
             $product->price = str_replace('$', '', $product->price);
             $product->fee = str_replace('$', '', $product->fee);

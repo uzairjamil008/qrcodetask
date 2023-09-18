@@ -70,7 +70,7 @@
                                     </div>
                                 </div>
                             </div>
-                        @if ($data['is_return'] == 0)
+                        <!-- @if ($data['is_return'] == 0)
                         <div class="form-group col-md-6">
                             <label>Checkout Date Time</label>
                             <input type="datetime-local" name="check_out_date" class="form-control" required>
@@ -80,30 +80,34 @@
                             <label>Return Date Time</label>
                             <input type="datetime-local"  name="return_date_time" class="form-control" required>
                         </div>
-                        @endif
-                        </div>
-                        @if($data['business_type']=='Vehicles-ATV-Bikes-Boats-JetSkis')
-                        <div class="row">
+                        @endif -->
+                        <!-- </div> -->
+                        @if($data['business_type']=='Vehicles-ATV-Bikes-Boats-JetSkis' || $data['business_type']=="Afrobeats" || $data['business_type']=="Movie Theaters & Hotels")
+                        <!-- <div class="row"> -->
                                <div class="col-md-6">
                                 <div class="table_item">
                                     <div class="form-group">
-                                       <label>Check Out</label>
-                                        <div class="input-group date" id="datetimepicker1">
+                                       <label>Check Out Date Time</label>
+                                       <input type="datetime-local" name="check_out_date" class="form-control" required>
+                                        <!-- <div class="input-group date" id="datetimepicker1">
                                             <input type="text" name="return_date" class="form-control" value="dd-mm-yyyy" id="return-date" required>
                                             <i class="flaticon-calendar"></i>
                                             <span class="input-group-addon">
                                                 <i class="fa fa-calendar" aria-hidden="true"></i>
                                             </span>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
-                          <div class="form-group col-md-6">
+                          <!-- <div class="form-group col-md-6">
                             <label>Return Time</label>
                             <input type="text" id="timepicker1" name="return_time" class="form-control" required>
+                          </div> -->
                         </div>
-                        </div>
+                        @else
+                        <div class="col-md-6"></div></div>
                         @endif
+
                         @endif
                         <div class="row">
                          <div class="form-group col-md-6">

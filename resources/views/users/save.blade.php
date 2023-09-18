@@ -69,7 +69,7 @@
    <div class="content-body">
 
       <section id="basic-input">
-         
+
       <form action="{{ url('admin/saveuser') }}" class="" id="form_submit" method="post" enctype="multipart/form-data">
 
        {{ csrf_field() }}
@@ -89,7 +89,7 @@
 
          <a href="{{url('admin/users')}}" class="btn btn-outline-secondary">Back</a>
 
-         @endif     
+         @endif
 
       </div>
 
@@ -193,6 +193,13 @@
                            </div>
 
                            <div class="col-md-3">
+                           <div class="form-group m-form__group">
+                           <label>Referral Code</label>
+                          <input type="text" name="referral_code" class="form-control m-input m-input--square" value="{{(isset($data['results']->referral_code) ? $data['results']->referral_code : '')}}">
+                           </div>
+                          </div>
+
+                           <div class="col-md-3">
 
                               <div class="form-group m-form__group">
 
@@ -291,7 +298,7 @@
 
                            <div class="col-md-4">
 
-                              <img class="img-fluid mt-3" src="{{isset($data['results']->dp)?url('/').''.$data['results']->dp:'' }}">  
+                              <img class="img-fluid mt-3" src="{{isset($data['results']->dp)?url('/').''.$data['results']->dp:'' }}">
 
                            </div>
 
@@ -423,7 +430,7 @@
 
            },
 
-   
+
 
            'cpassword': {
 
