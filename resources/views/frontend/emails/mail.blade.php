@@ -10,8 +10,11 @@ Thanks for your {{$data['type']}} ! You'll find a summary of your recent {{$data
 <strong>Last Name</strong>: {{$data['last_name']}}<br>
 <strong>Special Notes</strong> : {{$data['remarks']}}<br>
 <strong>Number of people</strong> : {{$data['people']}}<br>
-<strong>Checkin Date & Time</strong> : {{$data['date']}}</p>
-<strong>Checkout Date & Time</strong> : {{$data['check_out_date']}}</p>
+<strong>Checkin Date & Time</strong> : {{$data['date']}}<br>
+@if(isset($data['check_out_date']))
+    <strong>Checkout Date & Time</strong>: {{ $data['check_out_date'] }}
+</p>
+@endif
 <h5>You made Reservation from {{$data['business']['name']}},<br>
 Located at {{$data['cities']['location_city_name']}} {{$data['country']['location_country_name']}}, <br>
 Address : {{$data['business_address']}}.<br>

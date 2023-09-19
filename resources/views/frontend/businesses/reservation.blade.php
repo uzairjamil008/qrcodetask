@@ -82,7 +82,7 @@
                         </div>
                         @endif -->
                         <!-- </div> -->
-                        @if($data['business_type']=='Vehicles-ATV-Bikes-Boats-JetSkis' || $data['business_type']=="Afrobeats" || $data['business_type']=="Movie Theaters & Hotels")
+                        @if($data['business_type']=='Vehicles-ATV-Bikes-Boats-JetSkis' || $data['business_type']=='Afrobeats' || $data['business_type']=='Movie Theaters & Hotels')
                         <!-- <div class="row"> -->
                                <div class="col-md-6">
                                 <div class="table_item">
