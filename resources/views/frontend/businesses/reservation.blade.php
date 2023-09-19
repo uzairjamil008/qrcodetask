@@ -99,6 +99,14 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            @if ($data['is_return'] == 1)
+                            <div class="form-group col-md-6">
+                            <label>Return Date Time</label>
+                            <input type="datetime-local" name="return_date_time" class="form-control" required>
+                            </div>
+                            @endif
                           <!-- <div class="form-group col-md-6">
                             <label>Return Time</label>
                             <input type="text" id="timepicker1" name="return_time" class="form-control" required>
@@ -302,15 +310,29 @@ $(document).ready(function() {
 });
 $(document).on('click','.save-payintent',function(e){
     e.preventDefault();
-    var token = $('input[name=_token]').val();
     var tickets = $('select[name=total_tickets]').val();
     if(tickets==''){
         alert('Please select the total tickets.');
         return false;
     }
-    $(".save-payintent").attr("disabled", true).html('Processing...');
-    var formdata=$('.formdata').serialize();
-     $.ajax(
+
+    stripe.createToken(card).then(function(result) {
+    if (result.error) {
+      var errorElement = document.getElementById('card-errors');
+      errorElement.textContent = result.error.message;
+      return false;
+    } else {
+        createPaymentIntent();
+    }
+  });
+
+});
+
+       function createPaymentIntent(){
+        var token = $('input[name=_token]').val();
+        $(".save-payintent").attr("disabled", true).html('Processing...');
+        var formdata=$('.formdata').serialize();
+         $.ajax(
               {
                 type:"post",
                 headers: {'X-CSRF-TOKEN': token},
@@ -321,7 +343,7 @@ $(document).on('click','.save-payintent',function(e){
                  handlepayment(data);
                 }
             });
-       });
+       }
  function handlepayment(clientSecret){
       console.log(clientSecret);
       var first_name=$('input[name=first_name]').val();
@@ -338,9 +360,11 @@ $(document).on('click','.save-payintent',function(e){
     setup_future_usage: 'off_session'
   }).then(function(result) {
     if (result.error) {
-      alert('error');
+      alert(result.error.message);
       $('#card-errors').html(result.error.message);
       $('.pay').prop('disabled',false);
+      $(".save-payintent").attr("disabled", false).html('Submit');
+      return false;
     } else {
       if(result.paymentIntent.status === 'succeeded') {
       // window.location.href='{{ url('/thanks') }}';
@@ -371,22 +395,13 @@ $(document).on('click','#btn-reserve',function(e){
     e.preventDefault();
     var token = $('input[name=_token]').val();
     var date = $('input[name=date]').val();
-    var time = $('input[name=time]').val();
-     var return_date = $('input[name=return_date]').val();
-    var return_time = $('input[name=return_time]').val();
+     var return_date_time = $('input[name=return_date_time]').val();
     var people = $('select[name=people]').val();
     if(date==''){
+        alert('Please select the date.');
+        return false;
+    }else if(return_date_time==''){
         alert('Please select the current date.');
-        return false;
-    }else if(return_date==''){
-        alert('Please select the current date.');
-        return false;
-    }
-    else if(time==''){
-        alert('Please select the current time.');
-        return false;
-    }else if(return_time==''){
-        alert('Please select the return time.');
         return false;
     }
     else if(people==''){

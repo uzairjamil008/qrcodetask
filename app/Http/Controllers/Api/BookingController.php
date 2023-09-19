@@ -161,10 +161,10 @@ class BookingController extends Controller
             $data['affiliate'] = User::where('id', $data['business']->affiliate_id)->first();
             $affiliate_email = $data['affiliate']->email;
             if (!empty($affiliate_email)) {
-                $ccemail = [$business_email, $affiliate_email, "admin@themaxhype.com"];
+                $ccemail = [$business_email, $affiliate_email, env('ADMIN_EMAIL')];
             }
         } else {
-            $ccemail = [$business_email, "admin@themaxhype.com"];
+            $ccemail = [$business_email, env('ADMIN_EMAIL')];
         }
         $data['customer'] = User::where('id', $request->customer_id)->first();
         $to_email = $data['customer']->email;
