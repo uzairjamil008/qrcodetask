@@ -16,7 +16,7 @@ class BookingsController extends Controller
     public function businesses($type)
     {
         $data['type'] = $type;
-        $data['results'] = User::where('type', $type)->paginate(6);
+        $data['results'] = User::where('type', $type)->where('hide_listing', '!=', 1)->paginate(6);
         return view('frontend.businesses.index', compact('data'));
     }
     public function business_details($id)
@@ -104,7 +104,7 @@ class BookingsController extends Controller
         $search = $_GET['search'];
         $data['business'] = User::where('role_id', 3)->where('first_name', 'LIKE', '%' . $search . '%')->get();
         $data['location'] = Countries::where('location_country_name', 'LIKE', '%' . $search . '%')->get();
-        $data['tickets'] = Reservation::where('reservation_number', 'LIKE', '%' . $search . '%')->get();
+        $data['tickets'] = Reservation::where('order_number', 'LIKE', '%' . $search . '%')->get();
         $response = view('frontend.dashboard.search', compact('data'))->render();
         $response = array('response' => $response);
         return json_encode($response);

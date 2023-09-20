@@ -79,6 +79,8 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function () {
         Route::get('/reject_request/{id}', [App\Http\Controllers\Business\BusinessController::class, 'reject_request']);
         Route::get('/purchased', [App\Http\Controllers\Business\BusinessController::class, 'purchased']);
         Route::get('/reserved', [App\Http\Controllers\Business\BusinessController::class, 'reserved']);
+        Route::get('/reservation_details/{id}', [App\Http\Controllers\Business\BusinessController::class, 'reservationDetails']);
+        Route::get('/purchase_details/{id}', [App\Http\Controllers\Business\BusinessController::class, 'purchaseDetails']);
 
         //Business Owners
         Route::get('/business_owners', [App\Http\Controllers\Business\BusinessController::class, 'business_owners']);

@@ -129,6 +129,9 @@ class PagesController extends Controller
     {
         $id = $request->id;
         $data = $request->all();
+        if (!isset($data['hide_listing'])) {
+            $data['hide_listing'] = 0;
+        }
         $country = $data['country'];
         $zip_code = $data['postal_code'];
         $other_city = $data['other_city'];

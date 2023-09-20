@@ -3,6 +3,7 @@
  <link href="{{asset('/frontend/css/dashboard.css')}}" rel="stylesheet" type="text/css">
  <link href="{{asset('/frontend/css/dropzone.css')}}" rel="stylesheet" type="text/css">
  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+ <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 @endsection
 @section('content')
 <!-- Breadcrumb -->
@@ -87,7 +88,7 @@
          &nbsp&nbsp&nbsp&nbsp
          <li class="tab"><a data-toggle="tab" href="#producttab">Products</a></li>
          &nbsp&nbsp&nbsp&nbsp
-         <li class="tab"><a data-toggle="tab" href="#reservationtab">Reservation</a></li>
+         <li class="tab "><a data-toggle="tab" href="#reservationtab">Reservation</a></li>
          &nbsp&nbsp&nbsp&nbsp
          <li class="tab"><a data-toggle="tab" href="#purchasetab">Purchase</a></li>
 
@@ -217,8 +218,11 @@
 <script src="{{asset('/frontend/js/dashboard-custom.js')}}"></script>
 <script src="{{asset('/frontend/js/dropzone.js')}}"></script>
 <script src="{{asset('/frontend/js/dropzonescript.js')}}"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
  $(document).ready(function(){
+
+  new DataTable('.custom-table');
 $(".tab").click(function () {
     $(".tab").removeClass("active");
     // $(".tab").addClass("active"); // instead of this do the below
@@ -380,6 +384,7 @@ $(".tab").click(function () {
 
              });
            });
+
        //Ajax call for add Product
    $(document).on('click','#check-tickets',function(){
          // alert('test');

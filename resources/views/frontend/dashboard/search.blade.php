@@ -1,6 +1,6 @@
   <div class="row">
       <div class="col-md-12">
-        <div class="busines-name text-center ml-4"> 
+        <div class="busines-name text-center ml-4">
           <div class="row mt-2">
               <div class="col-md-4 text-center">
                <h4 class="all-businesses-head mb-2">BUSINESS NAME</h4>
@@ -22,7 +22,7 @@
               <h4 class="all-tickets-head mb-2">TICKETS NUMBER</h4>
                 <ul>
                   @foreach($data['tickets'] as $key=>$value)
-                  <a href="{{url('business_details/'.$value->business_id)}}"><li class="all-tickets-name">{{$value->reservation_number}}</li></a>
+                  <a href="{{url('business_details/'.$value->business_id)}}"><li class="all-tickets-name">{{$value->order_number}}</li></a>
                   @endforeach
                </ul>
               </div>
@@ -30,6 +30,3 @@
           </div>
       </div>
   </div>
-
-
-

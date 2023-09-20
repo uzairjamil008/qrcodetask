@@ -1,6 +1,7 @@
 @extends('frontend.layout.header')
 @section('css')
 <link href="{{asset('/frontend/css/dashboard.css')}}" rel="stylesheet" type="text/css">
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 @endsection
 @section('content')
 <!-- Breadcrumb -->
@@ -132,7 +133,7 @@
                                     <div class="dashboard-list-box">
                                         <h4 class="gray mb-2">All Purchases</h4>
                                         <div class="table-box">
-                                            <table class="basic-table table-hover">
+                                            <table class="basic-table table-hover custom-table">
                                                 <thead>
                                                     <tr role="row">
                                                         <th>Sr No</th>
@@ -169,7 +170,7 @@
                                     <div class="dashboard-list-box">
                                         <h4 class="gray mb-2">All Reservations</h4>
                                         <div class="table-box">
-                                            <table class="basic-table">
+                                            <table class="basic-table custom-table">
                                                 <thead>
                                                     <tr role="row">
                                                         <th>Sr No</th>
@@ -249,9 +250,10 @@
 @endsection
 @section('js')
 <script src="{{asset('/frontend/js/dashboard-custom.js')}}"></script>
-
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+    new DataTable('.custom-table');
     $(".tab").click(function() {
         $(".tab").removeClass("active");
         // $(".tab").addClass("active"); // instead of this do the below

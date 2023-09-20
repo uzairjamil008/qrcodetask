@@ -1,4 +1,4 @@
-<table class="basic-table table-hover table-responsive">
+<table class="basic-table table-hover table-responsive custom-table">
          <thead>
             <tr role="row">
                <th>Sr No</th>
@@ -13,6 +13,7 @@
                <th>Discount Amount</th>
                <th>Discount Percentage</th>
                <th>Net Amount</th>
+               <th>Order Number</th>
                <th>Status</th>
                <th>Business Remarks</th>
                <th>Customer Spent</th>
@@ -34,6 +35,7 @@
                <td>{{$value->discount_amount}}</td>
                <td>{{$value->discount_percentage}}</td>
                <td>{{$value->net_amount}}</td>
+               <td>{{$value->order_number}}</td>
                <td>{{$value->status}}</td>
                <td>{{$value->business_remarks}}</td>
                <td>{{$value->customer_spent}}</td>

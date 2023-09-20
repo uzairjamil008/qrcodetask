@@ -12,7 +12,7 @@
              {{ csrf_field() }}
               <input class="form-control" name="id" type="hidden" value="{{(isset($data['results']->id) ? $data['results']->id : '')}}">
              <input class="form-control" name="role_id" type="hidden" value="3">
-             <div class="mb-3">    
+             <div class="mb-3">
                 <button type="submit" class="btn-blue btn-red mb-1 mb-sm-0 mr-0 mr-sm-1 save-info">Save Changes</button>
                 <a class="btn btn-secondary text-white back-rev">Back</a>
              </div>
@@ -121,17 +121,22 @@
                                <label>Discount</label>
                                <select name="discount" class="form-control" data-option-id="{{(isset($data['results']->discount) ? $data['results']->discount : '')}}">
                                   <option value="">Select</option>
-                                  <option>1%</option>
+                                  <!-- <option>1%</option>
                                   <option>2%</option>
                                   <option>5%</option>
-                                  <option>6%</option>
+                                  <option>6%</option> -->
+                                  <?php
+for ($i = 1; $i <= 100; $i++) {
+    echo "<option>{$i}%</option>";
+}
+?>
                                </select>
                             </div>
                          </div>
                          <div class="col-md-6">
                             <div class="form-group m-form__group">
                                <label>Discount Code</label>
-                               <input type="text" name="discount_code" class="form-control" value="{{(isset($data['results']->discount_code) ? $data['results']->discount_code : '')}}">                          
+                               <input type="text" name="discount_code" class="form-control" value="{{(isset($data['results']->discount_code) ? $data['results']->discount_code : '')}}">
                             </div>
                          </div>
                       </div>
@@ -150,6 +155,12 @@
                                   <option>Reservation</option>
                                   <option>Purchase</option>
                                </select>
+                            </div>
+                         </div>
+                         <div class="col-md-6">
+                            <div class="form-group m-form__group" style="display: flex;">
+                            <input style="width: 15px; margin-right: 10px;" {{(isset($data['results']->id) ? $data['results']->hide_listing==1 ? 'checked' : '' : '')}} type="checkbox" name="hide_listing" value="1">
+                           <label for="vehicle1">Hide Listing</label>
                             </div>
                          </div>
                       </div>

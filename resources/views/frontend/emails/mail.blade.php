@@ -5,7 +5,7 @@ Thanks for your {{$data['type']}} ! You'll find a summary of your recent {{$data
 <div class="row">
 <span style="float: right; margin-right:60px;">{{$data['qr_code']}}</span>
 </div>
-<p><strong>Order #</strong> : {{$data['order_number']}}<br>
+<p><strong>Ticket #</strong> : {{$data['order_number']}}<br>
 <strong>First Name</strong> : {{$data['first_name']}}<br>
 <strong>Last Name</strong>: {{$data['last_name']}}<br>
 <strong>Special Notes</strong> : {{$data['remarks']}}<br>
@@ -25,7 +25,7 @@ For more details please contact to {{$data['business']['email']}}.
 <div class="row">
 <span style="float: right; margin-right:60px;">{{$data['qr_code']}}</span>
 </div>
-<p><strong>Order #</strong> : {{$data['order_number']}}<br>
+<p><strong>Ticket #</strong> : {{$data['order_number']}}<br>
 <strong>First Name</strong> : {{$data['first_name']}}<br>
 <strong>Last Name</strong> : {{$data['last_name']}}<br>
 <strong>Special Notes</strong> : {{$data['remarks']}}<br>

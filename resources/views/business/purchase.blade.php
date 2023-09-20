@@ -24,6 +24,7 @@
                         <th>Remarks</th>
                         <th>Total Tickets</th>
                         <th>Price</th>
+                        <th>Action</th>
                      </tr>
                   </thead>
                   <tbody>
@@ -36,6 +37,19 @@
                         <td>{{Str::words(strip_tags($value->remarks), 20)}}</td>
                         <td>{{$value->total_tickets}}</td>
                         <td>{{$value->price}}</td>
+                        <td>
+                        <div class="dropdown">
+                        <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                        </button>
+                        <div class="dropdown-menu">
+                        <a class="dropdown-item" href="{{url('admin/purchase_details/'.$value->id )}}">
+                        <i data-feather="file-text" class="mr-50"></i>
+                        <span>Detail</span>
+                        </a>
+                        </div>
+                        </div>
+                        </td>
                      </tr>
                      @endforeach
                   </tbody>

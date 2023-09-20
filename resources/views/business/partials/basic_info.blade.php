@@ -107,31 +107,38 @@
                      <label>Discount</label>
                      <select name="discount" class="form-control" data-option-id="{{(isset($data['results']->discount) ? $data['results']->discount : '')}}">
                         <option value="">Select</option>
-                        <option>1%</option>
+                        <!-- <option>1%</option>
                         <option>2%</option>
                         <option>5%</option>
-                        <option>6%</option>
+                        <option>6%</option> -->
+                        <?php
+for ($i = 1; $i <= 100; $i++) {
+    echo "<option>{$i}%</option>";
+}
+?>
                      </select>
                   </div>
                </div>
                 <div class="col-md-6">
                   <div class="form-group m-form__group">
                      <label>Discount Code</label>
-                     <input type="text" name="discount_code" class="form-control m-input m-input--square" value="{{(isset($data['results']->discount_code) ? $data['results']->discount_code : '')}}">                          
+                     <input type="text" name="discount_code" class="form-control m-input m-input--square" value="{{(isset($data['results']->discount_code) ? $data['results']->discount_code : '')}}">
                   </div>
                </div>
             </div>
             <div class="row">
-              
+
                <div class="col-md-4">
                   <div class="form-group m-form__group">
-                     <label>Status</label>
+                     <!-- <label>Status</label>
                      <select name="status" class="form-control" data-option-id="{{(isset($data['results']->status) ? $data['results']->status : '')}}" required>
                         <option value="">Select</option>
                         <option>Accepted</option>
                         <option>Rejected</option>
                         <option>Pending</option>
-                     </select>
+                     </select> -->
+                     <input style="margin-top: 25px;" {{(isset($data['results']->id) ? $data['results']->hide_listing==1 ? 'checked' : '' : '')}} type="checkbox" name="hide_listing" value="1">
+                     <label for="vehicle1">Hide Listing</label>
                   </div>
                </div>
                 <div class="col-md-4">
@@ -186,7 +193,7 @@
                <input type="hidden" name="dp" class="form-control m-input m-input--square" value="{{(isset($data['results']->dp) ? $data['results']->dp : '')}}">
             </div>
             <img src="{{isset($data['results']->dp) ?url('/').''. $data['results']->dp:''}}" width="90" height="80">
-              
+
               <div class="row">
                <div class="col-lg-12">
                   <div class="form-group" >
@@ -201,7 +208,7 @@
                </div>
               <input type="hidden" name="images" class="form-control m-input m-input--square" value="">
 
-            <input class="form-control" name="old_images" type="hidden" value="{{(isset($data['results']->images) ? $data['results']->images : '')}}">  
+            <input class="form-control" name="old_images" type="hidden" value="{{(isset($data['results']->images) ? $data['results']->images : '')}}">
             </div>
             <div class="row">
              @if(isset($data['results']->images)&& !empty($data['results']->images))

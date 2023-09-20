@@ -1,4 +1,4 @@
-<table class="basic-table table-hover table-responsive">
+<table class="basic-table table-hover table-responsive custom-table">
          <thead>
             <tr role="row">
                <th>ID</th>
@@ -7,6 +7,7 @@
                <th>Checkin Data Time</th>
                <th>Checkout Date Time</th>
                <th>Special Notes</th>
+               <th>Order Number</th>
                <th>Number of People</th>
                <th>Status</th>
                <th>Business Remarks</th>
@@ -23,6 +24,7 @@
                <td>{{$value->date}}</td>
                <td>{{$value->check_out_date}}</td>
                <td>{{$value->remarks}}</td>
+               <td>{{$value->order_number}}</td>
                <td>{{$value->people}}</td>
                <td>{{$value->status}}</td>
                <td>{{$value->business_remarks}}</td>

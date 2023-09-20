@@ -65,6 +65,10 @@ class BusinessController extends Controller
 
         $data = $request->all();
 
+        if (!isset($data['hide_listing'])) {
+            $data['hide_listing'] = 0;
+        }
+
         if (!empty($data['password'])) {
 
             $data['password'] = Hash::make($data['password']);
@@ -189,6 +193,21 @@ class BusinessController extends Controller
 
         return view('business.details', compact('data'));
 
+    }
+
+    public function reservationDetails($id)
+    {
+
+        $data['page_title'] = "Reservation";
+        $data['results'] = Reservation::where('id', $id)->where('type', 'Reservation')->first();
+        return view('business.reservationdetails', compact('data'));
+    }
+
+    public function purchaseDetails($id)
+    {
+        $data['page_title'] = "Purchase";
+        $data['results'] = Reservation::where('id', $id)->where('type', 'Purchase')->first();
+        return view('business.purchasedetails', compact('data'));
     }
 
     //Business Owner

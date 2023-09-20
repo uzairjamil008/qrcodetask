@@ -46,11 +46,11 @@
                          <input class="form-control" name="id" type="hidden" value="{{(isset($data['results']->id) ? $data['results']->id : '')}}">
                               <!-- the bellow hidden id is product table -->
                              <input class="form-control" name="role_id" type="hidden" value="3">
-                            <div class="col-md-12 text-right mb-2"> 
+                            <div class="col-md-12 text-right mb-2">
                            <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1">Save Changes</button>
                            <a href="{{url('admin/business')}}" class="btn btn-outline-secondary">Back</a>
                         </div>
-                     @include('business.partials.basic_info')  
+                     @include('business.partials.basic_info')
                    </form>
                  </div>
                <div id="product" class="tab-pane fade">
@@ -80,7 +80,7 @@
                  <div class="modal-body">
                    <div class="modaldiv"></div>
                  </div>
-   
+
              </div>
          </div>
      </div>
@@ -96,7 +96,7 @@
    $('.add-Business').addClass('active');
    DropzoneSinglefunc('dropzoneupload','.png,.jpg,.jpeg',1.,'dp');
    DropzoneMultiplefunc('dpzremovethumb','.png,.jpg,.jpge',4.,'images');
-   
+
    $(document).ready(function(){
      $(".country").change(function(){
      var id = $(this).val();
@@ -106,12 +106,12 @@
               url: "{{url('admin/getcities')}}/"+id,
               dataType: "json",
               success:function(data)
-              { 
-                 $('.city').html(data.response); //to write the respone in the city drop 
-                  @if(isset($data['results']->id));  //to write the selected city name 
+              {
+                 $('.city').html(data.response); //to write the respone in the city drop
+                  @if(isset($data['results']->id));  //to write the selected city name
                   var city='{{$data['results']->city}}';//for the edit purpose
                   $('.city').val(city);
-                  @endif 
+                  @endif
               }
           });
     });
@@ -119,12 +119,12 @@
    $(".city").change(function(){
       var zip = $(this).find('option:selected').attr('data-zipcode');
       $('.zipcode').val(zip);
-      
+
       });
-   //to triggerd the selected country id  
+   //to triggerd the selected country id
    @if(isset($data['results']->id))
-   setTimeout(function(){ 
-      $('.country').trigger('change'); 
+   setTimeout(function(){
+      $('.country').trigger('change');
      }, 2000);
    @endif
 
@@ -190,7 +190,7 @@
                     url: "{{url('admin/deleteproduct') }}/"+id+'/'+user_id,
                     dataType: "json",
                     success:function(data)
-                    {   
+                    {
                     $('.product-div').html(data.response);
 
                     }

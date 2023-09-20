@@ -225,7 +225,7 @@ class BookingController extends Controller
         $search = $request->input('search');
         $data['business'] = User::where('role_id', 3)->where('first_name', 'LIKE', '%' . $search . '%')->get();
         $data['location'] = Countries::where('location_country_name', 'LIKE', '%' . $search . '%')->get();
-        $data['tickets'] = Reservation::where('reservation_number', 'LIKE', '%' . $search . '%')->get();
+        $data['tickets'] = Reservation::where('order_number', 'LIKE', '%' . $search . '%')->get();
         return response()->json($data);
     }
 }
