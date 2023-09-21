@@ -181,6 +181,7 @@ Route::get('/contacts', [App\Http\Controllers\Frontend\ContactController::class,
 Route::post('/savesubscriber', [App\Http\Controllers\Frontend\ContactController::class, 'save_subscriber']);
 Route::post('/savecontact', [App\Http\Controllers\Frontend\ContactController::class, 'savecontact']);
 Route::post('/save_data', [App\Http\Controllers\Frontend\BookingsController::class, 'saveData']);
+
 //Frontend Bookingontroller
 Route::get('/businesses/{type}', [App\Http\Controllers\Frontend\BookingsController::class, 'businesses']);
 Route::get('/business_details/{id}', [App\Http\Controllers\Frontend\BookingsController::class, 'business_details']);
@@ -208,6 +209,7 @@ Route::post('/save_applicant', [App\Http\Controllers\Frontend\JobController::cla
 Route::post('/uploadfile', [App\Http\Controllers\Frontend\JobController::class, 'uploadfile']);
 
 //Frontend PagesController
+Route::get('/details/{type}/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'detail']);
 Route::get('/getcity/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'getcity']);
 Route::post('/saveinfo', [App\Http\Controllers\Frontend\PagesController::class, 'saveinfo']);
 Route::post('/saveinfo1', [App\Http\Controllers\Frontend\PagesController::class, 'saveinfo1']);

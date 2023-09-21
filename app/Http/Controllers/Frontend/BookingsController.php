@@ -7,6 +7,7 @@ use App\Models\Locations\Countries;
 use App\Models\Product\Product;
 use App\Models\Reservations\Reservation;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use QrCode;
@@ -24,7 +25,7 @@ class BookingsController extends Controller
         $data['businesses'] = User::where('role_id', 3)->get();
         $data['details'] = User::where('id', $id)->first();
         $data['type'] = $data['details']['feature'];
-        $data['products'] = Product::where('business_id', $id)->get();
+        $data['products'] = Product::whereDate('expiry_date', '>', Carbon::now())->orWhereNull('expiry_date')->where('business_id', $id)->get();
         return view('frontend.businesses.details', compact('data'));
     }
     public function reservation($id, $type, $type2)
@@ -44,6 +45,7 @@ class BookingsController extends Controller
         $data['is_return'] = $is_return;
         return view('frontend.businesses.reservation', compact('data'));
     }
+
     public function save_reservation(Request $request)
     {
         $data = $request->all();

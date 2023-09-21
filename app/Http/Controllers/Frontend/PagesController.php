@@ -85,6 +85,12 @@ class PagesController extends Controller
         // $data['business'] = User::where('role_id',3)->get();
         return view('frontend.dashboard.customer_dashboard', compact('data'));
     }
+
+    public function detail($type, $id)
+    {
+        $data = Reservation::where('id', $id)->first();
+        return view('frontend.dashboard.booking_detail', compact('data', 'type'));
+    }
     public function affiliate_dashboard($id, $type)
     {
         $user = Auth::user();

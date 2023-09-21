@@ -142,7 +142,7 @@
                                                         <th>Total Tickets</th>
                                                         <th>Unit Price</th>
                                                         <th>Total Price</th>
-
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -155,6 +155,12 @@
                                                         <td>{{$value->total_tickets}}</td>
                                                         <td>{{$value->price}}</td>
                                                         <td>{{$value->total_price}}</td>
+                                                        <td>
+                                                        <a href="{{url('/details', ['type' => 'purchase', 'id' => $value->id])}}">
+                                                        <i data-feather="file-text" class="mr-50"></i>
+                                                        <span>View Detail</span>
+                                                        </a>
+                                                        </td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>
@@ -180,6 +186,7 @@
                                                         <th>Return Date Time</th>
                                                         <th>Remarks</th>
                                                         <th>Number Of People</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -193,6 +200,12 @@
                                                         <td>{{$value->return_date_time}}</td>
                                                         <td>{{$value->remarks}}</td>
                                                         <td>{{$value->people}}</td>
+                                                        <td>
+                                                        <a href="{{url('/details', ['type' => 'reservation', 'id' => $value->id])}}">
+                                                        <i data-feather="file-text" class="mr-50"></i>
+                                                        <span>View Detail</span>
+                                                        </a>
+                                                        </td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>
@@ -254,6 +267,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
     new DataTable('.custom-table');
+    new DataTable('.custom-details-table');
     $(".tab").click(function() {
         $(".tab").removeClass("active");
         // $(".tab").addClass("active"); // instead of this do the below

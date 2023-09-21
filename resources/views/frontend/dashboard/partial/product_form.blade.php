@@ -57,6 +57,12 @@
        <input name="product_dp" type="file" class="form-control m-input m-input--square">
      </div>
  </div>
+ <div class="row">
+    <div class="col-md-12">
+      <label><b>Expiry Date Time</b></label>
+       <input name="expiry_date" type="datetime-local" class="form-control m-input m-input--square" value="{{(isset($data['results']->expiry_date) ? $data['results']->expiry_date : '')}}">
+     </div>
+ </div>
  <div class="col-md-6">
       <div class="form-group m-form__group ml-2"><br><br>
           <input style="width: 20%;" {{(isset($data['results']->id) ? $data['results']->is_return==1 ? 'checked' : '' : '')}} type="checkbox" name="is_return" value="1">

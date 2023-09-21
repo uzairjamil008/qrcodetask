@@ -56,6 +56,14 @@
       </div>
    </div>
    <div class="row">
+    <div class="col-md-12">
+    <div class="form-group m-form__group">
+      <label>Expiry Date Time</label>
+       <input name="expiry_date" type="datetime-local" class="form-control m-input m-input--square" value="{{(isset($data['results']->expiry_date) ? $data['results']->expiry_date : '')}}">
+     </div>
+    </div>
+ </div>
+   <div class="row">
    <div class="col-lg-12">
       <div class="form-group" >
          <label>
@@ -89,7 +97,7 @@
        if($(this).is(":checked")) {
            $('.total-tickets').removeClass("d-none");
            $('.fee').removeClass("d-none");
-   
+
        }
        else{
            $('.total-tickets').addClass("d-none");

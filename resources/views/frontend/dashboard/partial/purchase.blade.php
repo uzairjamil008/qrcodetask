@@ -41,8 +41,9 @@
                <td>{{$value->customer_spent}}</td>
                @if(Auth::user()->id==$value->business_id)
                @if($data['type'] =='business')
-               <td class="dsdsdsdsad mt-2" style="display: flex;">
-                 <a href="javascript:void(0)" class="button bg-primary add-reservation mr-1" data-id="{{$value->id}}" data-user="{{$value->business_id}}">Add Additional Remarks</a>
+               <td>
+                 <a href="javascript:void(0)" class="button bg-primary add-reservation mr-1" data-id="{{$value->id}}" data-user="{{$value->business_id}}" style="padding: 6px;">Add Remarks</a>
+                 <a href="{{url('/details', ['type' => 'purchase', 'id' => $value->id])}}" class="button bg-primary">Detail</a>
              </td>
              @endif
              @endif
