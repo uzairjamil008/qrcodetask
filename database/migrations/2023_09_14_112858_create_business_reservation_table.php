@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBusinessReservationsTable extends Migration
+class CreateBusinessReservationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateBusinessReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('business_reservations', function (Blueprint $table) {
+        Schema::create('business_reservation', function (Blueprint $table) {
             $table->id();
             $table->foreignId('business_id')->references('id')->on('users')->constrained()->onDelete('cascade');
             $table->foreignId('customer_id')->references('id')->on('users')->constrained()->onDelete('cascade');
@@ -53,7 +53,7 @@ class CreateBusinessReservationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('business_reservations', function (Blueprint $table) {
+        Schema::table('business_reservation', function (Blueprint $table) {
             $table->dropForeign(['business_id']);
             $table->dropForeign(['customer_id']);
             $table->dropForeign(['product_id']);

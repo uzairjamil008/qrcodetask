@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCareerPositionsTable extends Migration
+class CreateHomeSliderTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class CreateCareerPositionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('career_positions', function (Blueprint $table) {
+        Schema::create('home_slider', function (Blueprint $table) {
             $table->id();
-            $table->string('position_name')->nullable();
+            $table->string('heading')->nullable();
+            $table->string('sub_heading')->nullable();
+            $table->string('type')->nullable();
+            $table->string('button_text')->nullable();
+            $table->string('file')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +31,6 @@ class CreateCareerPositionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('career_positions');
+        Schema::dropIfExists('home_slider');
     }
 }

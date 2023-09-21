@@ -21,7 +21,7 @@ class CareerSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ];
-        $careerPositionId = DB::table('career_positions')->insertGetId($data);
+        $careerPositionId = DB::table('career_position')->insertGetId($data);
 
         $careerId = DB::table('careers')->insertGetId([
             'title' => $faker->jobTitle,
@@ -36,19 +36,6 @@ class CareerSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
-        // DB::table('careers')->insert([
-        //     'career_position_id' => $careerId,
-        //     'first_name' => $faker->firstName,
-        //     'last_name' => $faker->lastName,
-        //     'email' => $faker->unique()->safeEmail,
-        //     'phone' => $faker->phoneNumber,
-        //     'cv_file' => '\storage\career\cv' . $faker->image(public_path('/storage/career/cv'), 100, 100, null, false, true, uniqid()),
-        //     'objective' => $faker->text(100),
-        //     'status' => $faker->randomElement(['active', 'inactive']),
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        // ]);
 
     }
 }

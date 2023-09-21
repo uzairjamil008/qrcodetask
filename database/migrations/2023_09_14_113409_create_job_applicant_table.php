@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJobApplicantsTable extends Migration
+class CreateJobApplicantTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateJobApplicantsTable extends Migration
      */
     public function up()
     {
-        Schema::create('job_applicants', function (Blueprint $table) {
+        Schema::create('job_applicant', function (Blueprint $table) {
             $table->id();
             $table->foreignId('career_id')->references('id')->on('careers')->constrained()->onDelete('cascade');
             $table->string('first_name')->nullable();
@@ -34,7 +34,7 @@ class CreateJobApplicantsTable extends Migration
      */
     public function down()
     {
-        Schema::table('job_applicants', function (Blueprint $table) {
+        Schema::table('job_applicant', function (Blueprint $table) {
             $table->dropForeign(['career_id']);
             $table->drop();
         });

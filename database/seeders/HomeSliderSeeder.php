@@ -24,6 +24,6 @@ class HomeSliderSeeder extends Seeder
             'file' => '\storage\homeslide\file' . $faker->image(public_path('/storage/homeslide/file'), 100, 100, null, false, true, uniqid()),
 
         ];
-        DB::table('home_sliders')->insert($data);
+        DB::table('home_slider')->insert($data);
     }
 }

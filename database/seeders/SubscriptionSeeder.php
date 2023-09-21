@@ -19,6 +19,6 @@ class SubscriptionSeeder extends Seeder
         $data = [
             'email' => $faker->unique()->safeEmail,
         ];
-        DB::table('subscriptions')->insert($data);
+        DB::table('subscription')->insert($data);
     }
 }

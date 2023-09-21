@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHomeSlidersTable extends Migration
+class CreateSubscriptionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateHomeSlidersTable extends Migration
      */
     public function up()
     {
-        Schema::create('home_sliders', function (Blueprint $table) {
+        Schema::create('subscription', function (Blueprint $table) {
             $table->id();
-            $table->string('heading')->nullable();
-            $table->string('sub_heading')->nullable();
-            $table->string('type')->nullable();
-            $table->string('button_text')->nullable();
-            $table->string('file')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateHomeSlidersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('home_sliders');
+        Schema::dropIfExists('subscription');
     }
 }

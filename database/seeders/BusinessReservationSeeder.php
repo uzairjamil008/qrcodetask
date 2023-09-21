@@ -49,7 +49,7 @@ class BusinessReservationSeeder extends Seeder
             'customer_spent' => $faker->randomFloat(2, 10, 50),
             'created_at' => now(),
             'updated_at' => now()];
-        DB::table('business_reservations')->insert($data);
+        DB::table('business_reservation')->insert($data);
 
     }
 }
