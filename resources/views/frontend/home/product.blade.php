@@ -24,7 +24,7 @@
                          @else
                            <a type="button" class="btn-blue btn-red fully-booked">Fully Booked</a>
                           @endif
-                       
+
                          @elseif(Auth::user()->role_id == 5 )
                          <a type="button" data-toggle="modal" data-target="#productModal" data-id="{{$value->id}}" class="btn-blue products_detail change-background">View detail</a>
                         @if(get_availability($value->total_tickets,$value->id) >= 1)
@@ -32,7 +32,7 @@
                        @else
                         <a type="button" class="btn-blue btn-red fully-booked">Fully Booked</a>
                        @endif
-                        
+
                         @endif
                         @else
                      <a type="button" data-toggle="modal" data-target="#productModal" data-id="{{$value->id}}" class="btn-blue products_detail change-background">View detail</a>
@@ -41,7 +41,7 @@
                         @else
                            <a type="button" class="btn-blue btn-red fully-booked">Fully Booked</a>
                         @endif
-                       
+
                        @endif
                      </div>
                   </div>

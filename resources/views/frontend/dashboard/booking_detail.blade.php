@@ -76,6 +76,14 @@
                                             <td>Return Date Time</td>
                                             <td>{{$data->return_date_time}}</td>
                                         </tr>
+                                        <tr>
+                                            <td>Explain why customer did not stay or left without purchasing:</td>
+                                            <td>{{$data->business_remarks}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>How much customer spent:</td>
+                                            <td>{{$data->customer_spent}}</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -141,6 +149,14 @@
                                         <tr>
                                             <td>Total Tickets</td>
                                             <td>{{$data->total_tickets}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Explain why customer did not stay or left without purchasing:</td>
+                                            <td>{{$data->business_remarks}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>How much customer spent:</td>
+                                            <td>{{$data->customer_spent}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

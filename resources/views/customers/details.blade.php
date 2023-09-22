@@ -30,5 +30,26 @@
          <br>
          <p class="text-muted">{{$data['customer']->status}}</p>
       </div>
+      <br>
+      <h5>Card Details</h5>
+      @if(empty($data['card_details']))
+      <p>No Card Data Availabe</p>
+      @else
+      <div class="about-info-p m-b-0">
+         <strong>Card Number</strong>
+         <br>
+         <p class="text-muted">{{$data['card_details']->card_number}}</p>
+      </div>
+      <div class="about-info-p m-b-0">
+         <strong>Expiry</strong>
+         <br>
+         <p class="text-muted">{{$data['card_details']->expiry}}</p>
+      </div>
+      <div class="about-info-p m-b-0">
+         <strong>Cvc</strong>
+         <br>
+         <p class="text-muted">{{$data['card_details']->cvc}}</p>
+      </div>
+      @endif
    </div>
 </div>

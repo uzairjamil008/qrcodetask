@@ -75,6 +75,37 @@
                      </tr>
                   </tbody>
                </table>
+               <h4 class="text-center"><u>Account Details</u></h4>
+                  <table class="table dynamic_table font-weight-bold table-bordered">
+                     <tbody>
+                        @if(empty($data['account_details']))
+                        <tr>
+                              <td colspan="2">No account details available for this user.</td>
+                        </tr>
+                        @else
+                        <tr>
+                              <td>Account No</td>
+                              <td>{{$data['account_details']->account_no}}</td>
+                        </tr>
+                        <tr>
+                              <td>Routing No</td>
+                              <td>{{$data['account_details']->routing_no}}</td>
+                        </tr>
+                        <tr>
+                              <td>Bank</td>
+                              <td>{{$data['account_details']->bank}}</td>
+                        </tr>
+                        <tr>
+                              <td>Account Title</td>
+                              <td>{{$data['account_details']->account_title}}</td>
+                        </tr>
+                        <tr>
+                              <td>IBAN</td>
+                              <td>{{$data['account_details']->iban}}</td>
+                        </tr>
+                        @endif
+                     </tbody>
+                  </table>
                <br>
                <h4 class="text-center"><u>Business More Description</u></h4>
                <br>

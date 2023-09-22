@@ -149,7 +149,7 @@ input[type=number] {
 
                             <ul>
 
-                                <li class="social-icon"><a href="https://www.facebook.com/maxhypechannel"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                <li class="social-icon"><a href="https://www.facebook.com/people/Themaxhyped-Ent/61551836151376/"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
 
                                 <li class="social-icon"><a href="https://www.instagram.com/themaxhyped/?igshid=NTc4MTIwNjQ2YQ%3D%3D"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
 

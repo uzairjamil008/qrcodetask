@@ -82,7 +82,7 @@
 
                                 <ul>
 
-                                    <li class="social-icon"><a href="https://www.facebook.com/maxhypechannel"><i
+                                    <li class="social-icon"><a href="https://www.facebook.com/people/Themaxhyped-Ent/61551836151376/"><i
                                                 class="fa fa-facebook" aria-hidden="true"></i></a></li>
 
                                     <li class="social-icon"><a

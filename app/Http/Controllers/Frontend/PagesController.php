@@ -3,9 +3,11 @@ namespace App\Http\Controllers\Frontend;
 
 use App;
 use App\Http\Controllers\Controller;
+use App\Models\CustomerAccount\CustomerAccount;
 use App\Models\Locations\Cities;
 use App\Models\Locations\Countries;
 use App\Models\Product\Product;
+use App\Models\ReceivingAccount\ReceivingAccount;
 use App\Models\Reservations\Reservation;
 use App\Models\User;
 use App\Models\Video;
@@ -72,6 +74,7 @@ class PagesController extends Controller
         // $data['products']=view('frontend.dashboard.partial.products', compact('data'))->render();
         $data['type'] = $type;
         $data['business'] = User::where('role_id', 3)->get();
+        $data['account_details'] = ReceivingAccount::where('user_id', $id)->first();
 
         return view('frontend.dashboard.index', compact('data'));
     }
@@ -82,6 +85,7 @@ class PagesController extends Controller
         // dd($data['reservation']);
         $data['purchase'] = Reservation::where('customer_id', $id)->where('type', 'Purchase')->get();
         $data['country'] = Countries::get();
+        $data['card_details'] = CustomerAccount::where('user_id', $id)->first();
         // $data['business'] = User::where('role_id',3)->get();
         return view('frontend.dashboard.customer_dashboard', compact('data'));
     }

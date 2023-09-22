@@ -91,6 +91,8 @@
          <li class="tab "><a data-toggle="tab" href="#reservationtab">Reservation</a></li>
          &nbsp&nbsp&nbsp&nbsp
          <li class="tab"><a data-toggle="tab" href="#purchasetab">Purchase</a></li>
+         &nbsp&nbsp&nbsp&nbsp
+         <li class="tab"><a data-toggle="tab" href="#accounttab">Accounts Details</a></li>
 
       </ul>
      <div class="tab-content">
@@ -125,6 +127,59 @@
         </div>
         <div id="purchasetab" class="tab-pane fade">
         @include('frontend.dashboard.partial.purchase')
+        </div>
+        <div id="accounttab" class="tab-pane fade">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-xs-12 traffic">
+            <div class="dashboard-list-box">
+              <h4 class="gray mb-2">Account Details</h4>
+                <form id="receivingAccounts" method="post">
+                  @csrf
+                  <div class="card mr-5">
+                    <div class="card-body">
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group m-form__group">
+                              <label>Account Numner</label>
+                                <input type="text" name="account_no" class="form-control" value="{{(isset($data['account_details']->account_no) ? $data['account_details']->account_no : '')}}" required>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                          <div class="form-group m-form__group">
+                          <label>Routing Number</label>
+                          <input type="text" name="routing_no" class="form-control" value="{{(isset($data['account_details']->routing_no) ? $data['account_details']->routing_no : '')}}" required>
+                          </div>
+                          </div>
+                          <div class="col-md-6">
+                          <div class="form-group m-form__group">
+                          <label>Bank</label>
+                          <input type="text" name="bank" class="form-control" value="{{(isset($data['account_details']->bank) ? $data['account_details']->bank : '')}}" required>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group m-form__group">
+                          <label>Account Title</label>
+                          <input type="text" name="account_title" value="{{(isset($data['account_details']->account_title) ? $data['account_details']->account_title : '')}}" class="form-control" required>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group m-form__group">
+                          <label>IBAN</label>
+                          <input type="text" name="iban" class="form-control" value="{{(isset($data['account_details']->iban) ? $data['account_details']->iban : '')}}" required>
+                        </div>
+                        </div>
+                        <div class="ml-4" style="margin-top: 40px;">
+                        <button type="submit" class="btn-blue btn-red mb-1 mb-sm-0 mr-0 mr-sm-1">Save Changes</button>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </form>
+                        </div>
+                        </div>
+                </div>
         </div>
     </div>
    </div>
@@ -248,6 +303,23 @@ $(".tab").click(function () {
          $('.info-edit').addClass("d-none");
          $('.info-table').removeClass("d-none");
     });
+    $(document).ready(function() {
+    $('#receivingAccounts').submit(function(e) {
+        e.preventDefault();
+        var data = $(this).serialize();
+        $.ajax({
+            method: 'POST',
+            url: "{{ url('/receiving_account') }}",
+            data: data,
+            success: function(response) {
+                Swal.fire(response.message);
+            },
+            error: function(response) {
+                Swal.fire(response.responseJSON.message);
+            }
+        });
+    });
+});
    //Ajax Call for Edit the Business info
    $(document).on('click','.save-info',function(e){
       e.preventDefault();

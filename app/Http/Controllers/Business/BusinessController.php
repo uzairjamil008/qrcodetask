@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Bookings\Booking;
 use App\Models\Locations\Countries;
 use App\Models\Product\Product;
+use App\Models\ReceivingAccount\ReceivingAccount;
 use App\Models\Reservations\Reservation;
 use App\Models\User;
 use App\Models\Video;
@@ -189,7 +190,7 @@ class BusinessController extends Controller
 
         $data['products'] = Product::where('business_id', $id)->get();
 
-        // dd($data['products']);
+        $data['account_details'] = ReceivingAccount::where('user_id', $id)->first();
 
         return view('business.details', compact('data'));
 

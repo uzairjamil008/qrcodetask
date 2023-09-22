@@ -56,6 +56,14 @@
                         <td>Return Date Time</td>
                         <td>{{$data['results']->return_date_time}}</td>
                      </tr>
+                     <tr>
+                        <td>Explain why customer did not stay or left without purchasing:</td>
+                        <td>{{$data['results']->business_remarks}}</td>
+                     </tr>
+                     <tr>
+                        <td>How much customer spent:</td>
+                        <td>{{$data['results']->customer_spent}}</td>
+                     </tr>
                   </tbody>
                </table>
             </div>

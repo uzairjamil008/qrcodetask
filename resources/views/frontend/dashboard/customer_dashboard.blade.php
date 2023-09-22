@@ -41,6 +41,7 @@
                         &nbsp&nbsp&nbsp&nbsp
                         <li class="tab"><a data-toggle="tab" href="#menu4">Change Password</a></li>
                         &nbsp&nbsp&nbsp&nbsp
+                        <li class="tab"><a data-toggle="tab" href="#menu5">Credit Card Details</a></li>
                     </ul>
                     <div class="tab-content">
                         <div id="home" class="tab-pane active">
@@ -254,6 +255,52 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="menu5" class="tab-pane fade">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-xs-12 traffic">
+                                    <div class="dashboard-list-box">
+                                        <h4 class="gray mb-2">Credit Card Details</h4>
+                                        <form id="cutomerPayments" method="post">
+                                            @csrf
+                                            <div class="card mr-5">
+                                                <div class="card-body">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group m-form__group">
+                                                                    <label>Card Numner</label>
+                                                                    <input type="text" name="card_number"
+                                                                        class="form-control" value="{{(isset($data['card_details']->card_number) ? $data['card_details']->card_number : '')}}" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group m-form__group">
+                                                                    <label>Expiry</label>
+                                                                    <input type="text" name="expiry" id="expiry-input"
+                                                                        class="form-control" placeholder="MM/YY" value="{{(isset($data['card_details']->expiry) ? $data['card_details']->expiry : '')}}" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group m-form__group">
+                                                                    <label>Cvc</label>
+                                                                    <input type="number" maxlength="5" name="cvc"
+                                                                        class="form-control" value="{{(isset($data['card_details']->cvc) ? $data['card_details']->cvc : '')}}" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="ml-4" style="margin-top: 40px;">
+                                                                <button type="submit"
+                                                                    class="btn-blue btn-red mb-1 mb-sm-0 mr-0 mr-sm-1">Save
+                                                                    Changes</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -266,6 +313,14 @@
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+   const expiryInput = document.getElementById('expiry-input');
+    expiryInput.addEventListener('input', function () {
+    let cleanedValue = this.value.replace(/\D/g, '');
+    if (cleanedValue.length >= 2) {
+        cleanedValue = cleanedValue.substring(0, 2) + '/' + cleanedValue.substring(2);
+    }
+    this.value = cleanedValue;
+});
     new DataTable('.custom-table');
     new DataTable('.custom-details-table');
     $(".tab").click(function() {
@@ -324,6 +379,23 @@ $(document).ready(function() {
                 Swal.fire(response.message);
                 $('#changeCutomerPassword')[0].reset();
 
+            },
+            error: function(response) {
+                Swal.fire(response.responseJSON.message);
+            }
+        });
+    });
+});
+$(document).ready(function() {
+    $('#cutomerPayments').submit(function(e) {
+        e.preventDefault();
+        var data = $(this).serialize();
+        $.ajax({
+            method: 'POST',
+            url: "{{ url('/customer_payment') }}",
+            data: data,
+            success: function(response) {
+                Swal.fire(response.message);
             },
             error: function(response) {
                 Swal.fire(response.responseJSON.message);

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Frontend\CustomerAccountController;
 use App\Http\Controllers\Frontend\PagesController;
+use App\Http\Controllers\Frontend\ReceivingAccountController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -208,6 +210,8 @@ Route::get('/apply_now/{id}', [App\Http\Controllers\Frontend\JobController::clas
 Route::post('/save_applicant', [App\Http\Controllers\Frontend\JobController::class, 'save_applicant']);
 Route::post('/uploadfile', [App\Http\Controllers\Frontend\JobController::class, 'uploadfile']);
 
+Route::post('receiving_account', [ReceivingAccountController::class, 'receivingAccounts']);
+
 //Frontend PagesController
 Route::get('/details/{type}/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'detail']);
 Route::get('/getcity/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'getcity']);
@@ -231,5 +235,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboards1/{id}/{type}', [App\Http\Controllers\Frontend\PagesController::class, 'affiliate_dashboard']);
     Route::get('/dashboards/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'customer_dashboard']);
     Route::post('change_customer_password', [PagesController::class, 'change_customer_password']);
+    Route::post('customer_payment', [CustomerAccountController::class, 'cutomerPayments']);
 });
 // Route::view('qrcode','qrcode');
