@@ -5,6 +5,7 @@
 <link href="{{asset('/frontend/css/icons.css')}}" rel="stylesheet" type="text/css">
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 
 @endsection
 @section('content')
@@ -61,6 +62,8 @@
          <li class="tab"><a data-toggle="tab" href="#menu3">Reservations</a></li>
          &nbsp&nbsp&nbsp&nbsp
          <li class="tab"><a data-toggle="tab" href="#menu4">Purchases</a></li>
+         &nbsp&nbsp&nbsp&nbsp
+         <li class="tab"><a data-toggle="tab" href="#menu5">Receiving Accounts Details</a></li>
       </ul>
      <div class="tab-content">
          <div id="home" class="tab-pane active">
@@ -358,7 +361,7 @@
                <div class="col-lg-12 col-md-12 col-xs-12 traffic">
                   <div class="dashboard-list-box">
                      <div class="table-box">
-                        <table class="basic-table table-hover table-responsive">
+                        <table class="basic-table table-hover custom-table">
                            <thead>
                               <tr role="row">
                                  <th>ID</th>
@@ -394,7 +397,7 @@
                <div class="col-lg-12 col-md-12 col-xs-12 traffic">
                   <div class="dashboard-list-box">
                      <div class="table-box">
-                        <table class="basic-table table-hover table-responsive">
+                        <table class="basic-table table-hover custom-table table-responsive">
                            <thead>
                               <tr role="row">
                                  <th>Sr No</th>
@@ -434,6 +437,69 @@
                   </div>
                </div>
             </div>
+         </div>
+         <div id="menu5" class="tab-pane fade">
+         <div class="row">
+          <div class="col-lg-12 col-md-12 col-xs-12 traffic">
+            <div class="dashboard-list-box">
+              <h4 class="gray mb-2">Receiving Account Details</h4>
+                <form id="receivingAccounts" method="post">
+                  @csrf
+                  <div class="card mr-5">
+                    <div class="card-body">
+                      <div class="col-md-12">
+                         <h5>Provide Banking info or Paypal Email to receive  payouts</h5>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group m-form__group">
+                              <label>Account Numner</label>
+                                <input type="text" name="account_no" class="form-control" value="{{(isset($data['account_details']->account_no) ? $data['account_details']->account_no : '')}}" required>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                          <div class="form-group m-form__group">
+                          <label>Routing Number</label>
+                          <input type="text" name="routing_no" class="form-control" value="{{(isset($data['account_details']->routing_no) ? $data['account_details']->routing_no : '')}}" required>
+                          </div>
+                          </div>
+                          <div class="col-md-6">
+                          <div class="form-group m-form__group">
+                          <label>Bank</label>
+                          <input type="text" name="bank" class="form-control" value="{{(isset($data['account_details']->bank) ? $data['account_details']->bank : '')}}" required>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group m-form__group">
+                          <label>Account Title</label>
+                          <input type="text" name="account_title" value="{{(isset($data['account_details']->account_title) ? $data['account_details']->account_title : '')}}" class="form-control" required>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group m-form__group">
+                          <label>IBAN</label>
+                          <input type="text" name="iban" class="form-control" value="{{(isset($data['account_details']->iban) ? $data['account_details']->iban : '')}}" required>
+                        </div>
+                        </div>
+
+                        </div>
+                        <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group m-form__group">
+                          <label>Paypal Email</label>
+                          <input type="text" name="email" class="form-control" value="{{(isset($data['account_details']->email) ? $data['account_details']->email : '')}}" required>
+                        </div>
+                        </div>
+                        <div class="ml-4" style="margin-top: 40px;">
+                        <button type="submit" class="btn-blue btn-red mb-1 mb-sm-0 mr-0 mr-sm-1">Save Changes</button>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </form>
+                        </div>
+                        </div>
+                </div>
          </div>
          </div>
       </div>
@@ -477,8 +543,10 @@
 <script src="{{asset('/frontend/js/dashboard-custom.js')}}"></script>
 <script src="{{asset('/frontend/js/dropzone.js')}}"></script>
 <script src="{{asset('/frontend/js/dropzonescript.js')}}"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">
+   new DataTable('.custom-table');
   //to add and remove d-none class
   $(".tab").click(function () {
     $(".tab").removeClass("active");
@@ -503,6 +571,23 @@
          $('.add-businesses').addClass("d-none");
          $('.business-table').removeClass("d-none");
     });
+    $(document).ready(function() {
+    $('#receivingAccounts').submit(function(e) {
+        e.preventDefault();
+        var data = $(this).serialize();
+        $.ajax({
+            method: 'POST',
+            url: "{{ url('/receiving_account') }}",
+            data: data,
+            success: function(response) {
+                Swal.fire(response.message);
+            },
+            error: function(response) {
+                Swal.fire(response.responseJSON.message);
+            }
+        });
+    });
+});
  $(document).ready(function() {
   //Ajax Call for Add Business
    $('#add_new_business').submit(function(e){

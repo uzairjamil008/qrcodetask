@@ -1,4 +1,4 @@
-@extends('frontend.layout.header') 
+@extends('frontend.layout.header')
 @section('content')
 <!-- Breadcrumb -->
 <section class="breadcrumb-outer text-center">

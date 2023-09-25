@@ -9,8 +9,9 @@ use App\Models\Memberships\Membership;
 use App\Models\Product\Product;
 use App\Models\Slider\Slider;
 use App\Models\User;
-use DB;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -22,19 +23,18 @@ class HomeController extends Controller
         $data['slider'] = Slider::get()->take(8);
 
         $data['affiliates'] = User::where('role_id', 4)->get();
-
         return view('frontend.home.index', compact('data'));
     }
     public function get_product()
     {
-        $data['product'] = Product::get();
+        $data['product'] = Product::whereDate('expiry_date', '>', Carbon::now())->orWhereNull('expiry_date')->get();
         $modal = view('frontend.home.product', compact('data'))->render();
         $response = array('response' => $modal);
         return json_encode($response);
     }
     public function get_home_section()
     {
-        $data['business'] = User::where('role_id', 3)->take(6)->get();
+        $data['business'] = User::where('role_id', 3)->where('hide_listing', '!=', 1)->take(6)->get();
         $data['countries'] = DB::table('users')->join('location_countries', 'users.country', '=', 'location_countries.id')->groupBy('location_countries.id')->get();
         $modal = view('frontend.home.destinations', compact('data'))->render();
         $response = array('response' => $modal);

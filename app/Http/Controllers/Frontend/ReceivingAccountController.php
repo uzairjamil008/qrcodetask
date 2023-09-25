@@ -22,6 +22,7 @@ class ReceivingAccountController extends Controller
                 'bank' => $request->bank,
                 'account_title' => $request->account_title,
                 'iban' => $request->iban,
+                'email' => $request->email,
             ]
         );
         $response = array('message' => 'Account Details Saved Successfully');

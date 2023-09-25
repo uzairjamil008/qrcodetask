@@ -21,6 +21,7 @@ class CreateReceivingAccountsTable extends Migration
             $table->string('bank')->nullable();
             $table->string('account_title')->nullable();
             $table->string('iban')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }

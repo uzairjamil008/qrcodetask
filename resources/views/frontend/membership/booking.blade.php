@@ -316,7 +316,7 @@ input[type=number] {
                         <div class="sidebar-helpline-content">
                             <h3>Any Questions?</h3>
                             <p>If you have any queries then email us</p>
-                            <p><i class="flaticon-mail"></i>info@themaxhype.com</p>
+                            <p><i class="flaticon-mail"></i>Info@themaxhyped.com</p>
                             <p>We only respond to questions Concerning Memberships. . Please contact the Business Owners directly for any Inquiries or Questions about their Products and Services.</p>
                         </div>
                     </div>

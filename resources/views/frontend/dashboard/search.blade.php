@@ -19,6 +19,14 @@
                </ul>
               </div>
               <div class="col-md-4 text-center">
+               <h4 class="all-country-head mb-2">Cities</h4>
+               <ul>
+                @foreach($data['cities'] as $key=>$value)
+                  <a href="{{url('business_city_detail/'.$value->id)}}"><li class="all-country-name">{{$value->location_city_name}}</li></a>
+                @endforeach
+               </ul>
+              </div>
+              <div class="col-md-4 text-center">
               <h4 class="all-tickets-head mb-2">TICKETS NUMBER</h4>
                 <ul>
                   @foreach($data['tickets'] as $key=>$value)

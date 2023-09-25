@@ -76,6 +76,7 @@
                                             <td>Return Date Time</td>
                                             <td>{{$data->return_date_time}}</td>
                                         </tr>
+                                        @if(auth()->user()->role_id != 5)
                                         <tr>
                                             <td>Explain why customer did not stay or left without purchasing:</td>
                                             <td>{{$data->business_remarks}}</td>
@@ -84,6 +85,7 @@
                                             <td>How much customer spent:</td>
                                             <td>{{$data->customer_spent}}</td>
                                         </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -150,6 +152,7 @@
                                             <td>Total Tickets</td>
                                             <td>{{$data->total_tickets}}</td>
                                         </tr>
+                                        @if(auth()->user()->role_id != 5)
                                         <tr>
                                             <td>Explain why customer did not stay or left without purchasing:</td>
                                             <td>{{$data->business_remarks}}</td>
@@ -158,6 +161,7 @@
                                             <td>How much customer spent:</td>
                                             <td>{{$data->customer_spent}}</td>
                                         </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

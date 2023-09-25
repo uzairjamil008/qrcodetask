@@ -141,7 +141,7 @@
 
                                 @foreach($membership as $key=>$value)
 
-                                <li><a href="{{url('/bookings/'.$value->id)}}">{{$value->title}}</a></li>
+                                <li style="text-wrap: balance;"><a href="{{url('/bookings/'.$value->id)}}">{{$value->title}}</a></li>
 
                                 @endforeach
 

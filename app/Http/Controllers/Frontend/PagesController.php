@@ -105,6 +105,7 @@ class PagesController extends Controller
         $data['type'] = $type;
         $data['reservation'] = Reservation::where('business_id', $business_id)->where('type', 'Reservation')->with('user')->get();
         $data['purchase'] = Reservation::where('business_id', $business_id)->where('type', 'Purchase')->with('user')->get();
+        $data['account_details'] = ReceivingAccount::where('user_id', $id)->first();
         return view('frontend.dashboard.affiliate_dashborad', compact('data'));
     }
     public function reservationmodal($id, $type)

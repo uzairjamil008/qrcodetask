@@ -106,6 +106,7 @@ class BookingsController extends Controller
         $search = $_GET['search'];
         $data['business'] = User::where('role_id', 3)->where('first_name', 'LIKE', '%' . $search . '%')->get();
         $data['location'] = Countries::where('location_country_name', 'LIKE', '%' . $search . '%')->get();
+        $data['cities'] = Cities::where('location_city_name', 'LIKE', '%' . $search . '%')->get();
         $data['tickets'] = Reservation::where('order_number', 'LIKE', '%' . $search . '%')->get();
         $response = view('frontend.dashboard.search', compact('data'))->render();
         $response = array('response' => $response);
