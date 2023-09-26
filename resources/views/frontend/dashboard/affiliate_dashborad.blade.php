@@ -453,31 +453,31 @@
                           <div class="col-md-6">
                             <div class="form-group m-form__group">
                               <label>Account Numner</label>
-                                <input type="text" name="account_no" class="form-control" value="{{(isset($data['account_details']->account_no) ? $data['account_details']->account_no : '')}}" required>
+                                <input type="text" name="account_no" class="form-control" value="{{(isset($data['account_details']->account_no) ? $data['account_details']->account_no : '')}}">
                               </div>
                           </div>
                           <div class="col-md-6">
                           <div class="form-group m-form__group">
                           <label>Routing Number</label>
-                          <input type="text" name="routing_no" class="form-control" value="{{(isset($data['account_details']->routing_no) ? $data['account_details']->routing_no : '')}}" required>
+                          <input type="text" name="routing_no" class="form-control" value="{{(isset($data['account_details']->routing_no) ? $data['account_details']->routing_no : '')}}">
                           </div>
                           </div>
                           <div class="col-md-6">
                           <div class="form-group m-form__group">
                           <label>Bank</label>
-                          <input type="text" name="bank" class="form-control" value="{{(isset($data['account_details']->bank) ? $data['account_details']->bank : '')}}" required>
+                          <input type="text" name="bank" class="form-control" value="{{(isset($data['account_details']->bank) ? $data['account_details']->bank : '')}}">
                         </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group m-form__group">
                           <label>Account Title</label>
-                          <input type="text" name="account_title" value="{{(isset($data['account_details']->account_title) ? $data['account_details']->account_title : '')}}" class="form-control" required>
+                          <input type="text" name="account_title" value="{{(isset($data['account_details']->account_title) ? $data['account_details']->account_title : '')}}" class="form-control">
                         </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group m-form__group">
                           <label>IBAN</label>
-                          <input type="text" name="iban" class="form-control" value="{{(isset($data['account_details']->iban) ? $data['account_details']->iban : '')}}" required>
+                          <input type="text" name="iban" class="form-control" value="{{(isset($data['account_details']->iban) ? $data['account_details']->iban : '')}}">
                         </div>
                         </div>
 
@@ -486,7 +486,7 @@
                         <div class="col-md-6">
                           <div class="form-group m-form__group">
                           <label>Paypal Email</label>
-                          <input type="text" name="email" class="form-control" value="{{(isset($data['account_details']->email) ? $data['account_details']->email : '')}}" required>
+                          <input type="text" name="email" class="form-control" value="{{(isset($data['account_details']->email) ? $data['account_details']->email : '')}}">
                         </div>
                         </div>
                         <div class="ml-4" style="margin-top: 40px;">
