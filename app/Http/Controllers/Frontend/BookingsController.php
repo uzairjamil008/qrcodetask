@@ -159,6 +159,7 @@ class BookingsController extends Controller
             'status' => $request->status,
             'business_remarks' => $request->business_remarks,
             'customer_spent' => $request->customer_spent,
+            'admin_notes' => $request->admin_notes,
         ];
         Reservation::where('id', $request->business_reservation_id)->update($data);
         return redirect()->back();

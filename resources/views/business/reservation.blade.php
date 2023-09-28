@@ -24,6 +24,7 @@
                         <th>Return Date Time</th>
                         <th>Remarks</th>
                         <th>Number Of People</th>
+                        <th>Remarks</th>
                         <th>Action</th>
                      </tr>
                   </thead>
@@ -37,6 +38,7 @@
                         <td>{{$value->return_date_time}}</td>
                         <td>{{Str::words(strip_tags($value->remarks), 20)}}</td>
                         <td>{{$value->people}}</td>
+                        <td>{{$value->admin_notes}}</td>
                         <td>
                         <div class="dropdown">
                         <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
@@ -46,6 +48,10 @@
                         <a class="dropdown-item" href="{{url('admin/reservation_details/'.$value->id )}}">
                         <i data-feather="file-text" class="mr-50"></i>
                         <span>Detail</span>
+                        </a>
+                        <a class="dropdown-item remarksbtn" href="javascript:void(0)" data-id="{{$value->id}}">
+                        <i data-feather="file-text" class="mr-50"></i>
+                        <span>Remarks</span>
                         </a>
                         </div>
                         </div>
@@ -59,6 +65,33 @@
       </div>
    </div>
 </section>
+<!-- Modal -->
+<div class="modal fade" id="myreservationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Save</h3>
+        <button type="button" class="close" id="close-modal" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{{url('save_data')}}" method="post">
+          @csrf
+          <input name="business_reservation_id" type='hidden'>
+          <div class="form-group">
+            <label for="remarks">Remarks:</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" name="admin_notes" rows="3"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 @include('includes.delete')
 @endsection
 @section('js')
@@ -70,6 +103,11 @@
    $('.business-request').addClass('sidebar-group-active');
    $('.reserve-business').addClass('active');
    $('.dynamic_table').DataTable();
+   $(document).on('click','.remarksbtn',function(){
+           var id = $(this).attr('data-id');
+           $('input[name=business_reservation_id]').val(id);
+           $('#myreservationModal').modal('show');
+           });
 </script>
 
 @endsection

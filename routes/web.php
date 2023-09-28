@@ -111,6 +111,7 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function () {
         Route::post('/saveAffiliate', [App\Http\Controllers\Affiliate\AffiliateController::class, 'saveAffiliate']);
         Route::get('/deleteAffiliate/{id}', [App\Http\Controllers\Affiliate\AffiliateController::class, 'deleteAffiliate']);
         Route::post('/upload_file', [App\Http\Controllers\Affiliate\AffiliateController::class, 'upload_file']);
+        Route::get('/affiliate_details/{id}', [App\Http\Controllers\Affiliate\AffiliateController::class, 'affiliatedetails']);
         //Slider
         Route::get('/slider', [App\Http\Controllers\Sliders\SliderController::class, 'slider']);
         Route::get('/sliders/{id?}', [App\Http\Controllers\Sliders\SliderController::class, 'sliders']);

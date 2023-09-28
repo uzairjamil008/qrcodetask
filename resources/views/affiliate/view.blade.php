@@ -81,6 +81,11 @@
 
                      <div class="dropdown-menu">
 
+                     <a class="dropdown-item" href="{{url('admin/affiliate_details/'.$value->id )}}">
+                        <i data-feather="file-text" class="mr-50"></i>
+                        <span>Detail</span>
+                     </a>
+
                      <a class="dropdown-item" href="{{url('admin/affiliates/'.$value->id )}}">
 
                      <i data-feather="edit-2" class="mr-50"></i>
