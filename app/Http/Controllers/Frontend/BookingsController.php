@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\CustomerAccount\CustomerAccount;
 use App\Models\Locations\Cities;
 use App\Models\Locations\Countries;
 use App\Models\Product\Product;
@@ -30,6 +31,7 @@ class BookingsController extends Controller
     }
     public function reservation($id, $type, $type2)
     {
+        $user = Auth::user();
         $data['business_type'] = $type2;
         $data['type'] = $type;
         $data['id'] = $id;
@@ -39,6 +41,7 @@ class BookingsController extends Controller
         $data['fee'] = $data['details']['fee'];
         $data['fee'] = str_replace("$", "", $data['fee']);
         $data['total_tickets'] = $data['details']->total_tickets;
+        $data['card_data'] = CustomerAccount::where('user_id', $user->id)->select('card_number', 'expiry', 'cvc')->first();
         // Fetch the is_return value from the product
         $is_return = $data['details']->is_return;
         // Add the is_return value to the $data array

@@ -8,11 +8,11 @@
                <p>Sell Tickets Or Create Bookings Online.</p>
                <p>Use The WorldWide Ticketing MarketPlace Channel For Intiutive Event Creations.</p>
                <p>Create,Sell and Promote Event Tickets Made So Easy.</p>
-      
+
                <p>V.I.P Entry to Any Locations WorldWide.</p>
                <p>Bottle Services Reservations.</p>
                <p>Create Tickets in 2 Minutes.</p>
-               
+
               <p> Make Reservations Online.</p>
                <p>Are you looking to keep details of every activity’s in your Events or Business?.</p>
                <p>How does  Affiliates or Business Owners Get Paid?<br>
@@ -27,7 +27,7 @@
             </div>
          </div>
          <div class="col-lg-7">
-             <img src="{{asset('/frontend/images')}}/maxhype.jpeg" alt="testimonial_094_02">
+             <img src="{{asset('/frontend/images')}}/image.png" alt="testimonial_094_02">
          </div>
       </div>
    </div>
