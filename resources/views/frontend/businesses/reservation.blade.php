@@ -186,24 +186,49 @@ for ($i = 1; $i <= 50; $i++) {
                                 <input type="text" id="net_amount" name="net_amount" class="form-control" readonly>
                             </div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="form-group col-md-6">
                               <label for="card-element">
                                Credit Card
                                </label>
                                <div id="card-element" class="form-control" style="height: 40px; line-height: 40px; font-weight: bold; font-size: 16px;">
+                              A Stripe Element will be inserted here.
+                                </div>
+                           Used to display form errors.
+                              <div id="card-errors" role="alert" class="red-color" style="margin-top: 5px;"></div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                              <label for="card-element">
+                               Card Number
+                               </label>
+                               <input type="text" name="card_number" class="form-control" value="{{(isset($data['card_data']->card_number) ? $data['card_data']->card_number : '')}}" required>
+                               <!-- <div id="card-element" class="form-control" style="height: 40px; line-height: 40px; font-weight: bold; font-size: 16px;"> -->
                               <!-- A Stripe Element will be inserted here. -->
+                                </div>
+                                <div class="form-group col-md-4">
+                              <label for="card-element">
+                               Expiry
+                               </label>
+                               <input type="text" name="expiry" placeholder="MM/YY" class="form-control" value="{{(isset($data['card_data']->expiry) ? $data['card_data']->expiry : '')}}" required>
+                                </div>
+                                <div class="form-group col-md-4">
+                              <label for="card-element">
+                               Cvc
+                               </label>
+                               <input type="text" name="cvc" placeholder="Enter digits back on your card" class="form-control" value="{{(isset($data['card_data']->cvc) ? $data['card_data']->cvc : '')}}" required>
                                 </div>
                            <!-- Used to display form errors. -->
                               <div id="card-errors" role="alert" class="red-color" style="margin-top: 5px;"></div>
                             </div>
-                        </div>
                         @endif
                         <div class="row">
                          <div class="col-xs-12">
                             <div class="comment-btn">
                                 @if($data['type']=='Purchase')
-                                <a href="#" class="btn-blue btn-red save-payintent1 save-payintent reverse btn-purchase">Submit</a>
+                                <!-- <button id="btn-reserve" class="btn-blue btn-red" type="submit">Submit</button> -->
+                                <a href="#" class="btn-blue btn-red save-payintent1 save-payintent reverse btn-purchase save-data">Submit</a>
                                 @else
                                 <button id="btn-reserve" class="btn-blue btn-red" type="submit">Submit</button>
                                 @endif
@@ -222,6 +247,42 @@ for ($i = 1; $i <= 50; $i++) {
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="{{asset('/frontend/js/bootstrap-timepicker.js')}}"></script>
 <script type="text/javascript">
+
+// validation for card number
+var cardNumberInput = document.querySelector('input[name=card_number]');
+cardNumberInput.addEventListener('input', function (e) {
+    var cardNumber = e.target.value.replace(/\D/g, '');
+    if (cardNumber.length > 16) {
+        cardNumber = cardNumber.slice(0, 16);
+    }
+    e.target.value = cardNumber;
+});
+
+// validation of cvc
+var cvcInput = document.querySelector('input[name=cvc]');
+cvcInput.addEventListener('input', function (e) {
+    var cvc = e.target.value.replace(/\D/g, '');
+    if (cvc.length > 4) {
+        cvc = cvc.slice(0, 4);
+    }
+    e.target.value = cvc;
+});
+
+// validation of expiry
+var expiryInput = document.querySelector('input[name=expiry]');
+expiryInput.addEventListener('input', function (e) {
+    var expiry = e.target.value.replace(/\D/g, '');
+    if (expiry.length >= 2) {
+        var month = expiry.substring(0, 2);
+        var year = expiry.substring(2, 4);
+        if (year.length > 2) {
+            year = year.substring(0, 2);
+        }
+
+        expiry = month + '/' + year;
+    }
+    e.target.value = expiry;
+});
 
 
 
@@ -288,22 +349,22 @@ $(document).ready(function() {
             iconColor: '#fa755a'
         }
     };
-    var card = elements.create('card', {style: style});
-    card.mount('#card-element');
-    var form = document.getElementById('reserve-form');
-    form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    stripe.createToken(card).then(function(result) {
-    if (result.error) {
-      // Inform the customer that there was an error.
-      var errorElement = document.getElementById('card-errors');
-      errorElement.textContent = result.error.message;
-    } else {
-      // Send the token to your server.
-      //stripeTokenHandler(result.token);
-    }
-  });
-});
+//     var card = elements.create('card', {style: style});
+//     card.mount('#card-element');
+//     var form = document.getElementById('reserve-form');
+//     form.addEventListener('submit', function(event) {
+//     event.preventDefault();
+//     stripe.createToken(card).then(function(result) {
+//     if (result.error) {
+//       // Inform the customer that there was an error.
+//       var errorElement = document.getElementById('card-errors');
+//       errorElement.textContent = result.error.message;
+//     } else {
+//       // Send the token to your server.
+//       //stripeTokenHandler(result.token);
+//     }
+//   });
+// });
 $(document).on('click','.save-payintent',function(e){
     e.preventDefault();
     var tickets = $('select[name=total_tickets]').val();
@@ -312,34 +373,54 @@ $(document).on('click','.save-payintent',function(e){
         return false;
     }
 
-    stripe.createToken(card).then(function(result) {
-    if (result.error) {
-      var errorElement = document.getElementById('card-errors');
-      errorElement.textContent = result.error.message;
-      return false;
-    } else {
-        createPaymentIntent();
-    }
-  });
+//     stripe.createToken(card).then(function(result) {
+//     if (result.error) {
+//       var errorElement = document.getElementById('card-errors');
+//       errorElement.textContent = result.error.message;
+//       return false;
+//     } else {
+//         createPaymentIntent();
+//     }
+//   });
 
 });
 
-       function createPaymentIntent(){
-        var token = $('input[name=_token]').val();
-        $(".save-payintent").attr("disabled", true).html('Processing...');
-        var formdata=$('.formdata').serialize();
-         $.ajax(
+    //    function createPaymentIntent(){
+    //     var token = $('input[name=_token]').val();
+    //     $(".save-payintent").attr("disabled", true).html('Processing...');
+    //     var formdata=$('.formdata').serialize();
+    //      $.ajax(
+    //           {
+    //             type:"post",
+    //             headers: {'X-CSRF-TOKEN': token},
+    //             url: "{{url('/paymentintent')}}",
+    //             data:formdata,
+    //             success:function(data)
+    //             {
+    //              handlepayment(data);
+    //             }
+    //         });
+    //    }
+    $(document).on('click', '.save-data', function(e) {
+           var token = $('input[name=_token]').val();
+      var formdata=$('#reserve-form').serialize();
+       $.ajax(
               {
                 type:"post",
                 headers: {'X-CSRF-TOKEN': token},
-                url: "{{url('/paymentintent')}}",
+                url: "{{url('/save_reservation')}}",
+                dataType:"json",
                 data:formdata,
                 success:function(data)
                 {
-                 handlepayment(data);
+                 Swal.fire('Great ! You have successfully Purchased.Please check your email for the details.')
+                 $(".save-payintent").attr("disabled", false).html('Submit');
+                 $('#reserve-form')[0].reset();
                 }
             });
-       }
+
+    });
+
  function handlepayment(clientSecret){
       console.log(clientSecret);
       var first_name=$('input[name=first_name]').val();

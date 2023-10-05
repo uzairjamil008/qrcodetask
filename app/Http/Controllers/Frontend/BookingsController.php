@@ -9,6 +9,7 @@ use App\Models\Product\Product;
 use App\Models\Reservations\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use QrCode;
@@ -65,6 +66,17 @@ class BookingsController extends Controller
             $data['return_date_time'] = date('Y-m-d H:i:s', strtotime($request->return_date_time));
         }
         $data['qr_code'] = QrCode::size(100)->generate(json_encode($data));
+        if ($request->type == 'Purchase') {
+            $response = $this->make_payment($request);
+            if (!$response['success']) {
+                return json_encode($response);
+            }
+        }
+        if (isset($data['card_number'])) {
+            unset($data['card_number']);
+            unset($data['expiry']);
+            unset($data['cvc']);
+        }
         $affected_rows = Reservation::create($data);
         $data['business'] = User::where('id', $request->business_id)->first();
         $data['business_address'] = $data['business']->address;
@@ -84,6 +96,38 @@ class BookingsController extends Controller
         sendEmail($to_email, $ccemail, 'Welcome to Maxhype', 'frontend.emails.mail', $data);
         $response = array('response' => $affected_rows);
         return json_encode($response);
+    }
+
+    public function make_payment($request)
+    {
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        try {
+            $expiry = explode('/', $request->expiry);
+            $month = $expiry[0];
+            $year = '20' . $expiry[1];
+            $token_obj = $stripe->tokens->create([
+                'card' => [
+                    'number' => $request->card_number,
+                    'exp_month' => $month,
+                    'exp_year' => $year,
+                    'cvc' => $request->cvc,
+                ],
+            ]);
+
+            $stripe->charges->create([
+                'amount' => $request->net_amount * 100,
+                'currency' => 'usd',
+                'source' => $token_obj->id,
+                'description' => $request->title . ' Purchase',
+            ]);
+            return array('success' => true, 'message' => 'Payment done');
+
+        } catch (\Stripe\Exception\CardException $e) {
+            return array('success' => false, 'message' => $e->getError()->message);
+        } catch (Exception $e) {
+            return array('success' => false, 'message' => 'Error from stripe');
+        }
+
     }
     public function paymentintent(Request $request)
     {

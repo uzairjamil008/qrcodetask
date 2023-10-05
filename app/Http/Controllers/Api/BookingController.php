@@ -15,7 +15,7 @@ class BookingController extends Controller
 {
     public function businesses($columnval, $column)
     {
-        $data['results'] = User::where($column, $columnval)->get();
+        $data['results'] = User::where($column, $columnval)->where('hide_listing', '!=', 1)->get();
 
         foreach ($data['results'] as $key => $value) {
             $value->country = isset($value->countries->location_country_name) ? $value->countries->location_country_name : '';
