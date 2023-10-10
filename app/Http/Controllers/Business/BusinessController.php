@@ -70,6 +70,10 @@ class BusinessController extends Controller
             $data['hide_listing'] = 0;
         }
 
+        if (!isset($data['top_business'])) {
+            $data['top_business'] = 0;
+        }
+
         if (!empty($data['password'])) {
 
             $data['password'] = Hash::make($data['password']);

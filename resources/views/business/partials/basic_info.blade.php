@@ -140,6 +140,10 @@ for ($i = 1; $i <= 100; $i++) {
                      <input style="margin-top: 25px;" {{(isset($data['results']->id) ? $data['results']->hide_listing==1 ? 'checked' : '' : '')}} type="checkbox" name="hide_listing" value="1">
                      <label for="vehicle1">Hide Listing</label>
                   </div>
+                  <div class="form-group m-form__group">
+                     <input {{(isset($data['results']->id) ? $data['results']->top_business==1 ? 'checked' : '' : '')}} type="checkbox" name="top_business" value="1">
+                     <label for="vehicle1">Top Business</label>
+                  </div>
                </div>
                 <div class="col-md-4">
                   <div class="form-group m-form__group">

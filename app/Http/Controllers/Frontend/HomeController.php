@@ -34,7 +34,7 @@ class HomeController extends Controller
     }
     public function get_home_section()
     {
-        $data['business'] = User::where('role_id', 3)->where('hide_listing', '!=', 1)->take(6)->get();
+        $data['business'] = User::where('role_id', 3)->where('hide_listing', '!=', 1)->where('top_business', '=', 1)->take(6)->get();
         $data['countries'] = DB::table('users')->join('location_countries', 'users.country', '=', 'location_countries.id')->groupBy('location_countries.id')->get();
         $modal = view('frontend.home.destinations', compact('data'))->render();
         $response = array('response' => $modal);
