@@ -48,7 +48,8 @@ class HomeController extends Controller
 
     public function types()
     {
-        $data['businesstypes'] = ['Bar & Stores', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Medical Marijuana & CBD', 'Adventures', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Hotels', 'Clubs'];
+        $data['businesstypes'] = ['Bar & Stores', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Adventures', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Hotels', 'Clubs'];
+        // $data['businesstypes'] = ['Bar & Stores', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Medical Marijuana & CBD', 'Adventures', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Hotels', 'Clubs'];
         $response = array('status' => 1, 'types' => $data['businesstypes']);
         return json_encode($response);
     }
