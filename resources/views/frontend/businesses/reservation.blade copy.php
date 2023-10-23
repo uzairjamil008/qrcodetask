@@ -226,7 +226,12 @@ for ($i = 1; $i <= 50; $i++) {
                         <div class="row">
                          <div class="col-xs-12">
                             <div class="comment-btn">
+                                @if($data['type']=='Purchase')
+                                <!-- <button id="btn-reserve" class="btn-blue btn-red" type="submit">Submit</button> -->
+                                <a href="#" class="btn-blue btn-red save-payintent1 save-payintent reverse btn-purchase save-data">Submit</a>
+                                @else
                                 <button id="btn-reserve" class="btn-blue btn-red" type="submit">Submit</button>
+                                @endif
                             </div>
                          </div>
                        </div>
@@ -324,19 +329,155 @@ $(document).ready(function() {
         alert('Select tickets first before applying discount');
         return false;
        }
+
+
             var totelamount = $('#total_price').val();
             applyDiscount(totelamount);
     });
 
+    var stripe = Stripe('{{env("STRIPE_KEY")}}');
+    var elements = stripe.elements();
+    var style = {
+        base: {
+            color: '#32325d',
+            lineHeight: '18px',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
+            }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    };
+//     var card = elements.create('card', {style: style});
+//     card.mount('#card-element');
+//     var form = document.getElementById('reserve-form');
+//     form.addEventListener('submit', function(event) {
+//     event.preventDefault();
+//     stripe.createToken(card).then(function(result) {
+//     if (result.error) {
+//       // Inform the customer that there was an error.
+//       var errorElement = document.getElementById('card-errors');
+//       errorElement.textContent = result.error.message;
+//     } else {
+//       // Send the token to your server.
+//       //stripeTokenHandler(result.token);
+//     }
+//   });
+// });
+$(document).on('click','.save-payintent',function(e){
+    e.preventDefault();
+    var tickets = $('select[name=total_tickets]').val();
+    if(tickets==''){
+        alert('Please select the total tickets.');
+        return false;
+    }
+
+//     stripe.createToken(card).then(function(result) {
+//     if (result.error) {
+//       var errorElement = document.getElementById('card-errors');
+//       errorElement.textContent = result.error.message;
+//       return false;
+//     } else {
+//         createPaymentIntent();
+//     }
+//   });
+
+});
+
+    //    function createPaymentIntent(){
+    //     var token = $('input[name=_token]').val();
+    //     $(".save-payintent").attr("disabled", true).html('Processing...');
+    //     var formdata=$('.formdata').serialize();
+    //      $.ajax(
+    //           {
+    //             type:"post",
+    //             headers: {'X-CSRF-TOKEN': token},
+    //             url: "{{url('/paymentintent')}}",
+    //             data:formdata,
+    //             success:function(data)
+    //             {
+    //              handlepayment(data);
+    //             }
+    //         });
+    //    }
+    $(document).on('click', '.save-data', function(e) {
+           var token = $('input[name=_token]').val();
+      var formdata=$('#reserve-form').serialize();
+       $.ajax(
+              {
+                type:"post",
+                headers: {'X-CSRF-TOKEN': token},
+                url: "{{url('/save_reservation')}}",
+                dataType:"json",
+                data:formdata,
+                success:function(data)
+                {
+                 Swal.fire('Great ! You have successfully Purchased.Please check your email for the details.')
+                 $(".save-payintent").attr("disabled", false).html('Submit');
+                 $('#reserve-form')[0].reset();
+                }
+            });
+
+    });
+
+ function handlepayment(clientSecret){
+      console.log(clientSecret);
+      var first_name=$('input[name=first_name]').val();
+      var last_name=$('input[name=last_name]').val();
+        let customer =first_name+' '+last_name;
+      stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+      card: card,
+      billing_details: {
+        name: customer,
+        email: $('input[name=email]').val()
+      }
+    },
+    setup_future_usage: 'off_session'
+  }).then(function(result) {
+    if (result.error) {
+      alert(result.error.message);
+      $('#card-errors').html(result.error.message);
+      $('.pay').prop('disabled',false);
+      $(".save-payintent").attr("disabled", false).html('Submit');
+      return false;
+    } else {
+      if(result.paymentIntent.status === 'succeeded') {
+      // window.location.href='{{ url('/thanks') }}';
+      // $('#reserve-form').submit();
+      var token = $('input[name=_token]').val();
+      var formdata=$('#reserve-form').serialize();
+       $.ajax(
+              {
+                type:"post",
+                headers: {'X-CSRF-TOKEN': token},
+                url: "{{url('/save_reservation')}}",
+                dataType:"json",
+                data:formdata,
+                success:function(data)
+                {
+                 Swal.fire('Great ! You have successfully Purchased.Please check your email for the details.')
+                 $(".save-payintent").attr("disabled", false).html('Submit');
+                 $('#reserve-form')[0].reset();
+                }
+            });
+      }
+    }
+  });
+}
 });
 $(document).ready(function() {
 $(document).on('submit','#reserve-form',function(e){
     e.preventDefault();
+    alert('ok')
     var token = $('input[name=_token]').val();
     var date = $('input[name=date]').val();
-    let type= $('input[name=type]').val();
-    @if($data['type']=='Reservation')
-    var return_date_time = $('input[name=return_date_time]').val();
+     var return_date_time = $('input[name=return_date_time]').val();
     var people = $('select[name=people]').val();
     if(date==''){
         alert('Please select the date.');
@@ -349,16 +490,6 @@ $(document).on('submit','#reserve-form',function(e){
         alert('Please select the number of people.');
         return false;
     }
-    @else
-    var tickets = $('select[name=total_tickets]').val();
-    if(tickets==''){
-        alert('Please select the total tickets.');
-        return false;
-    }
-    @endif
-
-
-
    $("#btn-reserve").attr("disabled", true).html('Processing...');
     var formdata=$('#reserve-form').serialize();
        $.ajax(
@@ -370,24 +501,12 @@ $(document).on('submit','#reserve-form',function(e){
                 data:formdata,
                 success:function(data)
                 {
-                    if(data.success){
-                        if(type=='Purchase'){
-                        Swal.fire('Great ! You have successfully Purchased.Please check your email for the details.')
-                    }else{
-                        Swal.fire('Great ! You have successfully Reserved.Please check your email for the details.')
-                    }
-
-                    $('#reserve-form')[0].reset();
-                     $("#btn-reserve").attr("disabled", false).html('Submit');
-                    }else{
-                        $("#btn-reserve").attr("disabled", false).html('Submit');
-                        Swal.fire(data.message);
-                    }
-
+                 Swal.fire('Great ! You have successfully Reserved.Please check your email for the details.')
+                 $('#reserve-form')[0].reset();
+                 $("#btn-reserve").attr("disabled", false).html('Submit');
                 }
             });
        });
-
 $('#timepicker').timepicker({
         showPeriod: true,
         onHourShow: OnHourShowCallback,
