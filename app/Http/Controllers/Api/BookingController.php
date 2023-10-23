@@ -15,6 +15,10 @@ class BookingController extends Controller
 {
     public function businesses($columnval, $column)
     {
+        if ($columnval == 'Luxury Cars' || $columnval == 'Race Tracks' || $columnval == 'ATVS' || $columnval == 'Jet Skis' || $columnval == 'Boat and Yatch') {
+            $columnval = 'Vehicles-ATV-Bikes-Boats-JetSkis';
+        }
+
         $data['results'] = User::where($column, $columnval)->where('hide_listing', '!=', 1)->get();
 
         foreach ($data['results'] as $key => $value) {
