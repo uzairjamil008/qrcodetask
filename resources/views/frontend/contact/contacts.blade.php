@@ -160,6 +160,7 @@ input[type=number] {
                                 <li class="social-icon"><a href="https://themaxhyped.com/"><i class="fa fa-google" aria-hidden="true"></i></a></li>
 
                             </ul>
+                            <p class="font-white mt-3">Address : 1460 BroadWay New York,NY 10036</p>
 
                         </div>
 

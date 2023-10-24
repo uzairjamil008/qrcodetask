@@ -1,33 +1,30 @@
 <?php
 namespace App\Http\Controllers\Api;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+
 use App;
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use App\Models\Contacts\Contact;
-use App\Models\Subscriptions\Subscription;
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\TestMail;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
+
 // use Illuminate\Support\Facades\Auth;
 class ContactController extends Controller
 {
-  public function savecontact(Request $request){
+    public function savecontact(Request $request)
+    {
         $data = $request->all();
         $action = "Added";
         $affected_rows = Contact::create($data);
-        $this->send_email($request->email,'Welcome to Maxhype','frontend.emails.contacts_email',$data);
-         $response = array('status'=>1,'response'=>json_encode($affected_rows));
+        $this->send_email($request->email, 'Welcome to Maxhype', 'frontend.emails.contacts_email', $data);
+        $response = array('status' => 1, 'response' => json_encode($affected_rows));
         return $response;
- }
- function send_email($email,$subject,$template,$data)
+    }
+
+    public function send_email($email, $subject, $template, $data)
     {
-      Mail::send($template, ['data'=>$data], function($message) use ($subject, $email) {
-              $message->to($email,$subject)->subject($subject);
-              $message->from(env('MAIL_FROM_ADDRESS'),$subject);
-         });
+        Mail::send($template, ['data' => $data], function ($message) use ($subject, $email) {
+            $message->to($email, $subject)->subject($subject);
+            $message->from(env('MAIL_FROM_ADDRESS'), $subject);
+        });
     }
 }
-?>

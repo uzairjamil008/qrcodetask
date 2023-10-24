@@ -100,7 +100,7 @@
                                                 aria-hidden="true"></i></a></li>
 
                                 </ul>
-
+                                <p class="font-white">Address : 1460 BroadWay New York,NY 10036</p>
                             </div>
 
                         </div>
