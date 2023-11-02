@@ -120,7 +120,7 @@
                         <div class="row">
                          <div class="form-group col-md-6">
                             <label>Special Notes</label>
-                            <input type="text" placeholder="Add your notes" name="remarks" class="form-control" required>
+                            <input type="text" placeholder="Add your notes" name="remarks" class="form-control">
                         </div>
                         @if($data['type']=='Reservation')
                            <div class="col-md-6">

@@ -8,6 +8,7 @@ use App\Models\Product\Product;
 use App\Models\Reservations\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use QrCode;
 
@@ -74,7 +75,7 @@ class BookingController extends Controller
         $response = array('status' => 1, 'reservation' => $data['reservation']);
         return json_encode($response);
     }
-    public function make_payment($request)
+    public function make_payment2($request)
     {
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         try {
@@ -100,7 +101,64 @@ class BookingController extends Controller
 
         } catch (\Stripe\Exception\CardException $e) {
             return array('success' => false, 'message' => $e->getError()->message);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            return array('success' => false, 'message' => 'Error from stripe');
+        }
+
+    }
+
+    public function make_payment($request)
+    {
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $user = Auth::user();
+
+        // $stripe_customer_id = $user->stripe_customer_id;
+        try {
+            $expiry = explode('/', $request->expiry);
+            $month = $expiry[0];
+            $year = '20' . $expiry[1];
+
+            $customer = $stripe->customers->create([
+                'email' => $user->email,
+                'name' => $user->first_name . ' ' . $user->last_name,
+                'description' => "customer info for Themaxhyped",
+                "source" => $request->stripe_token,
+            ]);
+            $stripe_customer_id = $customer->id;
+
+            $cardParams = [
+                'number' => $request->card_number,
+                'exp_month' => $month,
+                'exp_year' => $year,
+                'cvc' => $request->cvc,
+            ];
+
+            $paymentMethod = $stripe->paymentMethods->create([
+                'type' => 'card',
+                'card' => $cardParams,
+            ]);
+
+            $stripe->paymentMethods->attach(
+                $paymentMethod->id,
+                ['customer' => $stripe_customer_id]
+            );
+
+            $intent = $stripe->paymentIntents->create([
+                'amount' => $request->net_amount * 100,
+                'currency' => 'usd',
+                'confirm' => true,
+                // 'capture_method' => 'manual',
+                'customer' => $stripe_customer_id,
+                'payment_method' => $paymentMethod->id,
+                'statement_descriptor' => 'Themaxhyped',
+                'description' => $request->title . ' Purchase',
+            ]);
+
+            return array('success' => true, 'message' => 'Payment done', 'intent' => $intent);
+
+        } catch (\Stripe\Exception\CardException $e) {
+            return array('success' => false, 'message' => $e->getError()->message);
+        } catch (\Exception $e) {
             return array('success' => false, 'message' => 'Error from stripe');
         }
 
@@ -110,11 +168,13 @@ class BookingController extends Controller
     {
         $date = date('Y-m-d h:i');
         $time = date('h:i');
+        $stripe_intent_id = null;
         if ($request->type == 'Purchase') {
             $response = $this->make_payment($request);
             if (!$response['success']) {
                 return json_encode($response);
             }
+            $stripe_intent_id = $response['intent']->id;
         } else {
             if ($request->date) {
                 $date = date("Y-m-d h:i", strtotime($request->date));
@@ -143,6 +203,7 @@ class BookingController extends Controller
             'discount_percentage' => $request->type == 'Purchase' ? $request->discount_percentage : '',
             'net_amount' => $request->type == 'Purchase' ? $request->net_amount : '',
             'total_tickets' => $request->type == 'Purchase' ? $request->people : '',
+            'stripe_intent_id' => $stripe_intent_id,
         );
 
         if (!empty($request->check_out_date)) {

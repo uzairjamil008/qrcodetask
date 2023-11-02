@@ -52,6 +52,7 @@ class BookingsController extends Controller
 
     public function save_reservation(Request $request)
     {
+
         $data = $request->all();
         $random = hexdec(uniqid());
         $data['order_number'] = substr($random, 0, 8);
@@ -71,6 +72,7 @@ class BookingsController extends Controller
             if (!$response['success']) {
                 return json_encode($response);
             }
+            $data['stripe_intent_id'] = $response['intent']->id;
         }
         if (isset($data['card_number'])) {
             unset($data['card_number']);
@@ -99,7 +101,7 @@ class BookingsController extends Controller
         return json_encode($response);
     }
 
-    public function make_payment($request)
+    public function make_payment2($request)
     {
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
         try {
@@ -130,6 +132,68 @@ class BookingsController extends Controller
         }
 
     }
+
+    public function make_payment($request)
+    {
+        $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $user = Auth::user();
+
+        $stripe_customer_id = $user->stripe_customer_id;
+        try {
+            $expiry = explode('/', $request->expiry);
+            $month = $expiry[0];
+            $year = '20' . $expiry[1];
+            $customer = $stripe->customers->create([
+                'email' => $user->email,
+                'name' => $user->first_name . ' ' . $user->last_name,
+                'description' => "customer info for Themaxhyped",
+            ]);
+
+            $stripe_customer_id = $customer->id;
+            $user->update(['stripe_customer_id' => $stripe_customer_id]);
+            $cards = $stripe->customers->allPaymentMethods(
+                $stripe_customer_id,
+                ['type' => 'card']
+            );
+
+            $cardParams = [
+                'number' => $request->card_number,
+                'exp_month' => $month,
+                'exp_year' => $year,
+                'cvc' => $request->cvc,
+            ];
+
+            $paymentMethod = $stripe->paymentMethods->create([
+                'type' => 'card',
+                'card' => $cardParams,
+            ]);
+
+            $stripe->paymentMethods->attach(
+                $paymentMethod->id,
+                ['customer' => $stripe_customer_id]
+            );
+            $paymentMethod = $paymentMethod->id;
+
+            $intent = $stripe->paymentIntents->create([
+                'amount' => $request->net_amount * 100,
+                'currency' => 'usd',
+                'confirm' => true,
+                'customer' => $stripe_customer_id,
+                'payment_method' => $paymentMethod,
+                'statement_descriptor' => 'Themaxhyped',
+                'description' => $request->title . ' Purchase',
+            ]);
+
+            return array('success' => true, 'message' => 'Payment done', 'intent' => $intent);
+
+        } catch (\Stripe\Exception\CardException $e) {
+            return array('success' => false, 'message' => $e->getError()->message);
+        } catch (\Exception $e) {
+            return array('success' => false, 'message' => $e->getMessage());
+        }
+
+    }
+
     public function paymentintent(Request $request)
     {
         $business = User::where('id', $request->business_id)->first();
