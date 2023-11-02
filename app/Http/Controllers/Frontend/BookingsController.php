@@ -47,6 +47,11 @@ class BookingsController extends Controller
         $is_return = $data['details']->is_return;
         // Add the is_return value to the $data array
         $data['is_return'] = $is_return;
+        if ($type === 'Purchase') {
+            return view('frontend.businesses.purchase', compact('data'));
+        } else {
+            return view('frontend.businesses.reservation', compact('data'));
+        }
         return view('frontend.businesses.reservation', compact('data'));
     }
 
@@ -67,18 +72,18 @@ class BookingsController extends Controller
             $data['return_date_time'] = date('Y-m-d H:i:s', strtotime($request->return_date_time));
         }
         $data['qr_code'] = QrCode::size(100)->generate(json_encode($data));
-        if ($request->type == 'Purchase') {
-            $response = $this->make_payment($request);
-            if (!$response['success']) {
-                return json_encode($response);
-            }
-            $data['stripe_intent_id'] = $response['intent']->id;
-        }
-        if (isset($data['card_number'])) {
-            unset($data['card_number']);
-            unset($data['expiry']);
-            unset($data['cvc']);
-        }
+        // if ($request->type == 'Purchase') {
+        //     $response = $this->make_payment($request);
+        //     if (!$response['success']) {
+        //         return json_encode($response);
+        //     }
+        //     $data['stripe_intent_id'] = $response['intent']->id;
+        // }
+        // if (isset($data['card_number'])) {
+        //     unset($data['card_number']);
+        //     unset($data['expiry']);
+        //     unset($data['cvc']);
+        // }
         $affected_rows = Reservation::create($data);
         $data['business'] = User::where('id', $request->business_id)->first();
         $data['business_address'] = $data['business']->address;
