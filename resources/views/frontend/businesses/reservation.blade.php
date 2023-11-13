@@ -356,7 +356,7 @@ $(document).on('submit','#reserve-form',function(e){
         return false;
     }
     @endif
-
+    $createPaymentIntent();
 
 
    $("#btn-reserve").attr("disabled", true).html('Processing...');

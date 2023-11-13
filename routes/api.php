@@ -64,5 +64,6 @@ Route::get('/topcountries', [App\Http\Controllers\Api\HomeController::class, 'to
 Route::get('/topbusiness', [App\Http\Controllers\Api\HomeController::class, 'topbusiness']);
 
 Route::get('/types', [App\Http\Controllers\Api\HomeController::class, 'types']);
+Route::post('/payment_intent', [App\Http\Controllers\Api\BookingController::class, 'payment_intent']);
 
 //Maxhype

@@ -170,11 +170,11 @@ class BookingController extends Controller
         $time = date('h:i');
         $stripe_intent_id = null;
         if ($request->type == 'Purchase') {
-            $response = $this->make_payment($request);
-            if (!$response['success']) {
-                return json_encode($response);
-            }
-            $stripe_intent_id = $response['intent']->id;
+            // $response = $this->make_payment($request);
+            // if (!$response['success']) {
+            //     return json_encode($response);
+            // }
+            // $stripe_intent_id = $response['intent']->id;
         } else {
             if ($request->date) {
                 $date = date("Y-m-d h:i", strtotime($request->date));
@@ -203,7 +203,7 @@ class BookingController extends Controller
             'discount_percentage' => $request->type == 'Purchase' ? $request->discount_percentage : '',
             'net_amount' => $request->type == 'Purchase' ? $request->net_amount : '',
             'total_tickets' => $request->type == 'Purchase' ? $request->people : '',
-            'stripe_intent_id' => $stripe_intent_id,
+            'stripe_intent_id' => $request->stripe_intent_id ?? null,
         );
 
         if (!empty($request->check_out_date)) {
@@ -293,5 +293,31 @@ class BookingController extends Controller
         $data['cities'] = Cities::where('location_city_name', 'LIKE', '%' . $search . '%')->get();
         $data['tickets'] = Reservation::where('order_number', 'LIKE', '%' . $search . '%')->get();
         return response()->json($data);
+    }
+
+    public function payment_intent(Request $request)
+    {
+        try {
+            $business = User::where('id', $request->business_id)->first();
+            $user = User::where('id', $request->user_id)->first();
+
+            $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+            $amount = $request->net_amount;
+            $intent = $stripe->paymentIntents->create([
+                "amount" => $amount * 100,
+                "currency" => "USD",
+                'payment_method_types' => ['card'],
+                'metadata' => [
+                    'customer' => $user->first_name . ' ' . $user->last_name,
+                    'customer ID' => $user->id,
+                    'customer email' => $user->email,
+                    'business email' => $business->email,
+                ],
+            ]);
+            $response = array('success' => true, 'client_secret' => $intent->client_secret);
+        } catch (\Exception $e) {
+            $response = array('success' => false, 'message' => $e->getMessage());
+        }
+        return json_encode($response);
     }
 }
