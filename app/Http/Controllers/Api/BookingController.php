@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -7,6 +8,7 @@ use App\Models\Locations\Countries;
 use App\Models\Product\Product;
 use App\Models\Reservations\Reservation;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -32,14 +34,27 @@ class BookingController extends Controller
     public function business_details($id)
     {
         $data['details'] = User::where('id', $id)->first()->toArray();
-        $data['products'] = Product::where('business_id', $id)->get()->toArray();
-        // dd($data['products']);
+        // $data['products'] = Product::where('business_id', $id)->get()->toArray();
+        $products = Product::where('business_id', $id);
+
+        $data['products'] = $products
+            ->where(function ($query) use ($id) {
+                $query->orWhereNull('expiry_date');
+                $query->orwhereDate('expiry_date', '>', Carbon::now());
+            })->get()->toArray();
         $response = array('status' => 1, 'details' => $data['details'], 'products' => $data['products']);
         return json_encode($response);
     }
     public function products($id)
     {
-        $data['products'] = Product::where('business_id', $id)->get()->toArray();
+        // $data['products'] = Product::where('business_id', $id)->get()->toArray();
+        $products = Product::where('business_id', $id);
+
+        $data['products'] = $products
+            ->where(function ($query) use ($id) {
+                $query->orWhereNull('expiry_date');
+                $query->orwhereDate('expiry_date', '>', Carbon::now());
+            })->get()->toArray();
         $response = array('products' => $data['products']);
         return json_encode($response);
     }
@@ -98,13 +113,11 @@ class BookingController extends Controller
                 'description' => $request->title . ' Purchase',
             ]);
             return array('success' => true, 'message' => 'Payment done');
-
         } catch (\Stripe\Exception\CardException $e) {
             return array('success' => false, 'message' => $e->getError()->message);
         } catch (\Exception $e) {
             return array('success' => false, 'message' => 'Error from stripe');
         }
-
     }
 
     public function make_payment($request)
@@ -155,13 +168,11 @@ class BookingController extends Controller
             ]);
 
             return array('success' => true, 'message' => 'Payment done', 'intent' => $intent);
-
         } catch (\Stripe\Exception\CardException $e) {
             return array('success' => false, 'message' => $e->getError()->message);
         } catch (\Exception $e) {
             return array('success' => false, 'message' => 'Error from stripe');
         }
-
     }
 
     public function save_reservation(Request $request)
@@ -247,9 +258,7 @@ class BookingController extends Controller
             $message->to($to_email, $subject)->subject($subject)
                 ->bcc($ccemail, $subject)->subject($subject);
             $message->from(env('MAIL_FROM_ADDRESS'), $subject);
-
         });
-
     }
 
     public function discount(Request $request)

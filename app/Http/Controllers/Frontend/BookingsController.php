@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
@@ -27,7 +28,13 @@ class BookingsController extends Controller
         $data['businesses'] = User::where('role_id', 3)->get();
         $data['details'] = User::where('id', $id)->first();
         $data['type'] = $data['details']['feature'];
-        $data['products'] = Product::whereDate('expiry_date', '>', Carbon::now())->orWhereNull('expiry_date')->where('business_id', $id)->get();
+        $products = Product::where('business_id', $id);
+
+        $data['products'] = $products
+            ->where(function ($query) use ($id) {
+                $query->orWhereNull('expiry_date');
+                $query->orwhereDate('expiry_date', '>', Carbon::now());
+            })->get();
         return view('frontend.businesses.details', compact('data'));
     }
     public function reservation($id, $type, $type2)
@@ -129,13 +136,11 @@ class BookingsController extends Controller
                 'description' => $request->title . ' Purchase',
             ]);
             return array('success' => true, 'message' => 'Payment done');
-
         } catch (\Stripe\Exception\CardException $e) {
             return array('success' => false, 'message' => $e->getError()->message);
         } catch (Exception $e) {
             return array('success' => false, 'message' => 'Error from stripe');
         }
-
     }
 
     public function make_payment($request)
@@ -190,13 +195,11 @@ class BookingsController extends Controller
             ]);
 
             return array('success' => true, 'message' => 'Payment done', 'intent' => $intent);
-
         } catch (\Stripe\Exception\CardException $e) {
             return array('success' => false, 'message' => $e->getError()->message);
         } catch (\Exception $e) {
             return array('success' => false, 'message' => $e->getMessage());
         }
-
     }
 
     public function paymentintent(Request $request)
@@ -280,6 +283,5 @@ class BookingsController extends Controller
         ];
         Reservation::where('id', $request->business_reservation_id)->update($data);
         return redirect()->back();
-
     }
 }
