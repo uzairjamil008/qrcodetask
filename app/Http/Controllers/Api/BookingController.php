@@ -60,7 +60,7 @@ class BookingController extends Controller
     }
     public function productdetail($id)
     {
-        $data['product'] = Product::where('id', $id)->get()->toArray();
+        $data['product'] = Product::with('businesses')->where('id', $id)->get()->toArray();
         $response = array('product' => $data['product']);
         return json_encode($response);
     }
@@ -212,6 +212,7 @@ class BookingController extends Controller
             'discount_code' => $request->type == 'Purchase' ? $request->discount_code : '',
             'discount_amount' => $request->type == 'Purchase' ? $request->discount_amount : '',
             'discount_percentage' => $request->type == 'Purchase' ? $request->discount_percentage : '',
+            'total_price' => $request->type == 'Purchase' ? $request->total_price : '',
             'net_amount' => $request->type == 'Purchase' ? $request->net_amount : '',
             'total_tickets' => $request->type == 'Purchase' ? $request->people : '',
             'stripe_intent_id' => $request->stripe_intent_id ?? null,
