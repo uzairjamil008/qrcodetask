@@ -3,6 +3,7 @@
 use App\Http\Controllers\Frontend\CustomerAccountController;
 use App\Http\Controllers\Frontend\PagesController;
 use App\Http\Controllers\Frontend\ReceivingAccountController;
+use App\Http\Controllers\SiteContent\SiteContentsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +55,9 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function () {
         Route::get('video', [App\Http\Controllers\User\UserController::class, 'video'])->name('video');
         Route::get('videos/{id?}', [App\Http\Controllers\User\UserController::class, 'videos']);
         Route::post('/savevideo', [App\Http\Controllers\User\UserController::class, 'savevideo']);
+
+        Route::get('site_content', [SiteContentsController::class, 'siteContent']);
+        Route::post('save_site_content', [SiteContentsController::class, 'saveSiteContent']);
 
         //Settings
         Route::get('/settings', [App\Http\Controllers\Settings\SettingsController::class, 'settings']);
@@ -141,7 +145,7 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function () {
         Route::get('/countries/{id?}', [App\Http\Controllers\Location\LocationController::class, 'countries']);
         Route::post('/savecountries', [App\Http\Controllers\Location\LocationController::class, 'savecountries']);
         Route::get('/deletecountry/{id}', [App\Http\Controllers\Location\LocationController::class, 'deletecountry']);
-//Location
+        //Location
         Route::get('/loction', [App\Http\Controllers\Location\LocationController::class, 'loction']);
         Route::get('/loctions/{id?}', [App\Http\Controllers\Location\LocationController::class, 'loctions']);
         Route::post('/saveloction', [App\Http\Controllers\Location\LocationController::class, 'saveloction']);
@@ -152,9 +156,7 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function () {
         Route::get('/memberships/{id?}', [App\Http\Controllers\Memberships\MembershipController::class, 'memberships']);
         Route::post('/savemembership', [App\Http\Controllers\Memberships\MembershipController::class, 'save_membership']);
         Route::get('/deletemembership/{id}', [App\Http\Controllers\Memberships\MembershipController::class, 'delete_membership']);
-
     });
-
 });
 
 //Frontend

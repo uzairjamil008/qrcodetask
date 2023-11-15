@@ -26,7 +26,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('api')->get('/user', function (Request $request) {
 
     return $request->user();
-
 });
 
 Route::get('/businesses/{columnval}/{column}', [App\Http\Controllers\Api\BookingController::class, 'businesses']);
@@ -64,6 +63,7 @@ Route::get('/topcountries', [App\Http\Controllers\Api\HomeController::class, 'to
 Route::get('/topbusiness', [App\Http\Controllers\Api\HomeController::class, 'topbusiness']);
 
 Route::get('/types', [App\Http\Controllers\Api\HomeController::class, 'types']);
+Route::get('/site_content', [App\Http\Controllers\Api\HomeController::class, 'site_content']);
 Route::post('/payment_intent', [App\Http\Controllers\Api\BookingController::class, 'payment_intent']);
 
 //Maxhype

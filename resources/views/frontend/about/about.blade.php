@@ -26,7 +26,8 @@
                     <div class="section-icon section-icon-white">
                         <i class="flaticon-diamond"></i>
                     </div>
-                    <p><a href="{{url('/')}}">themaxhyped.com</a> is a referral company registered in 2017. <a
+                    <p>
+                        <!-- <a href="{{url('/')}}">themaxhyped.com</a> is a referral company registered in 2017. <a
                             href="{{url('/')}}">themaxhyped.com</a> was formed out of necessity to meet the needs of
                         teeming tourists and residents of the city. Everyone faces the dilemma of where to eat, where to
                         grab drink or where to simply have some fun when they are in a new city or when they just want
@@ -37,7 +38,9 @@
                         have got you covered as our guide contains all the exotic and unique spots that resonates with
                         the kind of ambience you desire to enjoy. Our list contains the best restaurants, bars, lounges,
                         clubs.movie theaters,yatch/boats,stores,spas, luxury car locations, atv rental locations to
-                        meet your every need.</p>
+                        meet your every need. -->
+                        {{$data['sitecontents']->company_profile}}
+                    </p>
                 </div>
             </div>
         </div>
@@ -48,7 +51,8 @@
                     <div class="section-icon section-icon-white">
                         <i class="flaticon-diamond"></i>
                     </div>
-                    <p>We offer premium referral services to the best and most exotic restaurants, the best restaurants,
+                    <p>
+                        <!-- We offer premium referral services to the best and most exotic restaurants, the best restaurants,
                         bars, lounges, clubs.movie theaters, luxury car locations, atv rental locations, movie
                         theaters,Jetski/boats/yatch,Events locations and more. Our services are provided though our
                         website which provides access to view and make reservations to the best restaurants, bars,
@@ -59,7 +63,9 @@
 
                         The primary purpose of <a href="{{url('/')}}">themaxhyped.com</a> is to link people with needed
                         services by identifying their needs, Finding the most appropriate services to meet their needs,
-                        and linking them to the most appropriate service providers.#thingstodo in every city.</p>
+                        and linking them to the most appropriate service providers.#thingstodo in every city. -->
+                        {{$data['sitecontents']->what_we_do}}
+                    </p>
                 </div>
             </div>
         </div>
@@ -88,10 +94,9 @@
                     </div>
                     <div class="about-content">
                         <h3>Our Goals</h3>
-                        <p>To provide people with the best experience ever when it comes to finding the best
-                            restaurants, bars, lounges, clubs.movie theaters, luxury car locations, atv rental
-                            locations,boats/yatch,spas,stores that suits their needs whenever they are looking for
-                            things to do.</p>
+                        <p>
+                            {{$data['sitecontents']->our_goals}}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -102,8 +107,9 @@
                     </div>
                     <div class="about-content">
                         <h3>Our Mission</h3>
-                        <p>To effectively communicate with people, accurately identify their needs, locate needed
-                            services and resources, and help them make good choices when accessing our services.</p>
+                        <p>
+                            {{$data['sitecontents']->our_mission}}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -114,9 +120,9 @@
                     </div>
                     <div class="about-content">
                         <h3>Our Ethics</h3>
-                        <p>Professional ethics are designed to protect the dignity and rights of people who are being
-                            served. At <a href="{{url('/')}}">themaxhyped.com</a> we ensure that the confidentiality of
-                            people we serve is preserved.</p>
+                        <p>
+                            {{$data['sitecontents']->our_ethics}}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -154,7 +160,8 @@
                         <ul>
                             <li><i class="fa fa-check" aria-hidden="true"></i>Location : {{$value->location}}</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i>Commission (Per Sale) :
-                                {{$value->commision_per_sale}}</li>
+                                {{$value->commision_per_sale}}
+                            </li>
                     </div>
                     <div class="price-btn">
                         <a href="{{url('/bookings/'.$value->id)}}" class="btn-blue btn-red">See More</a>
@@ -175,7 +182,8 @@
                         <ul>
                             <li><i class="fa fa-check" aria-hidden="true"></i>Location : {{$value->location}}</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i>Commission (Per Sale) :
-                                {{$value->commision_per_sale}}</li>
+                                {{$value->commision_per_sale}}
+                            </li>
                     </div>
                     <div class="price-btn">
                         <a href="{{url('/bookings/'.$value->id)}}" class="btn-blue btn-red">See More</a>
@@ -196,7 +204,8 @@
                         <ul>
                             <li><i class="fa fa-check" aria-hidden="true"></i>Location : {{$value->location}}</li>
                             <li><i class="fa fa-check" aria-hidden="true"></i>Commission (Per Sale) :
-                                {{$value->commision_per_sale}}</li>
+                                {{$value->commision_per_sale}}
+                            </li>
                     </div>
                     <div class="price-btn">
                         <a href="{{url('/bookings/'.$value->id)}}" class="btn-blue btn-red">See More</a>

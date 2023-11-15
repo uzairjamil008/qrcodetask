@@ -6,10 +6,11 @@ use App;
 use App\Http\Controllers\Controller;
 use App\Models\Locations\Cities;
 use App\Models\Product\Product;
+use App\Models\SiteContent\SiteContent;
 use App\Models\Slider\Slider;
 use App\Models\User;
 use Carbon\Carbon;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -48,10 +49,17 @@ class HomeController extends Controller
 
     public function types()
     {
-        $data['businesstypes'] = ['Bar & Stores', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Adventures', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Hotels', 'Clubs'];
+        // $data['businesstypes'] = ['Bar & Stores', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Adventures', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Hotels', 'Clubs'];
         // $data['businesstypes'] = ['Bar & Stores', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Medical Marijuana & CBD', 'Adventures', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Hotels', 'Clubs'];
+        $data['businesstypes'] = mobile_categories();
         $response = array('status' => 1, 'types' => $data['businesstypes']);
         return json_encode($response);
     }
 
+    public function site_content()
+    {
+        $data = SiteContent::first();
+        $response = array('status' => 1, 'data' => $data);
+        return json_encode($response);
+    }
 }

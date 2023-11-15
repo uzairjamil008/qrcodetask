@@ -27,7 +27,6 @@ class BusinessController extends Controller
         $data['results'] = User::where('role_id', 3)->get();
 
         return view('business.view', compact('data'));
-
     }
 
     public function businesses($id = -1)
@@ -52,11 +51,9 @@ class BusinessController extends Controller
             $data['products'] = Product::where('business_id', $id)->get();
 
             $data['products'] = view('business.partials.products', compact('data'))->render();
-
         }
 
         return view('business.save', compact('data'));
-
     }
 
     public function savebusiness(Request $request)
@@ -77,7 +74,6 @@ class BusinessController extends Controller
         if (!empty($data['password'])) {
 
             $data['password'] = Hash::make($data['password']);
-
         } else {
 
             unset($data['password']);
@@ -94,11 +90,9 @@ class BusinessController extends Controller
             $action = "Updated";
 
             $affected_rows = User::find($id)->update($data);
-
         } else {
 
             $affected_rows = User::create($data);
-
         }
 
         $message = set_message($affected_rows, 'Business', $action);
@@ -106,7 +100,6 @@ class BusinessController extends Controller
         Session::put('message', $message);
 
         return Redirect('admin/business');
-
     }
 
     public function deletebusiness($id)
@@ -119,7 +112,6 @@ class BusinessController extends Controller
         Session::put('message', $message);
 
         return Redirect('admin/business');
-
     }
 
     public function booking()
@@ -130,7 +122,6 @@ class BusinessController extends Controller
         $data['results'] = Booking::get();
 
         return view('bookings.view', compact('data'));
-
     }
 
     public function bookingsdetails($id)
@@ -141,7 +132,6 @@ class BusinessController extends Controller
         $data['results'] = Booking::where('id', $id)->first();
 
         return view('bookings.details', compact('data'));
-
     }
 
     //Business Request
@@ -154,7 +144,6 @@ class BusinessController extends Controller
         $data['results'] = User::where('status', 'Accepted')->get();
 
         return view('business.accepted', compact('data'));
-
     }
 
     public function rejected()
@@ -165,7 +154,6 @@ class BusinessController extends Controller
         $data['results'] = User::where('status', 'Rejected')->get();
 
         return view('business.rejected', compact('data'));
-
     }
 
     public function pending()
@@ -176,7 +164,6 @@ class BusinessController extends Controller
         $data['results'] = User::where('status', 'Pending')->get();
 
         return view('business.pending', compact('data'));
-
     }
 
     public function businessdetails($id)
@@ -197,7 +184,6 @@ class BusinessController extends Controller
         $data['account_details'] = ReceivingAccount::where('user_id', $id)->first();
 
         return view('business.details', compact('data'));
-
     }
 
     public function reservationDetails($id)
@@ -225,7 +211,6 @@ class BusinessController extends Controller
         $data['results'] = User::where('role_id', 3)->get();
 
         return view('business.owners', compact('data'));
-
     }
 
     public function purchased()
@@ -236,7 +221,6 @@ class BusinessController extends Controller
         $data['results'] = Reservation::where('type', 'Purchase')->get();
 
         return view('business.purchase', compact('data'));
-
     }
 
     public function reserved()
@@ -247,7 +231,6 @@ class BusinessController extends Controller
         $data['results'] = Reservation::where('type', 'Reservation')->get();
 
         return view('business.reservation', compact('data'));
-
     }
 
     public function upload_file(Request $request)
@@ -269,11 +252,11 @@ class BusinessController extends Controller
 
             $filename = $date->getTimestamp() . '-' . $name;
 
-//            $filename=$name;
+            //            $filename=$name;
 
             $uploadPath = $current_dir . $path . DIRECTORY_SEPARATOR . $filename;
 
-//            print_r($uploadPath); exit;
+            //            print_r($uploadPath); exit;
 
             move_uploaded_file($tempPath, $uploadPath);
 
@@ -284,13 +267,10 @@ class BusinessController extends Controller
             $newFileName = $path . '/' . $filename;
 
             echo $newFileName;
-
         } else {
 
             echo 'No files';
-
         }
-
     }
 
     public function deletefiles(Request $request)
@@ -313,9 +293,7 @@ class BusinessController extends Controller
         if (isset($fileList)) {
 
             unlink($targetPath . $fileList);
-
         }
-
     }
 
     public function uploadImage()
@@ -352,9 +330,7 @@ class BusinessController extends Controller
             move_uploaded_file($tempPath, $uploadPath);
 
             echo $savedPath;
-
         }
-
     }
 
     public function removeimg(Request $request)
@@ -369,7 +345,6 @@ class BusinessController extends Controller
         $dir_path = getcwd() . '/' . $path;
 
         unlink($dir_path);
-
     }
 
     public function approve_request($id)
@@ -383,7 +358,6 @@ class BusinessController extends Controller
         Session::put('message', $message);
 
         return Redirect('admin/accepted');
-
     }
     public function send_email($email, $subject, $template, $data)
     {
@@ -402,7 +376,6 @@ class BusinessController extends Controller
         Session::put('message', $message);
 
         return Redirect('admin/rejected');
-
     }
 
     public function productmodal(Request $request)
@@ -419,7 +392,6 @@ class BusinessController extends Controller
         $response = array('response' => $modal);
 
         return json_encode($response);
-
     }
 
     public function saveproduct(Request $request)
@@ -432,7 +404,6 @@ class BusinessController extends Controller
         if (!isset($data['tickets_available'])) {
 
             $data['tickets_available'] = 0;
-
         }
 
         // dd($data);
@@ -446,11 +417,9 @@ class BusinessController extends Controller
             $modal = Product::find($id);
 
             $affected_rows = $modal->update($data);
-
         } else {
 
             $affected_rows = Product::create($data);
-
         }
 
         $data['products'] = Product::where('business_id', $request->business_id)->get();
@@ -460,7 +429,6 @@ class BusinessController extends Controller
         $response = array('response' => $response);
 
         return json_encode($response);
-
     }
 
     public function deleteproduct($id, $user_id)
@@ -475,7 +443,5 @@ class BusinessController extends Controller
         $response = array('response' => $response);
 
         return json_encode($response);
-
     }
-
 }

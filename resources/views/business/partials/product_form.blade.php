@@ -19,7 +19,7 @@
             <label for="description">Description & Location</label>
             <div id="full-container">
                <div class="editor">
-                  <?=(isset($data['results']->description) ? $data['results']->description : '')?>
+                  <?= (isset($data['results']->description) ? $data['results']->description : '') ?>
                </div>
             </div>
             <textarea class="form-control d-none" name="description" rows="50" cols="100">{{(isset($data['results']->description) ? $data['results']->description : '')}}</textarea>
@@ -36,13 +36,13 @@
       </div>
       <div class="col-md-4">
          <div class="form-group m-form__group ml-2"><br><br>
+            <label for="vehicle1">How many tables,tickets,products or services do you want to sell?</label><br>
             <input {{(isset($data['results']->id) ? $data['results']->tickets_available==1 ? 'checked' : '' : '')}} type="checkbox" id="check-tickets" name="tickets_available" value="1">
-            <label for="vehicle1">Available Tickets</label><br>
          </div>
       </div>
       <div class="col-md-4 {{(isset($data['results']->id) ? $data['results']->tickets_available==1 ? '' : 'd-none' : 'd-none')}}  total-tickets">
          <div class="form-group m-form__group">
-            <label>Total Tickets</label>
+            <label>Total tables,tickets,products or services you want to sell?</label>
             <input type="text" id="total_tickets" name="total_tickets" class="form-control m-input m-input--square" value="{{(isset($data['results']->total_tickets) ? $data['results']->total_tickets : '')}}">
          </div>
       </div>
@@ -56,27 +56,27 @@
       </div>
    </div>
    <div class="row">
-    <div class="col-md-12">
-    <div class="form-group m-form__group">
-      <label>Expiry Date Time</label>
-       <input name="expiry_date" type="datetime-local" class="form-control m-input m-input--square" value="{{(isset($data['results']->expiry_date) ? $data['results']->expiry_date : '')}}">
-     </div>
-    </div>
- </div>
-   <div class="row">
-   <div class="col-lg-12">
-      <div class="form-group" >
-         <label>
-         Upload Product Display Picture
-         </label>
-         <div  action="{{url('admin/upload_file?url=-public-uploads-businessproduct') }}" class="dropzone" id="dropzoneproductupload">
-            <div class="dz-message">Drop files here or click to upload.</div>
+      <div class="col-md-12">
+         <div class="form-group m-form__group">
+            <label>Expiry Date Time</label>
+            <input name="expiry_date" type="datetime-local" class="form-control m-input m-input--square" value="{{(isset($data['results']->expiry_date) ? $data['results']->expiry_date : '')}}">
          </div>
       </div>
    </div>
-   <input type="hidden" name="product_dp" class="form-control m-input m-input--square" value="{{(isset($data['results']->product_dp) ? $data['results']->product_dp : '')}}">
-</div>
-<img src="{{isset($data['results']->product_dp) ?url('/').''. $data['results']->product_dp:''}}" width="90" height="80">
+   <div class="row">
+      <div class="col-lg-12">
+         <div class="form-group">
+            <label>
+               Upload Product Display Picture
+            </label>
+            <div action="{{url('admin/upload_file?url=-public-uploads-businessproduct') }}" class="dropzone" id="dropzoneproductupload">
+               <div class="dz-message">Drop files here or click to upload.</div>
+            </div>
+         </div>
+      </div>
+      <input type="hidden" name="product_dp" class="form-control m-input m-input--square" value="{{(isset($data['results']->product_dp) ? $data['results']->product_dp : '')}}">
+   </div>
+   <img src="{{isset($data['results']->product_dp) ?url('/').''. $data['results']->product_dp:''}}" width="90" height="80">
    <div class="modal-footer">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       <button type="submit" class="btn btn-primary saveproduct">Save</button>
@@ -90,20 +90,19 @@
 <script src="{{asset('/app-assets/vendors/js/extensions/dropzone.min.js')}}"></script>
 <script src="{{asset('/app-assets/vendors/js/forms/select/select2.full.min.js')}}"></script>
 <script>
-   DropzoneSinglefunc('dropzoneproductupload','.png,.jpg,.jpeg',1.,'product_dp');
+   DropzoneSinglefunc('dropzoneproductupload', '.png,.jpg,.jpeg', 1., 'product_dp');
 
-   $( document ).ready(function() {
-     $('#check-tickets').change(function(){
-       if($(this).is(":checked")) {
-           $('.total-tickets').removeClass("d-none");
-           $('.fee').removeClass("d-none");
+   $(document).ready(function() {
+      $('#check-tickets').change(function() {
+         if ($(this).is(":checked")) {
+            $('.total-tickets').removeClass("d-none");
+            $('.fee').removeClass("d-none");
 
-       }
-       else{
-           $('.total-tickets').addClass("d-none");
-           $('.fee').addClass("d-none");
-           $('#total_tickets').val('');
-       }
-   });
+         } else {
+            $('.total-tickets').addClass("d-none");
+            $('.fee').addClass("d-none");
+            $('#total_tickets').val('');
+         }
+      });
    });
 </script>

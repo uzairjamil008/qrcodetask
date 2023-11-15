@@ -10,21 +10,14 @@
                <div id="navbar" class="navbar-nav-wrapper">
                   <ul class="nav navbar-nav" id="responsive-menu">
                      <li class="active">
-                        <a href="{{url('/')}}">Home</a>                             
+                        <a href="{{url('/')}}">Home</a>
                      </li>
                      <li>
                         <a href="#">Browse Businesess<i class="fa fa-angle-down"></i></a>
                         <ul>
-                           <li><a href="{{url('/businesses')}}/Bar & Stores">Bar & Stores</a></li>
-                           <li><a href="{{url('/businesses')}}/Restaurants">Restaurants</a></li>
-                           <li><a href="{{url('/businesses')}}/vehicles-ATV-bikes-boats-jetSkis">Vehicles-ATV-Bikes-Boats-JetSkis</a></li>
-                           <li><a href="{{url('/businesses')}}/Adult Entertainment">Adult Entertainment</a></li>
-                           <li><a href="{{url('/businesses')}}/Medical Marijuana & CBD">Medical Marijuana & CBD</a></li>
-                           <li><a href="{{url('/businesses')}}/Adventure">Adventures</a></li>
-                           <li><a href="{{url('/businesses')}}/Afrobeats">Afrobeats</a></li>
-                           <li><a href="{{url('/businesses')}}/Sky Diving">Sky Diving</a></li>
-                           <li><a href="{{url('/businesses')}}/Movie Theaters & Hotels">Movie Theaters & Hotels</a></li>
-                           <li><a href="{{url('/businesses')}}/Clubs">Clubs</a></li>
+                           @foreach(categories() as $category)
+                           <li><a href="{{ url('/businesses') }}/{{ $category }}">{{ $category }}</a></li>
+                           @endforeach
                         </ul>
                      </li>
                      <li>
@@ -33,10 +26,10 @@
                      <li>
                         <a href="{{url('/about')}}">About Us</a>
                      </li>
-                      <li>
-                         <a href="{{url('/contacts')}}">Contact</a>
-                     </li>              
-                 </ul>
+                     <li>
+                        <a href="{{url('/contacts')}}">Contact</a>
+                     </li>
+                  </ul>
                </div>
                <!--/.nav-collapse -->
                <div id="slicknav-mobile"></div>

@@ -9,7 +9,6 @@ if (!function_exists('sendEmail')) {
             $message->to($to_email, $subject)->subject($subject)
                 ->bcc($ccemail, $subject)->subject($subject);
             $message->from(env('MAIL_FROM_ADDRESS'), $subject);
-
         });
     }
 }
@@ -166,7 +165,6 @@ if (!function_exists('strafter')) {
         } else {
             return (substr($string, $pos + strlen($substring)));
         }
-
     }
 }
 /*
@@ -183,7 +181,6 @@ if (!function_exists('strbefore')) {
         } else {
             return (substr($string, 0, $pos));
         }
-
     }
 }
 if (!function_exists('week_days')) {
@@ -199,6 +196,24 @@ if (!function_exists('week_days')) {
             'Sunday' => 'Sunday',
         );
         return $arrayday;
+    }
+}
+
+if (!function_exists('categories')) {
+    function categories()
+    {
+        $categories = ['Bars & Clubs', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Adventures'];
+
+        return $categories;
+    }
+}
+
+if (!function_exists('mobile_categories')) {
+    function mobile_categories()
+    {
+        $mobile_categories = ['Bars & Clubs', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Adventures'];
+
+        return $mobile_categories;
     }
 }
 
@@ -349,7 +364,6 @@ if (!function_exists('set_multi_uploads')) {
             if (file_exists(ltrim($row, '/'))) {
                 $final_uploads[] = $row;
             }
-
         }
         return json_encode($final_uploads);
     }
@@ -496,7 +510,7 @@ if (!function_exists('client_status')) {
             if (strtotime($contracts[$count]->end_date) < strtotime(date('Y-m-d'))) {
                 return 'Inactive';
             }
-//                dd($contracts[$count]->end_date);
+            //                dd($contracts[$count]->end_date);
         }
         return 'Active';
     }
@@ -505,8 +519,8 @@ if (!function_exists('expiry_rem_period')) {
     function expiry_rem_period($date, $label)
     {
         $remaining_period = "";
-//        echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days ";
-//        echo $interval->format('%y years %m months and %d days');
+        //        echo "difference " . $interval->y . " years, " . $interval->m." months, ".$interval->d." days ";
+        //        echo $interval->format('%y years %m months and %d days');
         if (!empty($date)) {
             if (strtotime(date('Y-m-d')) > strtotime($date)) {
                 $remaining_period .= '<div class="expiry label-danger">' . $label . ' Has Been Expired</div>';
@@ -523,7 +537,7 @@ if (!function_exists('expiry_rem_period')) {
                 $remaining_period .= '<div class="expiry">' . $interval->d . ' Days Remaining In The Expiry Of ' . $label . '</div>';
             }
         }
-//        dd($remaining_period);
+        //        dd($remaining_period);
 
         return $remaining_period;
     }
@@ -620,8 +634,7 @@ if (!function_exists('hours_diff')) {
 if (!function_exists('get_countries')) {
     function get_countries()
     {
-        $countries = array
-            (
+        $countries = array(
             'AT' => 'Austria',
             'AF' => 'Afghanistan',
             'AX' => 'Aland Islands',
@@ -1082,7 +1095,6 @@ if (!function_exists('check_empty')) {
             return Redirect('/' . $url);
         }
         return true;
-
     }
 }
 if (!function_exists('get_pusher')) {

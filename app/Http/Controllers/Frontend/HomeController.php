@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Locations\Cities;
 use App\Models\Memberships\Membership;
 use App\Models\Product\Product;
+use App\Models\SiteContent\SiteContent;
 use App\Models\Slider\Slider;
 use App\Models\User;
 use Carbon\Carbon;
@@ -62,6 +63,7 @@ class HomeController extends Controller
     public function about()
     {
         $data['packages'] = Membership::get();
+        $data['sitecontents'] = SiteContent::get()->first();
         return view('frontend.about.about', compact('data'));
     }
     public function privacypolicy()
@@ -77,5 +79,4 @@ class HomeController extends Controller
     {
         return view('frontend.testimonials.testimonial');
     }
-
 }
