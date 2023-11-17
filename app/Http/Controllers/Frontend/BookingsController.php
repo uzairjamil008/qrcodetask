@@ -68,7 +68,6 @@ class BookingsController extends Controller
         $data = $request->all();
         $random = hexdec(uniqid());
         $data['order_number'] = substr($random, 0, 8);
-        // $data['date'] = db_format_date_slash($request->date);
         if (!empty($request->date)) {
             $data['date'] = date('Y-m-d H:i:s', strtotime($request->date));
         }
@@ -78,19 +77,27 @@ class BookingsController extends Controller
         if (!empty($request->return_date_time)) {
             $data['return_date_time'] = date('Y-m-d H:i:s', strtotime($request->return_date_time));
         }
+        if ($request->type == 'Reservation') {
+            $existingReservation = Reservation::where(function ($query) use ($data) {
+                $query->where('date', '>=', $data['date'])
+                    ->where('date', '<=', $data['check_out_date'])
+                    ->orWhere('check_out_date', '>=', $data['date'])
+                    ->where('check_out_date', '<=', $data['check_out_date']);
+            })
+                ->where('product_id', $request->product_id)
+                ->first();
+
+            if ($existingReservation) {
+                $response = [
+                    'response' => null,
+                    'success' => false,
+                    'message' => 'These dates are already booked. Please select any other dates.',
+                ];
+
+                return json_encode($response);
+            }
+        }
         $data['qr_code'] = QrCode::size(100)->generate(json_encode($data));
-        // if ($request->type == 'Purchase') {
-        //     $response = $this->make_payment($request);
-        //     if (!$response['success']) {
-        //         return json_encode($response);
-        //     }
-        //     $data['stripe_intent_id'] = $response['intent']->id;
-        // }
-        // if (isset($data['card_number'])) {
-        //     unset($data['card_number']);
-        //     unset($data['expiry']);
-        //     unset($data['cvc']);
-        // }
         $affected_rows = Reservation::create($data);
         $data['business'] = User::where('id', $request->business_id)->first();
         $data['business_address'] = $data['business']->address;

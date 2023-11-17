@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Business\BusinessController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -65,5 +66,6 @@ Route::get('/topbusiness', [App\Http\Controllers\Api\HomeController::class, 'top
 Route::get('/types', [App\Http\Controllers\Api\HomeController::class, 'types']);
 Route::get('/site_content', [App\Http\Controllers\Api\HomeController::class, 'site_content']);
 Route::post('/payment_intent', [App\Http\Controllers\Api\BookingController::class, 'payment_intent']);
+
 
 //Maxhype

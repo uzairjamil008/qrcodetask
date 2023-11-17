@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function () {
         //Users
         Route::get('/deleteuser/{id}', [App\Http\Controllers\User\UserController::class, 'deleteuser']);
         Route::get('users', [App\Http\Controllers\User\UserController::class, 'users'])->name('users');
+        Route::get('/get_users', [App\Http\Controllers\User\UserController::class, 'get_users']);
         Route::get('user/{id?}', [App\Http\Controllers\User\UserController::class, 'user']);
         Route::post('/saveuser', [App\Http\Controllers\User\UserController::class, 'saveuser']);
         //User Messages
@@ -66,6 +67,7 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function () {
         Route::get('/deletesetting/{id}', [App\Http\Controllers\Membership\MembershipController::class, 'deletesetting']);
         //Business
         Route::get('/business', [App\Http\Controllers\Business\BusinessController::class, 'business']);
+        Route::get('/get_business', [App\Http\Controllers\Business\BusinessController::class, 'get_business']);
         Route::get('/businesses/{id?}', [App\Http\Controllers\Business\BusinessController::class, 'businesses']);
         Route::post('/savebusiness', [App\Http\Controllers\Business\BusinessController::class, 'savebusiness']);
         Route::get('/deletebusiness/{id}', [App\Http\Controllers\Business\BusinessController::class, 'deletebusiness']);
@@ -84,7 +86,9 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function () {
         Route::get('/approve_request/{id}', [App\Http\Controllers\Business\BusinessController::class, 'approve_request']);
         Route::get('/reject_request/{id}', [App\Http\Controllers\Business\BusinessController::class, 'reject_request']);
         Route::get('/purchased', [App\Http\Controllers\Business\BusinessController::class, 'purchased']);
+        Route::get('/get_purchase', [App\Http\Controllers\Business\BusinessController::class, 'get_purchase']);
         Route::get('/reserved', [App\Http\Controllers\Business\BusinessController::class, 'reserved']);
+        Route::get('/get_reservation', [App\Http\Controllers\Business\BusinessController::class, 'get_reservation']);
         Route::get('/reservation_details/{id}', [App\Http\Controllers\Business\BusinessController::class, 'reservationDetails']);
         Route::get('/purchase_details/{id}', [App\Http\Controllers\Business\BusinessController::class, 'purchaseDetails']);
 

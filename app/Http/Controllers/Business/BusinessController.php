@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Session;
 class BusinessController extends Controller
 {
 
-    public function business()
+    public function business(Request $request)
     {
 
         $data['page_title'] = "All Businesses";
@@ -28,6 +28,92 @@ class BusinessController extends Controller
 
         return view('business.view', compact('data'));
     }
+
+    public function get_business(Request $request)
+    {
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowperpage = $request->get("length");
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column'];
+        $columnName = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+        $searchValue = $search_arr['value'];
+
+        // Total records
+        $totalRecords = User::where('role_id', 3)->count();
+
+        // Total records with filtering
+        $filteredRecords = User::where('role_id', 3)
+            ->where(function ($query) use ($searchValue) {
+                $query->where('name', 'like', '%' . $searchValue . '%')
+                    ->orWhere('email', 'like', '%' . $searchValue . '%')
+                    ->orWhere('type', 'like', '%' . $searchValue . '%');
+            })
+            ->count();
+
+        $records = User::where('role_id', 3)
+            ->where(function ($query) use ($searchValue) {
+                $query->where('name', 'like', '%' . $searchValue . '%')
+                    ->orWhere('email', 'like', '%' . $searchValue . '%')
+                    ->orWhere('type', 'like', '%' . $searchValue . '%');
+            })
+            ->orderBy('name', 'asc')
+            ->skip($start)
+            ->take($rowperpage)
+            ->get();
+
+
+        $data_arr = [];
+
+        foreach ($records as $record) {
+
+            $action = '
+            <div class="dropdown">
+                <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
+                    <i data-feather="more-vertical"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="' . url('admin/businesses', $record->id) . '">
+                        <i data-feather="edit-2" class="mr-50"></i>
+                        <span>Edit</span>
+                    </a>
+                    <a data-href="' . url('admin/deletebusiness', $record->id) . '" data-toggle="modal" data-target="#confirm-delete" class="dropdown-item" href="javascript:void(0);">
+                        <i data-feather="trash" class="mr-50"></i>
+                        <span>Delete</span>
+                    </a>
+                    <a href="' . url('admin/business_details', $record->id) . '" class="dropdown-item">
+                        <i data-feather="file-text" class="mr-50"></i>
+                        <span>Detail</span>
+                    </a>
+                </div>
+            </div>';
+
+
+            $data_arr[] = [
+                "id" => $record->id,
+                "name" => $record->name,
+                "type" => $record->type,
+                "email" => $record->email,
+                "action" => $action,
+            ];
+        }
+
+        $response = [
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $filteredRecords,
+            "aaData" => $data_arr,
+        ];
+
+        return $response;
+    }
+
 
     public function businesses($id = -1)
     {
@@ -104,7 +190,6 @@ class BusinessController extends Controller
 
     public function deletebusiness($id)
     {
-
         $affected_rows = User::find($id)->delete();
 
         $message = set_message($affected_rows, 'Business', 'Deleted');
@@ -223,6 +308,99 @@ class BusinessController extends Controller
         return view('business.purchase', compact('data'));
     }
 
+    public function get_purchase(Request $request)
+    {
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowperpage = $request->get("length");
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column'];
+        $columnName = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+        $searchValue = $search_arr['value'];
+
+        // Total records
+        $totalRecords = Reservation::where('type', 'Purchase')->count();
+
+        // Total records with filtering
+        $filteredRecords = Reservation::where('type', 'Purchase')
+            ->where(function ($query) use ($searchValue) {
+                $query->where('business_id', 'like', '%' . $searchValue . '%')
+                    ->orWhere('date', 'like', '%' . $searchValue . '%')
+                    ->orWhere('time', 'like', '%' . $searchValue . '%')
+                    ->orWhere('remarks', 'like', '%' . $searchValue . '%')
+                    ->orWhere('total_tickets', 'like', '%' . $searchValue . '%')
+                    ->orWhere('price', 'like', '%' . $searchValue . '%')
+                    ->orWhere('admin_notes', 'like', '%' . $searchValue . '%');
+            })
+            ->count();
+
+        $records = Reservation::where('type', 'Purchase')
+            ->where(function ($query) use ($searchValue) {
+                $query->where('business_id', 'like', '%' . $searchValue . '%')
+                    ->orWhere('date', 'like', '%' . $searchValue . '%')
+                    ->orWhere('time', 'like', '%' . $searchValue . '%')
+                    ->orWhere('remarks', 'like', '%' . $searchValue . '%')
+                    ->orWhere('total_tickets', 'like', '%' . $searchValue . '%')
+                    ->orWhere('price', 'like', '%' . $searchValue . '%')
+                    ->orWhere('admin_notes', 'like', '%' . $searchValue . '%');
+            })
+            ->orderBy($columnName, $columnSortOrder)
+            ->skip($start)
+            ->take($rowperpage)
+            ->get();
+
+
+        $data_arr = [];
+
+        foreach ($records as $record) {
+
+            $action = '
+            <div class="dropdown">
+                <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
+                    <i data-feather="more-vertical"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item remarksbtn" href="javascript:void(0)" data-id="' . ($record->id) . '">
+                       <i data-feather="file-text" class="mr-50"></i>
+                       <span>Remarks</span>
+                    </a>
+                     <a class="dropdown-item" href="' . url('admin/purchase_details', $record->id) . '">
+                        <i data-feather="file-text" class="mr-50"></i>
+                        <span>Detail</span>
+                    </a>
+                </div>
+            </div>';
+
+
+            $data_arr[] = [
+                "id" => $record->id,
+                "business_id" => $record->business_name->name,
+                "date" => $record->date,
+                "time" => $record->time,
+                "remarks" => $record->remarks,
+                "total_tickets" => $record->total_tickets,
+                "price" => $record->price,
+                "admin_notes" => $record->admin_notes,
+                "action" => $action,
+            ];
+        }
+
+        $response = [
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $filteredRecords,
+            "aaData" => $data_arr,
+        ];
+
+        return $response;
+    }
+
     public function reserved()
     {
 
@@ -231,6 +409,99 @@ class BusinessController extends Controller
         $data['results'] = Reservation::where('type', 'Reservation')->get();
 
         return view('business.reservation', compact('data'));
+    }
+
+    public function get_reservation(Request $request)
+    {
+        $draw = $request->get('draw');
+        $start = $request->get("start");
+        $rowperpage = $request->get("length");
+
+        $columnIndex_arr = $request->get('order');
+        $columnName_arr = $request->get('columns');
+        $order_arr = $request->get('order');
+        $search_arr = $request->get('search');
+
+        $columnIndex = $columnIndex_arr[0]['column'];
+        $columnName = $columnName_arr[$columnIndex]['data'];
+        $columnSortOrder = $order_arr[0]['dir'];
+        $searchValue = $search_arr['value'];
+
+        // Total records
+        $totalRecords = Reservation::where('type', 'Reservation')->count();
+
+        // Total records with filtering
+        $filteredRecords = Reservation::where('type', 'Reservation')
+            ->where(function ($query) use ($searchValue) {
+                $query->where('business_id', 'like', '%' . $searchValue . '%')
+                    ->orWhere('date', 'like', '%' . $searchValue . '%')
+                    ->orWhere('check_out_date', 'like', '%' . $searchValue . '%')
+                    ->orWhere('return_date_time', 'like', '%' . $searchValue . '%')
+                    ->orWhere('remarks', 'like', '%' . $searchValue . '%')
+                    ->orWhere('people', 'like', '%' . $searchValue . '%')
+                    ->orWhere('admin_notes', 'like', '%' . $searchValue . '%');
+            })
+            ->count();
+
+        $records = Reservation::where('type', 'Reservation')
+            ->where(function ($query) use ($searchValue) {
+                $query->where('business_id', 'like', '%' . $searchValue . '%')
+                    ->orWhere('date', 'like', '%' . $searchValue . '%')
+                    ->orWhere('check_out_date', 'like', '%' . $searchValue . '%')
+                    ->orWhere('return_date_time', 'like', '%' . $searchValue . '%')
+                    ->orWhere('remarks', 'like', '%' . $searchValue . '%')
+                    ->orWhere('people', 'like', '%' . $searchValue . '%')
+                    ->orWhere('admin_notes', 'like', '%' . $searchValue . '%');
+            })
+            ->orderBy($columnName, $columnSortOrder)
+            ->skip($start)
+            ->take($rowperpage)
+            ->get();
+
+
+        $data_arr = [];
+
+        foreach ($records as $record) {
+
+            $action = '
+            <div class="dropdown">
+                <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
+                    <i data-feather="more-vertical"></i>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item remarksbtn" href="javascript:void(0)" data-id="' . ($record->id) . '">
+                       <i data-feather="file-text" class="mr-50"></i>
+                       <span>Remarks</span>
+                    </a>
+                     <a class="dropdown-item" href="' . url('admin/reservation_details', $record->id) . '">
+                        <i data-feather="file-text" class="mr-50"></i>
+                        <span>Detail</span>
+                    </a>
+                </div>
+            </div>';
+
+
+            $data_arr[] = [
+                "id" => $record->id,
+                "business_id" => $record->business_name->name,
+                "date" => $record->date,
+                "check_out_date" => $record->check_out_date,
+                "return_date_time" => $record->return_date_time,
+                "remarks" => $record->remarks,
+                "people" => $record->people,
+                "admin_notes" => $record->admin_notes,
+                "action" => $action,
+            ];
+        }
+
+        $response = [
+            "draw" => intval($draw),
+            "iTotalRecords" => $totalRecords,
+            "iTotalDisplayRecords" => $filteredRecords,
+            "aaData" => $data_arr,
+        ];
+
+        return $response;
     }
 
     public function upload_file(Request $request)

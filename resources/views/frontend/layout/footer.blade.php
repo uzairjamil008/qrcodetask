@@ -32,8 +32,7 @@
 
                         <input type="email" name="email" id="email" class="form-control" required>
 
-                        <button id="submit_btn" type="submit"><span class="search_btn text-white"><i
-                                    class="fa fa-paper-plane" aria-hidden="true"></i> Subscribe</span></button>
+                        <button id="submit_btn" type="submit"><span class="search_btn text-white"><i class="fa fa-paper-plane" aria-hidden="true"></i> Subscribe</span></button>
 
                     </div>
 
@@ -51,8 +50,7 @@
 
                             <div class="about-logo">
 
-                                <a href="{{url('/')}}"><img class="latest-logo-footer"
-                                        src="{{asset(get_settings('logo'))}}" width="126" height="58" alt="Image"></a>
+                                <a href="{{url('/')}}"><img class="latest-logo-footer" src="{{asset(get_settings('logo'))}}" width="126" height="58" alt="Image"></a>
 
                             </div>
 
@@ -82,25 +80,18 @@
 
                                 <ul>
 
-                                    <li class="social-icon"><a href="https://www.facebook.com/people/Themaxhyped-Ent/61551836151376/"><i
-                                                class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <li class="social-icon"><a href="https://www.facebook.com/people/Themaxhyped-Ent/61551836151376/"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
 
-                                    <li class="social-icon"><a
-                                            href="https://www.instagram.com/themaxhyped/?igshid=NTc4MTIwNjQ2YQ%3D%3D"><i
-                                                class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                    <li class="social-icon"><a href="https://www.instagram.com/themaxhyped/?igshid=NTc4MTIwNjQ2YQ%3D%3D"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
 
-                                    <li class="social-icon"><a href="https://twitter.com/TheMaxHype1"><i
-                                                class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                    <li class="social-icon"><a href="https://twitter.com/TheMaxHype1"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
 
-                                    <li class="social-icon"><a
-                                            href="https://www.linkedin.com/in/themaxhype-maxhype-a05687199"><i
-                                                class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                    <li class="social-icon"><a href="https://www.linkedin.com/in/themaxhype-maxhype-a05687199"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
 
-                                    <li class="social-icon"><a href="#"><i class="fa fa-google"
-                                                aria-hidden="true"></i></a></li>
+                                    <li class="social-icon"><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
 
                                 </ul>
-                                <p class="font-white">Address : 1460 BroadWay New York,NY 10036</p>
+                                <p class="font-white">1460 BroadWay New York,NY 10036</p>
                             </div>
 
                         </div>
@@ -165,9 +156,7 @@
 
                                     @foreach($business as $value)
 
-                                    <li><a href="{{url('business_details/'.$value-> id)}}"><img
-                                                src="{{asset($value->dp) ?url('/').''.$value->dp:''}}" width="80"
-                                                height="90" alt="Image"></a></li>
+                                    <li><a href="{{url('business_details/'.$value-> id)}}"><img src="{{asset($value->dp) ?url('/').''.$value->dp:''}}" width="80" height="90" alt="Image"></a></li>
 
                                     @endforeach
 
@@ -199,8 +188,7 @@
 
                         <p>COPYRIGHT © 2023
 
-                            <a class="ml-25" href="https://themaxhyped.com/" target="_blank">themaxhyped</a><span
-                                class="d-none d-sm-inline-block">, All rights Reserved</span>
+                            <a class="ml-25" href="https://themaxhyped.com/" target="_blank">themaxhyped</a><span class="d-none d-sm-inline-block">, All rights Reserved</span>
                         </P>
 
                     </div>
@@ -255,51 +243,50 @@
 
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
-$(document).ready(function() {
+    $(document).ready(function() {
 
-    $(".sub-formdata").submit(function(e) {
+        $(".sub-formdata").submit(function(e) {
 
-        e.preventDefault();
+            e.preventDefault();
 
-        var token = $('input[name=_token]').val();
-        $(".search_btn").attr("disabled", true).html('Processing...');
+            var token = $('input[name=_token]').val();
+            $(".search_btn").attr("disabled", true).html('Processing...');
 
-        var formdata = $(".sub-formdata").serialize();
+            var formdata = $(".sub-formdata").serialize();
 
-        $.ajax({
+            $.ajax({
 
-            url: "{{url('/savesubscriber')}}",
+                url: "{{url('/savesubscriber')}}",
 
-            type: "POST",
+                type: "POST",
 
-            headers: {
-                'X-CSRF-TOKEN': token
-            },
+                headers: {
+                    'X-CSRF-TOKEN': token
+                },
 
-            data: formdata,
+                data: formdata,
 
-            dataType: "json",
+                dataType: "json",
 
-            success: function(data)
+                success: function(data)
 
-            {
+                {
 
-                Swal.fire('You have Successfully Subscribed!')
+                    Swal.fire('You have Successfully Subscribed!')
 
-                $('.sub-formdata')[0].reset();
+                    $('.sub-formdata')[0].reset();
 
-                $(".search_btn").attr("disabled", false).html('Subscribe');
+                    $(".search_btn").attr("disabled", false).html('Subscribe');
 
 
-            }
+                }
+
+            });
 
         });
 
     });
-
-});
 </script>

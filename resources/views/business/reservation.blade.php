@@ -17,7 +17,7 @@
                <table class="table dynamic_table font-weight-bold">
                   <thead>
                      <tr role="row">
-                        <th>Sr No</th>
+                        <th>ID</th>
                         <th>Business Name</th>
                         <th>Check in Date Time</th>
                         <th>Checkout Date Time</th>
@@ -28,37 +28,6 @@
                         <th>Action</th>
                      </tr>
                   </thead>
-                  <tbody>
-                     @foreach($data['results'] as $key=>$value)
-                     <tr>
-                        <td>{{$key+1}}</td>
-                        <td>{{isset($value->business_name->name) ? $value->business_name->name : ''}}</td>
-                        <td>{{$value->date}}</td>
-                        <td>{{$value->check_out_date}}</td>
-                        <td>{{$value->return_date_time}}</td>
-                        <td>{{Str::words(strip_tags($value->remarks), 20)}}</td>
-                        <td>{{$value->people}}</td>
-                        <td>{{$value->admin_notes}}</td>
-                        <td>
-                        <div class="dropdown">
-                        <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
-                        </button>
-                        <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{url('admin/reservation_details/'.$value->id )}}">
-                        <i data-feather="file-text" class="mr-50"></i>
-                        <span>Detail</span>
-                        </a>
-                        <a class="dropdown-item remarksbtn" href="javascript:void(0)" data-id="{{$value->id}}">
-                        <i data-feather="file-text" class="mr-50"></i>
-                        <span>Remarks</span>
-                        </a>
-                        </div>
-                        </div>
-                        </td>
-                     </tr>
-                     @endforeach
-                  </tbody>
                </table>
             </div>
          </div>
@@ -67,30 +36,30 @@
 </section>
 <!-- Modal -->
 <div class="modal fade" id="myreservationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="exampleModalLabel">Save</h3>
-        <button type="button" class="close" id="close-modal" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h3 class="modal-title" id="exampleModalLabel">Save</h3>
+            <button type="button" class="close" id="close-modal" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form action="{{url('save_data')}}" method="post">
+               @csrf
+               <input name="business_reservation_id" type='hidden'>
+               <div class="form-group">
+                  <label for="remarks">Remarks:</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" name="admin_notes" rows="3"></textarea>
+               </div>
+               <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               </div>
+            </form>
+         </div>
       </div>
-      <div class="modal-body">
-        <form action="{{url('save_data')}}" method="post">
-          @csrf
-          <input name="business_reservation_id" type='hidden'>
-          <div class="form-group">
-            <label for="remarks">Remarks:</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" name="admin_notes" rows="3"></textarea>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+   </div>
 </div>
 @include('includes.delete')
 @endsection
@@ -101,13 +70,58 @@
 
 <script type="text/javascript">
    $('.business-request').addClass('sidebar-group-active');
-   $('.reserve-business').addClass('active');
-   $('.dynamic_table').DataTable();
-   $(document).on('click','.remarksbtn',function(){
-           var id = $(this).attr('data-id');
-           $('input[name=business_reservation_id]').val(id);
-           $('#myreservationModal').modal('show');
-           });
+   $(document).on('click', '.remarksbtn', function() {
+      var id = $(this).attr('data-id');
+      $('input[name=business_reservation_id]').val(id);
+      $('#myreservationModal').modal('show');
+   });
+   $(document).ready(function() {
+      $('.reserve-business').addClass('active');
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+      $('.dynamic_table').DataTable({
+         processing: true,
+         serverSide: true,
+         ajax: "{{url('admin/get_reservation')}}",
+         columns: [{
+               data: 'id'
+            },
+            {
+               data: 'business_id'
+            },
+            {
+               data: 'date'
+            },
+            {
+               data: 'check_out_date'
+            },
+            {
+               data: 'return_date_time'
+            },
+            {
+               data: 'remarks'
+            },
+            {
+               data: 'people'
+            },
+            {
+               data: 'admin_notes'
+            },
+            {
+               data: 'action'
+            },
+         ],
+         'columnDefs': [{
+            'targets': [8],
+            'orderable': false,
+         }]
+      });
+
+      $('.dynamic_table').on('draw.dt', function() {
+         feather.replace();
+      });
+
+   });
 </script>
 
 @endsection

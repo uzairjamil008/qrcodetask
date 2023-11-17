@@ -3,14 +3,16 @@
 @section('css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
-<style>input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-}
+<style>
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
 
-input[type=number] {
-  -moz-appearance: textfield;
-}</style>
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
 
 @endsection
 
@@ -69,9 +71,9 @@ input[type=number] {
 
                         <form name="contactform" class="contact-us">
 
-                         {{ csrf_field() }}
+                            {{ csrf_field() }}
 
-                        <input class="form-control" name="id" type="hidden">
+                            <input class="form-control" name="id" type="hidden">
 
                             <div class="row">
 
@@ -95,7 +97,7 @@ input[type=number] {
 
                                     <label>Phone Number:</label>
 
-                                    <input type="number" name="phone" class="form-control" id="phnumber" placeholder="XXXX-XXXXXX" required   onkeypress="return isNumberKey(event)">
+                                    <input type="number" name="phone" class="form-control" id="phnumber" placeholder="XXXX-XXXXXX" required onkeypress="return isNumberKey(event)">
 
                                 </div>
 
@@ -111,7 +113,7 @@ input[type=number] {
 
                                     <div class="">
 
-                                         <button type="submit" class="btn-blue btn-red btn-contact dssdsdfs">Submit</button>
+                                        <button type="submit" class="btn-blue btn-red btn-contact dssdsdfs">Submit</button>
 
                                     </div>
 
@@ -135,7 +137,7 @@ input[type=number] {
 
                             <ul>
 
-                               <!--  <li><i class="flaticon-maps-and-flags" aria-hidden="true"></i> Location</li>
+                                <!--  <li><i class="flaticon-maps-and-flags" aria-hidden="true"></i> Location</li>
 
                                 <li><i class="flaticon-phone-call"></i> (012)-345-6789</li>
 
@@ -160,7 +162,7 @@ input[type=number] {
                                 <li class="social-icon"><a href="https://themaxhyped.com/"><i class="fa fa-google" aria-hidden="true"></i></a></li>
 
                             </ul>
-                            <p class="font-white mt-3">Address : 1460 BroadWay New York,NY 10036</p>
+                            <p class="font-white mt-3">1460 BroadWay New York,NY 10036</p>
 
                         </div>
 
@@ -174,7 +176,7 @@ input[type=number] {
 
     </section>
 
-    </div>
+</div>
 
 @endsection
 
@@ -183,47 +185,49 @@ input[type=number] {
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
 <script type="text/javascript">
-$(document).on('keypress', '#user_name', function (event) {
-    var regex = new RegExp("^[a-zA-Z ]+$");
-    var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-    if (!regex.test(key)) {
-        event.preventDefault();
-        return false;
-    }
-});
- $(document).ready(function() {
+    $(document).on('keypress', '#user_name', function(event) {
+        var regex = new RegExp("^[a-zA-Z ]+$");
+        var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+        if (!regex.test(key)) {
+            event.preventDefault();
+            return false;
+        }
+    });
+    $(document).ready(function() {
 
-    $('.contact-us').submit(function(e){
+        $('.contact-us').submit(function(e) {
 
-      e.preventDefault();
+            e.preventDefault();
 
-        var token = $('input[name=_token]').val();
+            var token = $('input[name=_token]').val();
 
-        $(".dssdsdfs").attr("disabled", true).html('Processing...');
+            $(".dssdsdfs").attr("disabled", true).html('Processing...');
 
-        var formdata=$('.contact-us').serialize();
+            var formdata = $('.contact-us').serialize();
 
-       $.ajax(
+            $.ajax(
 
                 {
 
-                    type:"post",
+                    type: "post",
 
-                    headers:{'X-CSRF-TOKEN': token},
+                    headers: {
+                        'X-CSRF-TOKEN': token
+                    },
 
                     url: "{{url('/savecontact') }}",
 
-                    dataType:"json",
+                    dataType: "json",
 
-                    data:formdata,
+                    data: formdata,
 
-                    success:function(data)
+                    success: function(data)
 
                     {
 
-                    Swal.fire('Your Contact Info has been Successufully Submited !')
-                    $('.contact-us')[0].reset();
-                    $(".dssdsdfs").attr("disabled", false).html('Submit');
+                        Swal.fire('Your Contact Info has been Successufully Submited !')
+                        $('.contact-us')[0].reset();
+                        $(".dssdsdfs").attr("disabled", false).html('Submit');
 
 
                     }
@@ -232,14 +236,11 @@ $(document).on('keypress', '#user_name', function (event) {
 
                 });
 
-           });
+        });
 
 
 
     });
-
-
-
 </script>
 
 @endsection

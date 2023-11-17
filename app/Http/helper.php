@@ -202,7 +202,7 @@ if (!function_exists('week_days')) {
 if (!function_exists('categories')) {
     function categories()
     {
-        $categories = ['Bars & Clubs', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Adventures'];
+        $categories = ['Bars & Clubs', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Adventures', 'Short Term Stays'];
 
         return $categories;
     }
@@ -211,7 +211,7 @@ if (!function_exists('categories')) {
 if (!function_exists('mobile_categories')) {
     function mobile_categories()
     {
-        $mobile_categories = ['Bars & Clubs', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Adventures'];
+        $mobile_categories = ['Bars & Clubs', 'Restaurants', 'Vehicles-ATV-Bikes-Boats-JetSkis', 'Adult Entertainment', 'Afrobeats', 'Sky Diving', 'Movie Theaters & Adventures', 'Short Term Stays'];
 
         return $mobile_categories;
     }

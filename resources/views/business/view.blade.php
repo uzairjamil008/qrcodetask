@@ -18,44 +18,13 @@
                <table class="table dynamic_table font-weight-bold">
                   <thead>
                      <tr role="row">
-                        <th>Sr No</th>
+                        <th>ID</th>
                         <th>Business Name</th>
                         <th>Email</th>
                         <th>Business Type</th>
                         <th>Action</th>
                      </tr>
                   </thead>
-                  <tbody>
-                     @foreach($data['results'] as $key=>$value)
-                     <tr>
-                        <td>{{$key+1}}</td>
-                        <td>{{$value->name}}</td>
-                        <td>{{$value->email}}</td>
-                        <td>{{$value->type}}</td>
-                        <td>
-                        <div class="dropdown">
-                        <button type="button" class="btn btn-sm dropdown-toggle hide-arrow" data-toggle="dropdown">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
-                        </button>
-                        <div class="dropdown-menu">
-                        <a class="dropdown-item" href="{{url('admin/business_details/'.$value->id )}}">
-                        <i data-feather="file-text" class="mr-50"></i>
-                        <span>Detail</span>
-                        </a>
-                        <a class="dropdown-item" href="{{url('admin/businesses/'.$value-> id )}}">
-                        <i data-feather="edit-2" class="mr-50"></i>
-                        <span>Edit</span>
-                        </a>
-                        <a data-href="{{url('admin/deletebusiness/'.$value->id)}}" data-toggle="modal" data-target="#confirm-delete" class="dropdown-item" href="javascript:void(0);">
-                        <i data-feather="trash" class="mr-50"></i>
-                        <span>Delete</span>
-                        </a>
-                        </div>
-                        </div>
-                        </td>
-                     </tr>
-                     @endforeach
-                  </tbody>
                </table>
             </div>
          </div>
@@ -71,8 +40,41 @@
 
 <script type="text/javascript">
    $('.business-mgt').addClass('sidebar-group-active');
-   $('.view-business').addClass('active');
-   $('.dynamic_table').DataTable();
+   $(document).ready(function() {
+      $('.view-business').addClass('active');
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+      $('.dynamic_table').DataTable({
+         processing: true,
+         serverSide: true,
+         ajax: "{{url('admin/get_business')}}",
+         columns: [{
+               data: 'id'
+            },
+            {
+               data: 'name'
+            },
+            {
+               data: 'email'
+            },
+            {
+               data: 'type'
+            },
+            {
+               data: 'action'
+            },
+         ],
+         'columnDefs': [{
+            'targets': [4],
+            'orderable': false,
+         }]
+      });
+
+      $('.dynamic_table').on('draw.dt', function() {
+         feather.replace();
+      });
+
+   });
 </script>
 
 @endsection

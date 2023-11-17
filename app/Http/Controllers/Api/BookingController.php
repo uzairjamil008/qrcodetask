@@ -179,7 +179,7 @@ class BookingController extends Controller
     {
         $date = date('Y-m-d h:i');
         $time = date('h:i');
-        $stripe_intent_id = null;
+        // $stripe_intent_id = null;
         if ($request->type == 'Purchase') {
             // $response = $this->make_payment($request);
             // if (!$response['success']) {
@@ -215,7 +215,7 @@ class BookingController extends Controller
             'total_price' => $request->type == 'Purchase' ? $request->total_price : '',
             'net_amount' => $request->type == 'Purchase' ? $request->net_amount : '',
             'total_tickets' => $request->type == 'Purchase' ? $request->people : '',
-            'stripe_intent_id' => $request->stripe_intent_id ?? null,
+            // 'stripe_intent_id' => $request->stripe_intent_id ?? null,
         );
 
         if (!empty($request->check_out_date)) {
@@ -225,6 +225,22 @@ class BookingController extends Controller
         if (!empty($request->return_date_time)) {
             $return_date_time = date("Y-m-d h:i", strtotime($request->return_date_time));
             $data['return_date_time'] = $return_date_time;
+        }
+        $existingReservation = Reservation::where(function ($query) use ($data) {
+            $query->where('date', '>=', $data['date'])
+                ->where('date', '<=', $data['check_out_date'])
+                ->orWhere('check_out_date', '>=', $data['date'])
+                ->where('check_out_date', '<=', $data['check_out_date']);
+        })
+            ->where('product_id', $request->product_id)
+            ->first();
+
+        if ($existingReservation) {
+            $response = [
+                'success' => false,
+                'message' => 'These dates are already booked. Please select any other dates.',
+            ];
+            return json_encode($response);
         }
         $data['qr_code'] = QrCode::size(100)->generate(json_encode($data));
         $affected_rows = Reservation::create($data);

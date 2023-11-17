@@ -39,7 +39,7 @@
                         the kind of ambience you desire to enjoy. Our list contains the best restaurants, bars, lounges,
                         clubs.movie theaters,yatch/boats,stores,spas, luxury car locations, atv rental locations to
                         meet your every need. -->
-                        {{$data['sitecontents']->company_profile}}
+                        <?php echo htmlspecialchars_decode($data['sitecontents']->company_profile)  ?>
                     </p>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                         The primary purpose of <a href="{{url('/')}}">themaxhyped.com</a> is to link people with needed
                         services by identifying their needs, Finding the most appropriate services to meet their needs,
                         and linking them to the most appropriate service providers.#thingstodo in every city. -->
-                        {{$data['sitecontents']->what_we_do}}
+                        <?php echo htmlspecialchars_decode($data['sitecontents']->what_we_do)  ?>
                     </p>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                     <div class="about-content">
                         <h3>Our Goals</h3>
                         <p>
-                            {{$data['sitecontents']->our_goals}}
+                            <?php echo htmlspecialchars_decode($data['sitecontents']->our_goals)  ?>
                         </p>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                     <div class="about-content">
                         <h3>Our Mission</h3>
                         <p>
-                            {{$data['sitecontents']->our_mission}}
+                            <?php echo htmlspecialchars_decode($data['sitecontents']->our_mission)  ?>
                         </p>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                     <div class="about-content">
                         <h3>Our Ethics</h3>
                         <p>
-                            {{$data['sitecontents']->our_ethics}}
+                            <?php echo htmlspecialchars_decode($data['sitecontents']->our_ethics)  ?>
                         </p>
                     </div>
                 </div>
