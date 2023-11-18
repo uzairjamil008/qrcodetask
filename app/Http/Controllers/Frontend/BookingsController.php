@@ -78,14 +78,24 @@ class BookingsController extends Controller
             $data['return_date_time'] = date('Y-m-d H:i:s', strtotime($request->return_date_time));
         }
         if ($request->type == 'Reservation') {
-            $existingReservation = Reservation::where(function ($query) use ($data) {
-                $query->where('date', '>=', $data['date'])
-                    ->where('date', '<=', $data['check_out_date'])
-                    ->orWhere('check_out_date', '>=', $data['date'])
-                    ->where('check_out_date', '<=', $data['check_out_date']);
-            })
-                ->where('product_id', $request->product_id)
-                ->first();
+
+            if(isset($data['check_out_date'])){
+                $existingReservation = Reservation::where(function ($query) use ($data) {
+                    $query->where('date', '>=', $data['date'])
+                        ->where('date', '<=', $data['check_out_date'])
+                        ->orWhere('check_out_date', '>=', $data['date'])
+                        ->where('check_out_date', '<=', $data['check_out_date']);
+                })
+                    ->where('product_id', $request->product_id)
+                    ->first();
+            }else{
+            $date = date('Y-m-d', strtotime($request->date));
+
+                $existingReservation = Reservation::whereDate('date', $date)
+                    ->where('product_id', $request->product_id)
+                    ->first();
+            }
+
 
             if ($existingReservation) {
                 $response = [
