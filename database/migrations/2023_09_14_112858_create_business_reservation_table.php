@@ -42,6 +42,7 @@ class CreateBusinessReservationTable extends Migration
             $table->string('qr_code')->nullable();
             $table->longText('business_remarks')->nullable();
             $table->decimal('customer_spent')->nullable();
+            $table->string('admin_notes')->nullable();
             $table->timestamps();
         });
     }

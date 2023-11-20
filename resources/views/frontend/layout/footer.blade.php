@@ -80,15 +80,15 @@
 
                                 <ul>
 
-                                    <li class="social-icon"><a href="https://www.facebook.com/people/Themaxhyped-Ent/61551836151376/"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <li class="social-icon"><a href="{{get_settings('fb_link')}}"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
 
-                                    <li class="social-icon"><a href="https://www.instagram.com/themaxhyped/?igshid=NTc4MTIwNjQ2YQ%3D%3D"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                    <li class="social-icon"><a href="{{get_settings('instagram_link')}}"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
 
-                                    <li class="social-icon"><a href="https://twitter.com/TheMaxHype1"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                    <li class="social-icon"><a href="{{get_settings('twitter_link')}}"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
 
-                                    <li class="social-icon"><a href="https://www.linkedin.com/in/themaxhype-maxhype-a05687199"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                    <li class="social-icon"><a href="{{get_settings('linkedin_link')}}"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
 
-                                    <li class="social-icon"><a href="#"><i class="fa fa-google" aria-hidden="true"></i></a></li>
+                                    <li class="social-icon"><a href="{{get_settings('google_link')}}"><i class="fa fa-google" aria-hidden="true"></i></a></li>
 
                                 </ul>
                                 <p class="font-white">1460 BroadWay New York,NY 10036</p>

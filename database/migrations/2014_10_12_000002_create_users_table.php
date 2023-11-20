@@ -40,6 +40,8 @@ class CreateUsersTable extends Migration
             $table->string('status');
             $table->string('feature');
             $table->string('dp');
+            $table->boolean('hide_listing')->default(0);
+            $table->boolean('top_business')->default(0);
             $table->string('personal_email');
             $table->string('living_country');
             $table->string('living_city');
@@ -47,7 +49,7 @@ class CreateUsersTable extends Migration
             $table->string('cell_phone');
             $table->string('home_phone');
             $table->string('office_number');
-            $table->string('image');
+            $table->string('images');
             $table->string('facebook');
             $table->string('twitter');
             $table->string('instagram');
