@@ -50,6 +50,16 @@ class BookingsController extends Controller
         $data['fee'] = str_replace("$", "", $data['fee']);
         $data['total_tickets'] = $data['details']->total_tickets;
         $data['card_data'] = CustomerAccount::where('user_id', $user->id)->select('card_number', 'expiry', 'cvc')->first();
+        $reservedDates = Reservation::where('product_id', $id)
+            ->pluck('date')
+            ->toArray();
+
+        $formattedReservedDates = [];
+        foreach ($reservedDates as $date) {
+            $formattedReservedDates[] = date('Y-m-d\TH:i', strtotime($date));
+        }
+        $data['reserved_dates'] = json_encode($formattedReservedDates);
+        // dd($data['reserved_dates']);
         // Fetch the is_return value from the product
         $is_return = $data['details']->is_return;
         // Add the is_return value to the $data array
@@ -79,7 +89,7 @@ class BookingsController extends Controller
         }
         if ($request->type == 'Reservation') {
 
-            if(isset($data['check_out_date'])){
+            if (isset($data['check_out_date'])) {
                 $existingReservation = Reservation::where(function ($query) use ($data) {
                     $query->where('date', '>=', $data['date'])
                         ->where('date', '<=', $data['check_out_date'])
@@ -88,8 +98,8 @@ class BookingsController extends Controller
                 })
                     ->where('product_id', $request->product_id)
                     ->first();
-            }else{
-            $date = date('Y-m-d', strtotime($request->date));
+            } else {
+                $date = date('Y-m-d', strtotime($request->date));
 
                 $existingReservation = Reservation::whereDate('date', $date)
                     ->where('product_id', $request->product_id)

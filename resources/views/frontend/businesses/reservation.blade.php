@@ -3,6 +3,8 @@
 <link href="{{asset('/frontend/css/stripe.css')}}" rel="stylesheet" type="text/css">
 <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
 <link href="{{asset('/frontend/css/bootstrap-timepicker.css')}}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
 @section('content')
 <!-- Breadcrumb -->
@@ -61,7 +63,8 @@
                                     <div class="form-group">
                                         <label>Check In Date Time</label>
                                         <div class="input-group date">
-                                            <input type="datetime-local" name="date" id="checkInDate" class="form-control" required>
+                                            <!-- <input type="datetime-local" name="date" id="checkInDate" class="form-control" required> -->
+                                            <input type="text" id="date">
                                             <i class="flaticon-calendar"></i>
                                             <!-- <span class="input-group-addon">
                                                 <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -239,10 +242,54 @@
 </section>
 @endsection
 @section('js')
+<style>
+    td.xdsoft_date.xdsoft_date.xdsoft_disabled {
+        background: red;
+    }
+</style>
 <script src="https://js.stripe.com/v3/"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <script src="{{asset('/frontend/js/bootstrap-timepicker.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
+    var dates = ["25/11/2023", "26/11/2023", "17/11/2023", "26/12/2022"];
+
+    function DisableDates(date) {
+        var string = jQuery.datepicker.formatDate('dd/mm/yy', date);
+        return [dates.indexOf(string) == -1];
+    }
+
+    $(function() {
+        $("#date").datetimepicker({
+            minDate: new Date('23/11/2023'),
+            beforeShowDay: DisableDates
+        });
+    });
+    // js for skip the previous date
+    var today = new Date().toISOString().slice(0, 16);
+
+    document.getElementsByName("date")[0].min = today;
+    document.getElementsByName("check_out_date")[0].min = today;
+    document.getElementsByName("return_date_time")[0].min = today;
+    // end js
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     // var disabledDates = '{{ $data["reserved_dates"] }}';
+    //     var disabledDates = ['2023-11-25', '2023-12-01', '2023-12-10'];
+    //     var dateInput = document.getElementById('checkInDate');
+    //     // alert(dateInput);
+    //     dateInput.min = new Date().toISOString().split('T')[0];
+    //     alert(dateInput.min)
+    //     dateInput.addEventListener('input', function() {
+    //         // Check if the selected date is in the disabledDates array
+    //         console.log(dateInput.value);
+    //         if (disabledDates.includes(dateInput.value)) {
+    //             // If it is, clear the input value
+    //             dateInput.value = '';
+    //         }
+    //     });
+    // });
     // validation for card number
     //check if card number exist
     if ($('input[name=card_number]').length > 0) {
@@ -449,36 +496,30 @@
         }).datepicker("setDate", 'now');
     });
 
-    // js for skip the previous date
-    var today = new Date().toISOString().slice(0, 16);
 
-    document.getElementsByName("date")[0].min = today;
-    document.getElementsByName("check_out_date")[0].min = today;
-    document.getElementsByName("return_date_time")[0].min = today;
-    // end js
 
-    const checkInDateInput = document.getElementById('checkInDate');
-    const checkOutDateInput = document.getElementById('checkOutDate');
-    const submitButton = document.getElementById('btn-reserve');
+    // const checkInDateInput = document.getElementById('checkInDate');
+    // const checkOutDateInput = document.getElementById('checkOutDate');
+    // const submitButton = document.getElementById('btn-reserve');
 
-    checkInDateInput.addEventListener('change', function() {
-        validateDates();
-    });
+    // checkInDateInput.addEventListener('change', function() {
+    //     validateDates();
+    // });
 
-    checkOutDateInput.addEventListener('change', function() {
-        validateDates();
-    });
+    // checkOutDateInput.addEventListener('change', function() {
+    //     validateDates();
+    // });
 
-    function validateDates() {
-        const checkInDate = new Date(checkInDateInput.value);
-        const checkOutDate = new Date(checkOutDateInput.value);
+    // function validateDates() {
+    //     const checkInDate = new Date(checkInDateInput.value);
+    //     const checkOutDate = new Date(checkOutDateInput.value);
 
-        if (checkOutDate < checkInDate) {
-            alert('Please select a check-out date that is after the check-in date.');
-            submitButton.disabled = true;
-        } else {
-            submitButton.disabled = false;
-        }
-    }
+    //     if (checkOutDate < checkInDate) {
+    //         alert('Please select a check-out date that is after the check-in date.');
+    //         submitButton.disabled = true;
+    //     } else {
+    //         submitButton.disabled = false;
+    //     }
+    // }
 </script>
 @endsection
