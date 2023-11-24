@@ -60,19 +60,20 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="table_item">
-                                    <div class="form-group">
+                                    <div class="input-group">
                                         <label>Check In Date Time</label>
                                         <div class="input-group date">
                                             <!-- <input type="datetime-local" name="date" id="checkInDate" class="form-control" required> -->
-                                            <input type="text" name="date" id="date" required>
-                                            <!-- <i class="flaticon-calendar"></i> -->
-                                            <!-- <span class="input-group-addon">
-                                                <i class="fa fa-calendar" aria-hidden="true"></i>
-                                            </span> -->
+                                            <input type="text" name="date" id="date" class="form-control" required>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <!-- @if ($data['is_return'] == 0)
                         <div class="form-group col-md-6">
                             <label>Checkout Date Time</label>
@@ -85,21 +86,18 @@
                         </div>
                         @endif -->
                             <!-- </div> -->
-                            @if($data['business_type']=='Vehicles-ATV-Bikes-Boats-JetSkis' || $data['business_type']=='Afrobeats' || $data['business_type']=='Movie Theaters & Adventures')
+                            @if($data['details']->is_checkout)
                             <!-- <div class="row"> -->
                             <div class="col-md-6">
                                 <div class="table_item">
-                                    <div class="form-group">
-                                        <label>Check Out Date Time</label>
+                                    <label>Check Out Date Time</label>
+                                    <div class="input-group">
                                         <!-- <input type="datetime-local" name="check_out_date" id="checkOutDate" class="form-control" required> -->
-                                        <input type="text" name="check_out_date" id="checkOutDate" required>
-                                        <!-- <div class="input-group date" id="datetimepicker1">
-                                            <input type="text" name="return_date" class="form-control" value="dd-mm-yyyy" id="return-date" required>
-                                            <i class="flaticon-calendar"></i>
-                                            <span class="input-group-addon">
-                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        <input type="text" name="check_out_date" id="checkOutDate" class="form-control" required>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i>
                                             </span>
-                                        </div> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -108,8 +106,14 @@
                             @if ($data['is_return'] == 1)
                             <div class="form-group col-md-6">
                                 <label>Return Date Time</label>
-                                <!-- <input type="datetime-local" name="return_date_time" class="form-control" required> -->
-                                <input type="text" name="return_date_time" id="returnDate" required>
+                                <div class="input-group">
+                                    <input type="text" name="return_date_time" id="returnDate" class="form-control" required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
                             </div>
                             @endif
                             <!-- <div class="form-group col-md-6">

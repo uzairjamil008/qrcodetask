@@ -207,6 +207,14 @@ if (!function_exists('categories')) {
         return $categories;
     }
 }
+if (!function_exists('checkout_categories')) {
+    function checkout_categories()
+    {
+        $categories = ['Vehicles-ATV-Bikes-Boats-JetSkis', 'Afrobeats', 'Movie Theaters & Adventures'];
+
+        return $categories;
+    }
+}
 
 if (!function_exists('mobile_categories')) {
     function mobile_categories()
