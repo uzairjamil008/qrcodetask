@@ -50,16 +50,23 @@ class BookingsController extends Controller
         $data['fee'] = str_replace("$", "", $data['fee']);
         $data['total_tickets'] = $data['details']->total_tickets;
         $data['card_data'] = CustomerAccount::where('user_id', $user->id)->select('card_number', 'expiry', 'cvc')->first();
-        $reservedDates = Reservation::where('product_id', $id)
+        $reservedCheckinDates = Reservation::where('product_id', $id)
             ->pluck('date')
             ->toArray();
+        $reservedCheckOutDates = Reservation::where('product_id', $id)
+            ->pluck('check_out_date')
+            ->toArray();
 
-        $formattedReservedDates = [];
-        foreach ($reservedDates as $date) {
-            $formattedReservedDates[] = date('Y-m-d\TH:i', strtotime($date));
+        $formattedReservedCheckInDates = [];
+        $formattedReservedCheckOutDates = [];
+        foreach ($reservedCheckinDates as $date) {
+            $formattedReservedCheckInDates[] = date('d/m/Y', strtotime($date));
         }
-        $data['reserved_dates'] = json_encode($formattedReservedDates);
-        // dd($data['reserved_dates']);
+        foreach ($reservedCheckOutDates as $date) {
+            $formattedReservedCheckOutDates[] = date('d/m/Y', strtotime($date));
+        }
+        $data['reserved_check_in_dates'] = json_encode($formattedReservedCheckInDates);
+        $data['reserved_check_out_dates'] = json_encode($formattedReservedCheckOutDates);
         // Fetch the is_return value from the product
         $is_return = $data['details']->is_return;
         // Add the is_return value to the $data array

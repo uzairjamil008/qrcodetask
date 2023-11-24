@@ -64,8 +64,8 @@
                                         <label>Check In Date Time</label>
                                         <div class="input-group date">
                                             <!-- <input type="datetime-local" name="date" id="checkInDate" class="form-control" required> -->
-                                            <input type="text" id="date">
-                                            <i class="flaticon-calendar"></i>
+                                            <input type="text" name="date" id="date">
+                                            <!-- <i class="flaticon-calendar"></i> -->
                                             <!-- <span class="input-group-addon">
                                                 <i class="fa fa-calendar" aria-hidden="true"></i>
                                             </span> -->
@@ -91,7 +91,8 @@
                                 <div class="table_item">
                                     <div class="form-group">
                                         <label>Check Out Date Time</label>
-                                        <input type="datetime-local" name="check_out_date" id="checkOutDate" class="form-control" required>
+                                        <!-- <input type="datetime-local" name="check_out_date" id="checkOutDate" class="form-control" required> -->
+                                        <input type="text" name="check_out_date" id="checkOutDate">
                                         <!-- <div class="input-group date" id="datetimepicker1">
                                             <input type="text" name="return_date" class="form-control" value="dd-mm-yyyy" id="return-date" required>
                                             <i class="flaticon-calendar"></i>
@@ -254,42 +255,28 @@
 <script src="{{asset('/frontend/js/bootstrap-timepicker.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
-    var dates = ["25/11/2023", "26/11/2023", "17/11/2023", "26/12/2022"];
+    var checkInDates = ('{!! $data["reserved_check_in_dates"] !!}');
+    var checkOutDates = ('{!! $data["reserved_check_out_dates"] !!}');
 
-    function DisableDates(date) {
+    function DisableCheckInDates(date) {
         var string = jQuery.datepicker.formatDate('dd/mm/yy', date);
-        return [dates.indexOf(string) == -1];
+        return [checkInDates.indexOf(string) == -1];
     }
 
+    function DisableCheckOutDates(date) {
+        var string = jQuery.datepicker.formatDate('dd/mm/yy', date);
+        return [checkOutDates.indexOf(string) == -1];
+    }
     $(function() {
         $("#date").datetimepicker({
             minDate: new Date('23/11/2023'),
-            beforeShowDay: DisableDates
+            beforeShowDay: DisableCheckInDates
+        });
+        $("#checkOutDate").datetimepicker({
+            minDate: new Date('23/11/2023'),
+            beforeShowDay: DisableCheckOutDates
         });
     });
-    // js for skip the previous date
-    var today = new Date().toISOString().slice(0, 16);
-
-    document.getElementsByName("date")[0].min = today;
-    document.getElementsByName("check_out_date")[0].min = today;
-    document.getElementsByName("return_date_time")[0].min = today;
-    // end js
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     // var disabledDates = '{{ $data["reserved_dates"] }}';
-    //     var disabledDates = ['2023-11-25', '2023-12-01', '2023-12-10'];
-    //     var dateInput = document.getElementById('checkInDate');
-    //     // alert(dateInput);
-    //     dateInput.min = new Date().toISOString().split('T')[0];
-    //     alert(dateInput.min)
-    //     dateInput.addEventListener('input', function() {
-    //         // Check if the selected date is in the disabledDates array
-    //         console.log(dateInput.value);
-    //         if (disabledDates.includes(dateInput.value)) {
-    //             // If it is, clear the input value
-    //             dateInput.value = '';
-    //         }
-    //     });
-    // });
     // validation for card number
     //check if card number exist
     if ($('input[name=card_number]').length > 0) {
