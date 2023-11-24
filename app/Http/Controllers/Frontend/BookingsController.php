@@ -53,20 +53,13 @@ class BookingsController extends Controller
         $reservedCheckinDates = Reservation::where('product_id', $id)
             ->pluck('date')
             ->toArray();
-        $reservedCheckOutDates = Reservation::where('product_id', $id)
-            ->pluck('check_out_date')
-            ->toArray();
+
 
         $formattedReservedCheckInDates = [];
-        $formattedReservedCheckOutDates = [];
         foreach ($reservedCheckinDates as $date) {
             $formattedReservedCheckInDates[] = date('d/m/Y', strtotime($date));
         }
-        foreach ($reservedCheckOutDates as $date) {
-            $formattedReservedCheckOutDates[] = date('d/m/Y', strtotime($date));
-        }
         $data['reserved_check_in_dates'] = json_encode($formattedReservedCheckInDates);
-        $data['reserved_check_out_dates'] = json_encode($formattedReservedCheckOutDates);
         // Fetch the is_return value from the product
         $is_return = $data['details']->is_return;
         // Add the is_return value to the $data array

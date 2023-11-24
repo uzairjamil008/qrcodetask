@@ -64,7 +64,7 @@
                                         <label>Check In Date Time</label>
                                         <div class="input-group date">
                                             <!-- <input type="datetime-local" name="date" id="checkInDate" class="form-control" required> -->
-                                            <input type="text" name="date" id="date">
+                                            <input type="text" name="date" id="date" required>
                                             <!-- <i class="flaticon-calendar"></i> -->
                                             <!-- <span class="input-group-addon">
                                                 <i class="fa fa-calendar" aria-hidden="true"></i>
@@ -92,7 +92,7 @@
                                     <div class="form-group">
                                         <label>Check Out Date Time</label>
                                         <!-- <input type="datetime-local" name="check_out_date" id="checkOutDate" class="form-control" required> -->
-                                        <input type="text" name="check_out_date" id="checkOutDate">
+                                        <input type="text" name="check_out_date" id="checkOutDate" required>
                                         <!-- <div class="input-group date" id="datetimepicker1">
                                             <input type="text" name="return_date" class="form-control" value="dd-mm-yyyy" id="return-date" required>
                                             <i class="flaticon-calendar"></i>
@@ -108,7 +108,8 @@
                             @if ($data['is_return'] == 1)
                             <div class="form-group col-md-6">
                                 <label>Return Date Time</label>
-                                <input type="datetime-local" name="return_date_time" class="form-control" required>
+                                <!-- <input type="datetime-local" name="return_date_time" class="form-control" required> -->
+                                <input type="text" name="return_date_time" id="returnDate" required>
                             </div>
                             @endif
                             <!-- <div class="form-group col-md-6">
@@ -256,17 +257,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
     var checkInDates = ('{!! $data["reserved_check_in_dates"] !!}');
-    var checkOutDates = ('{!! $data["reserved_check_out_dates"] !!}');
 
     function DisableCheckInDates(date) {
         var string = jQuery.datepicker.formatDate('dd/mm/yy', date);
         return [checkInDates.indexOf(string) == -1];
     }
 
-    function DisableCheckOutDates(date) {
-        var string = jQuery.datepicker.formatDate('dd/mm/yy', date);
-        return [checkOutDates.indexOf(string) == -1];
-    }
     $(function() {
         $("#date").datetimepicker({
             minDate: new Date('23/11/2023'),
@@ -274,7 +270,9 @@
         });
         $("#checkOutDate").datetimepicker({
             minDate: new Date('23/11/2023'),
-            beforeShowDay: DisableCheckOutDates
+        });
+        $("#returnDate").datetimepicker({
+            minDate: new Date('23/11/2023'),
         });
     });
     // validation for card number
