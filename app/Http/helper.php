@@ -215,6 +215,14 @@ if (!function_exists('checkout_categories')) {
         return $categories;
     }
 }
+if (!function_exists('calendar_categories')) {
+    function calendar_categories()
+    {
+        $categories = ['Vehicles-ATV-Bikes-Boats-JetSkis','Short Term Stays'];
+
+        return $categories;
+    }
+}
 
 if (!function_exists('mobile_categories')) {
     function mobile_categories()
@@ -236,122 +244,13 @@ if (!function_exists('attachment_types')) {
         return $data;
     }
 }
-if (!function_exists('credit_types')) {
-    function credit_types()
-    {
-        $data = array(
-            'Credit Scores' => 'Credit Scores',
-            'Negative Items' => 'Negative Items',
-            'Items In Dispute' => 'Items In Dispute',
-            'Deleted Items' => 'Deleted Items',
-        );
-        return $data;
-    }
-}
 
-// function get_notification(){
-//       $notification=\App\Models\Training\TrainingResource::whereDate('created_at',DB::raw('CURDATE()'))->get();
-//        return $notification;
-//     }
-if (!function_exists('deal_items')) {
-    function deal_items()
-    {
-        $data = array(
-            0 => 'Advance Rent',
-            1 => 'Security Deposit',
-            2 => 'Other',
-        );
-        return $data;
-    }
-}
-if (!function_exists('payment_modes')) {
-    function payment_modes()
-    {
-        $data = array(
-            'Cash' => 'Cash',
-            'Mortgaged' => 'Mortgaged',
-            'Debit Card' => 'Debit Card',
-            'Credit Card' => 'Credit Card',
-            'BACS' => 'BACS',
-            'Cheque' => 'Cheque',
-            'Cash & Card' => 'Cash & Card',
-            'Cash & BACS' => 'Cash & BACS',
-            'Cash & Cheque' => 'Cash & Cheque',
-            'Other' => 'Other',
-        );
-        return $data;
-    }
-}
 
-if (!function_exists('personalites')) {
-    function personalites()
-    {
-        $data = array(
-            1 => 'teacher',
-            2 => 'helper',
-            3 => 'performer',
-            4 => 'romantic',
-            5 => 'investigator',
-            6 => 'loyalist',
-            7 => 'enthusiast',
-            8 => 'challenger',
-            9 => 'peacemaker',
-        );
-        return $data;
-    }
-}
 
-if (!function_exists('check_attachment')) {
-    function check_attachment($type, $customer_id)
-    {
-        $data = \App\Models\Customer\Attachment::where('type', $type)->where('customer_id', $customer_id)->first();
-        return $data;
-    }
-}
-if (!function_exists('get_personality')) {
-    function get_personality($id)
-    {
-        $data = \App\Models\Test\Personality::where('id', $id)->first();
-        if ($data) {
-            return $data->name;
-        }
-        return '';
-    }
-}
-if (!function_exists('check_reverse')) {
-    function check_reverse($is_reverse, $answer)
-    {
-        if ($is_reverse == 1) {
-            if ($answer == 0) {
-                $result = 3;
-            } elseif ($answer == 1) {
-                $result = 2;
-            } elseif ($answer == 2) {
-                $result = 1;
-            } elseif ($answer == 3) {
-                $result = 0;
-            }
-        } else {
-            $result = $answer;
-        }
-        return $result;
-    }
-}
-if (!function_exists('check_credit')) {
-    function check_credit($type, $customer_id)
-    {
-        $data = \App\Models\Customer\Credit::where('type', $type)
-            ->where('customer_id', $customer_id)->orderBy('id', 'desc')->first();
-        return $data;
-    }
-}
-if (!function_exists('check_itemlist')) {
-    function check_itemlist($item_id, $lead_id)
-    {
-        $data = \App\Models\Property\Checklist::where('item_id', $item_id)->where('lead_id', $lead_id)->first();
-        return $data;
-    }
-}
+
+
+
+
 if (!function_exists('set_multi_uploads')) {
     function set_multi_uploads($old, $new)
     {
@@ -445,17 +344,7 @@ if (!function_exists('time_ago')) {
         return $string ? implode(', ', $string) . ' ago' : 'just now';
     }
 }
-if (!function_exists('create_log')) {
-    function create_log($type, $detail)
-    {
-        $data = array(
-            'user_id' => Auth::user()->user_id,
-            'type' => $type,
-            'detail' => $detail,
-        );
-        App\Models\Log::create($data);
-    }
-}
+
 if (!function_exists('edit_link')) {
     function edit_link($link)
     {

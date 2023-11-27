@@ -15,8 +15,8 @@ class DashboardController extends Controller
  {
   $data['results'] = User::where('id',$id)->first()->toArray();
  // dd($data['results']);
-  $data['reservation'] = Reservation::with('business_name')->where('customer_id',$id)->where('type','Reservation')->orderBy('id','desc')->get()->toArray();
-  $data['purchase'] = Reservation::with('business_name')->where('customer_id',$id)->where('type','Purchase')->orderBy('id','desc')->get()->toArray(); 
+  $data['reservation'] = Reservation::with('business_name','product')->where('customer_id',$id)->where('type','Reservation')->orderBy('id','desc')->get()->toArray();
+  $data['purchase'] = Reservation::with('business_name','product')->where('customer_id',$id)->where('type','Purchase')->orderBy('id','desc')->get()->toArray();
   $response = array('status'=>1,'dashboard'=>$data['results'],'reservation'=>$data['reservation'],'purchase'=>$data['purchase']);
   return json_encode($response);
   }

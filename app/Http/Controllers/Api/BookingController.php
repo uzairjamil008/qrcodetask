@@ -61,6 +61,16 @@ class BookingController extends Controller
     public function productdetail($id)
     {
         $data['product'] = Product::with('businesses')->where('id', $id)->get()->toArray();
+        $reservedCheckinDates = Reservation::where('product_id', $id)
+        ->whereDate('date', '>=', Carbon::now())
+            ->pluck('date')
+            ->toArray();
+        $formattedReservedCheckInDates = [];
+        foreach ($reservedCheckinDates as $date) {
+            $formattedReservedCheckInDates[] = date('Y-m-d', strtotime($date));
+        }
+        $data['product'][0]['reserved_dates'] = $formattedReservedCheckInDates;
+        $data['product'][0]['show_calendar'] = in_array($data['product'][0]['businesses']['type'], checkout_categories()) ? true : false;
         $response = array('product' => $data['product']);
         return json_encode($response);
     }
@@ -76,6 +86,17 @@ class BookingController extends Controller
             unset($product->description);
             $product->price = str_replace('$', '', $product->price);
             $product->fee = str_replace('$', '', $product->fee);
+
+            $reservedCheckinDates = Reservation::where('product_id', $id)
+            ->whereDate('date', '>=', Carbon::now())
+                ->pluck('date')
+                ->toArray();
+            $formattedReservedCheckInDates = [];
+            foreach ($reservedCheckinDates as $date) {
+                $formattedReservedCheckInDates[] = date('Y-m-d', strtotime($date));
+            }
+            $product->reserved_dates = $formattedReservedCheckInDates;
+            $product->show_calendar = in_array($product->businesses->type, checkout_categories()) ? true : false;
         }
         $response = array('product' => $product);
         return json_encode($response);
@@ -177,8 +198,9 @@ class BookingController extends Controller
 
     public function save_reservation(Request $request)
     {
-        $date = date('Y-m-d h:i');
-        $time = date('h:i');
+        $date = date('Y-m-d H:i:s');
+        $time = date('H:i:s');
+        $product=Product::where('id',$request->product_id)->first();
         // $stripe_intent_id = null;
         if ($request->type == 'Purchase') {
             // $response = $this->make_payment($request);
@@ -188,8 +210,11 @@ class BookingController extends Controller
             // $stripe_intent_id = $response['intent']->id;
         } else {
             if ($request->date) {
-                $date = date("Y-m-d h:i", strtotime($request->date));
-                $time = date("h:i", strtotime($request->date));
+                $date = date("Y-m-d H:i:s", strtotime($request->date));
+                if($request->has('time') && $request->time != null){
+                    $time = date("H:i:s", strtotime($request->check_in_time));
+                    $date= date("Y-m-d H:i:s", strtotime($request->date.' '.$request->time));
+                }
             }
         }
 
@@ -215,26 +240,22 @@ class BookingController extends Controller
             'total_price' => $request->type == 'Purchase' ? $request->total_price : '',
             'net_amount' => $request->type == 'Purchase' ? $request->net_amount : '',
             'total_tickets' => $request->type == 'Purchase' ? $request->people : '',
-            // 'stripe_intent_id' => $request->stripe_intent_id ?? null,
+            'stripe_intent_id' => $request->stripe_intent_id ?? null,
         );
 
         if (!empty($request->check_out_date)) {
-            $check_out_date = date("Y-m-d h:i", strtotime($request->check_out_date));
+            $check_out_date = date("Y-m-d H:i:s", strtotime($request->check_out_date));
             $data['check_out_date'] = $check_out_date;
         }
         if (!empty($request->return_date_time)) {
-            $return_date_time = date("Y-m-d h:i", strtotime($request->return_date_time));
+            $return_date_time = date("Y-m-d H:i:s", strtotime($request->return_date_time));
             $data['return_date_time'] = $return_date_time;
         }
-        if ($request->type == 'Reservation') {
+        if ($request->type == 'Reservation' && in_array($product->businesses->type, calendar_categories())) {
             if(isset($data['check_out_date'])){
-            $existingReservation = Reservation::where(function ($query) use ($data) {
-                $query->where('date', '>=', $data['date'])
-                    ->where('date', '<=', $data['check_out_date'])
-                    ->orWhere('check_out_date', '>=', $data['date'])
-                    ->where('check_out_date', '<=', $data['check_out_date']);
-            })
-            ->where('product_id', $request->product_id)
+            $existingReservation = Reservation::where('product_id',$request->product_id)
+            ->whereDate('date', '=', $data['date'])
+            //->whereDate('check_out_date', '<=', $data['check_out_date'])
             ->first();
         }else{
             $date = date('Y-m-d', strtotime($request->date));
@@ -272,7 +293,7 @@ class BookingController extends Controller
         $to_email = $data['customer']->email;
 
         $template = view('frontend.emails.booking_email_mobile', compact('data'))->render();
-        $this->send_email($to_email, $ccemail, 'Welcome to Maxhype', 'frontend.emails.booking_email_mobile', $data);
+         $this->send_email($to_email, $ccemail, 'Welcome to Maxhype', 'frontend.emails.booking_email_mobile', $data);
         $response = array('success' => true, 'message' => $request->type . ' made successfully');
         return json_encode($response);
     }

@@ -19,11 +19,11 @@ class Product extends Model
 
     public function getItemLabelAttribute()
     {
-        return "How many tables, tickets,products or services do you want";
+        return "Tables, tickets,products or services Qty";
     }
     public function getIsCheckoutAttribute()
     {
-        if (in_array($this->businesses->type, checkout_categories())) {
+        if (in_array($this->businesses->type ?? null, checkout_categories())) {
             return true;
         }
         return false;

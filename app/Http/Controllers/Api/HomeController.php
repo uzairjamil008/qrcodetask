@@ -42,7 +42,9 @@ class HomeController extends Controller
     }
     public function topbusiness()
     {
-        $data['business'] = User::where('role_id', 3)->where('hide_listing', '!=', 1)->where('top_business', '=', 1)->take(6)->get();
+        $data['business'] = User::where('role_id', 3)->where('hide_listing', '!=', 1)
+        // ->where('top_business', '=', 1)
+        ->take(6)->get();
         $response = array('status' => 1, 'businesses' => $data['business']);
         return json_encode($response);
     }

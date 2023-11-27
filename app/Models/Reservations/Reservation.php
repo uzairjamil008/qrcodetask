@@ -2,6 +2,7 @@
 
 namespace App\Models\Reservations;
 
+use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
@@ -16,6 +17,10 @@ class Reservation extends Model
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'customer_id', 'id');
+    }
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
     }
 
 }

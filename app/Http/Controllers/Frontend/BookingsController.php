@@ -50,15 +50,20 @@ class BookingsController extends Controller
         $data['fee'] = str_replace("$", "", $data['fee']);
         $data['total_tickets'] = $data['details']->total_tickets;
         $data['card_data'] = CustomerAccount::where('user_id', $user->id)->select('card_number', 'expiry', 'cvc')->first();
-        $reservedCheckinDates = Reservation::where('product_id', $id)
-            ->pluck('date')
-            ->toArray();
+
 
 
         $formattedReservedCheckInDates = [];
+        if(in_array($type2,calendar_categories())){
+        $reservedCheckinDates = Reservation::where('product_id', $id)
+        ->whereDate('date', '>=', Carbon::now())
+            ->pluck('date')
+            ->toArray();
         foreach ($reservedCheckinDates as $date) {
             $formattedReservedCheckInDates[] = date('d/m/Y', strtotime($date));
         }
+        }
+
         $data['reserved_check_in_dates'] = json_encode($formattedReservedCheckInDates);
         // Fetch the is_return value from the product
         $is_return = $data['details']->is_return;
@@ -74,10 +79,10 @@ class BookingsController extends Controller
 
     public function save_reservation(Request $request)
     {
-
         $data = $request->all();
         $random = hexdec(uniqid());
         $data['order_number'] = substr($random, 0, 8);
+        $product=Product::where('id',$request->product_id)->first();
         if (!empty($request->date)) {
             $data['date'] = date('Y-m-d H:i:s', strtotime($request->date));
         }
@@ -87,17 +92,13 @@ class BookingsController extends Controller
         if (!empty($request->return_date_time)) {
             $data['return_date_time'] = date('Y-m-d H:i:s', strtotime($request->return_date_time));
         }
-        if ($request->type == 'Reservation') {
 
+        if ($request->type == 'Reservation' && in_array($product->businesses->type, calendar_categories())) {
             if (isset($data['check_out_date'])) {
-                $existingReservation = Reservation::where(function ($query) use ($data) {
-                    $query->where('date', '>=', $data['date'])
-                        ->where('date', '<=', $data['check_out_date'])
-                        ->orWhere('check_out_date', '>=', $data['date'])
-                        ->where('check_out_date', '<=', $data['check_out_date']);
-                })
-                    ->where('product_id', $request->product_id)
-                    ->first();
+                $existingReservation = Reservation::where('product_id',$request->product_id)
+                ->whereDate('date', '>=', $data['date'])
+                ->whereDate('check_out_date', '<=', $data['check_out_date'])
+                ->first();
             } else {
                 $date = date('Y-m-d', strtotime($request->date));
 
@@ -105,8 +106,6 @@ class BookingsController extends Controller
                     ->where('product_id', $request->product_id)
                     ->first();
             }
-
-
             if ($existingReservation) {
                 $response = [
                     'response' => null,
@@ -117,6 +116,7 @@ class BookingsController extends Controller
                 return json_encode($response);
             }
         }
+
         $data['qr_code'] = QrCode::size(100)->generate(json_encode($data));
         $affected_rows = Reservation::create($data);
         $data['business'] = User::where('id', $request->business_id)->first();
