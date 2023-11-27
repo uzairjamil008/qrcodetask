@@ -210,7 +210,7 @@ if (!function_exists('categories')) {
 if (!function_exists('checkout_categories')) {
     function checkout_categories()
     {
-        $categories = ['Vehicles-ATV-Bikes-Boats-JetSkis', 'Afrobeats', 'Movie Theaters & Adventures'];
+        $categories = ['Vehicles-ATV-Bikes-Boats-JetSkis', 'Afrobeats', 'Movie Theaters & Adventures','Short Term Stays'];
 
         return $categories;
     }
