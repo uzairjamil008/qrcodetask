@@ -54,14 +54,14 @@ class BookingsController extends Controller
 
 
         $formattedReservedCheckInDates = [];
-        if(in_array($type2,calendar_categories())){
-        $reservedCheckinDates = Reservation::where('product_id', $id)
-        ->whereDate('date', '>=', Carbon::now())
-            ->pluck('date')
-            ->toArray();
-        foreach ($reservedCheckinDates as $date) {
-            $formattedReservedCheckInDates[] = date('d/m/Y', strtotime($date));
-        }
+        if (in_array($type2, calendar_categories())) {
+            $reservedCheckinDates = Reservation::where('product_id', $id)
+                ->whereDate('date', '>=', Carbon::now())
+                ->pluck('date')
+                ->toArray();
+            foreach ($reservedCheckinDates as $date) {
+                $formattedReservedCheckInDates[] = date('d/m/Y', strtotime($date));
+            }
         }
 
         $data['reserved_check_in_dates'] = json_encode($formattedReservedCheckInDates);
@@ -82,7 +82,7 @@ class BookingsController extends Controller
         $data = $request->all();
         $random = hexdec(uniqid());
         $data['order_number'] = substr($random, 0, 8);
-        $product=Product::where('id',$request->product_id)->first();
+        $product = Product::where('id', $request->product_id)->first();
         if (!empty($request->date)) {
             $data['date'] = date('Y-m-d H:i:s', strtotime($request->date));
         }
@@ -95,10 +95,10 @@ class BookingsController extends Controller
 
         if ($request->type == 'Reservation' && in_array($product->businesses->type, calendar_categories())) {
             if (isset($data['check_out_date'])) {
-                $existingReservation = Reservation::where('product_id',$request->product_id)
-                ->whereDate('date', '>=', $data['date'])
-                ->whereDate('check_out_date', '<=', $data['check_out_date'])
-                ->first();
+                $existingReservation = Reservation::where('product_id', $request->product_id)
+                    ->whereDate('date', '>=', $data['date'])
+                    ->whereDate('check_out_date', '<=', $data['check_out_date'])
+                    ->first();
             } else {
                 $date = date('Y-m-d', strtotime($request->date));
 
